@@ -133,9 +133,14 @@ class Jastip extends BaseController
 
     public function checkout()
     {
-        echo json_encode($_POST);
-        exit;
         $this->cek_login_ajax();
+
+
+        if (empty($_POST["cb"])) {
+            echo json_encode(["status" => 0, "msg" => "Anda belum memilih produk untuk dicheckout"]);
+            exit;
+        }
+
         $akunModel = new AkunModel();
 
         $result_checkout =  $akunModel->checkout(session("akun_id"));

@@ -9,6 +9,10 @@
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
     }
+
+    div.dt-container.dt-empty-footer tbody>tr:last-child>* {
+        border: none;
+    }
 </style>
 <style>
     .fixedContainer {
@@ -21,35 +25,38 @@
         padding-left: 10px;
         padding-right: 10px;
         width: 100%;
-        max-width: 500px;
         transform: translateX(-50%);
         z-index: 300;
     }
 </style>
-<div class="container-fluid">
-    <div class="mx-auto" style="max-width: 500px;">
+<form id="form_checkout">
 
-        <form id="form_checkout">
-            <table class="w-100" id="table_keranjang"></table>
-
-            <div class="fixedContainer">
-                <div class="row">
-                    <div class="col-6">
-                        <button type="button" class="btn btn-secondary w-100" style="font-size: 14px ;" onclick="history.back()">
-                            <i class='fas fa-fw fa-arrow-alt-circle-left'></i> Batal
-                        </button>
-                    </div>
-                    <div class="col-6">
-                        <button type="submit" class="btn btn-success w-100">
-                            Checkout <i class='fas fa-fw fa-arrow-alt-circle-right'></i>
-                        </button>
+    <div class="container-fluid px-0">
+        <div class="mx-auto" style="max-width: 500px;">
+            <table class="w-100 mb-5" id="table_keranjang"></table>
+        </div>
+    </div>
+    <div class="fixedContainer bg-white shadow">
+        <div class="mx-auto" style="max-width: 500px;">
+            <div class="row">
+                <div class="col-6">
+                    <div class="d-flex align-items-center justify-content-between h-100">
+                        <div class="d-flex align-items-center">
+                            <input type="checkbox" id="cb_checkAll" class="mr-2" style="transform: scale(1.3);">
+                            <label for="cb_checkAll" class="mb-0 font-weight-bold">Pilih Semua</label>
+                        </div>
                     </div>
                 </div>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-success w-100">
+                        Checkout <i class='fas fa-fw fa-arrow-alt-circle-right'></i>
+                    </button>
+                </div>
             </div>
-        </form>
-
+        </div>
     </div>
-</div>
+</form>
+
 
 
 <?= $this->endSection(); ?>
@@ -97,7 +104,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
-                                        <input type="checkbox" name="cb[]" value="${row.id}" style=" transform: scale(1.8);cursor: pointer;accent-color: maroon;">
+                                        <input type="checkbox" name="cb[]" class="cb_product" value="${row.id}" style=" transform: scale(1.3);">
                                     </div>
                                     <div class="col-sm-2 col-4">
                                         <img src="<?= base_url("assets/img/product") ?>/${row.foto1}" class="w-100" style="border-radius: 10px;border:1px solid black" onclick="location.href='<?= base_url('jastip/detail') ?>/${row.slug}'">
@@ -160,6 +167,42 @@
             }
         });
     }
+
+    $('#cb_checkAll').on('change', function() {
+        $('.cb_product').prop('checked', $(this).prop('checked'));
+    });
+
+    function updateState() {
+        const total = $('.cb_product').length;
+        const checked = $('.cb_product').filter(':checked').length;
+        const el = $('#cb_checkAll')[0];
+
+        if (checked === 0) {
+            el.checked = false;
+            el.indeterminate = false;
+        } else if (checked === total) {
+            el.checked = true;
+            el.indeterminate = false;
+        } else {
+            el.checked = false;
+            el.indeterminate = true; // inilah yang membuat tampilan "setengah"
+        }
+    }
+
+    // Saat check all diklik
+    $('#cb_checkAll').on('change', function() {
+        $('.cb_product').prop('checked', this.checked);
+        this.indeterminate = false;
+    });
+
+    $(document).on('change', '.cb_product', function() {
+        console.log(this.indeterminate);
+        updateState();
+    });
+
+    // Inisialisasi saat halaman pertama kali dimuat
+    updateState();
+
 
     $("#form_checkout").on("submit", function(e) {
         e.preventDefault();
