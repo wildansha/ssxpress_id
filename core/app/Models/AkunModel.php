@@ -88,27 +88,47 @@ class AkunModel
         }
     }
 
-    public function checkout($akun_id)
+    public function checkout($akun_id, $list_product_id)
     {
         $db = \Config\Database::connect();
-
-        $query = "SELECT p.*, k.qty
-        from keranjang k
-        join product p on p.id = k.product_id
-        where k.akun_id = $akun_id
-        ORDER by k.id desc";
-        $result = $db->query($query)->getResultArray();
-
-        $builder = $db->table('keranjang');
+        $akun_id;
+        $builder = $db->table('jastip');
         $result_insert = $builder->insert([
             "akun_id" => $akun_id,
-            "product_id" => $product_id,
+            "status" => 0,
         ]);
+        $jastip_id = $db->insertID();
 
+        $query = "INSERT into jastip_product (header_id,product_id ,harga ,qty )
+                    SELECT $jastip_id, p.id,p.harga, k.qty
+                    FROM keranjang k
+                    join product p on p.id=k.product_id 
+                    WHERE k.akun_id = $akun_id";
+
+        $jml_product = count($list_product_id);
+        if ($jml_product > 0) {
+            $query .= " AND p.id in ( ";
+            for ($i = 0; $i < $jml_product; $i++) {
+                $query .= $db->escape($list_product_id[$i]);
+                if ($i < $jml_product - 1) {
+                    $query .= ",";
+                }
+            }
+            $query .= " ) ";
+        }
+
+        $result = $db->query($query);
         if ($db->error()["code"] == 0) {
             return 1;
         } else {
             return 0;
         }
+    }
+
+    public function list_history()
+    {
+        $db = \Config\Database::connect();
+
+        $this->table('jastip')->orderBy('nama', 'asc');
     }
 }

@@ -1,7 +1,7 @@
 <?= $this->extend('template'); ?>
 <?= $this->section('main'); ?>
 <style>
-    #table_keranjang thead {
+    #table_history thead {
         display: none !important;
     }
 
@@ -33,7 +33,7 @@
 
     <div class="container-fluid px-0">
         <div class="mx-auto" style="max-width: 500px;">
-            <table class="w-100 mb-5" id="table_keranjang"></table>
+            <table class="w-100 mb-5" id="table_history"></table>
         </div>
     </div>
     <div class="fixedContainer bg-white shadow">
@@ -63,9 +63,9 @@
 
 <?= $this->section('js'); ?>
 <script>
-    var table_keranjang;
+    var table_history;
     $(document).ready(function() {
-        table_keranjang = $('#table_keranjang').DataTable({
+        table_history = $('#table_history').DataTable({
             ordering: false,
             serverSide: false,
             processing: false,
@@ -86,7 +86,7 @@
                 url: '<?= base_url("keranjang/ajax_list_keranjang"); ?>',
                 type: 'POST',
                 beforeSend: function() {
-                    $('#table_keranjang > tbody').html(
+                    $('#table_history > tbody').html(
                         '<tr class="odd">' +
                         '<td valign="top" colspan="1" class="dataTables_empty">Loading&hellip;</td>' +
                         '</tr>'
@@ -136,8 +136,8 @@
     });
 
     function reload_table() {
-        table_keranjang.clear();
-        table_keranjang.ajax.reload();
+        table_history.clear();
+        table_history.ajax.reload();
     }
 
     function delete_keranjang(product_id) {
@@ -220,7 +220,7 @@
                 if (response.status == 'exp') {
                     location.href = "<?= base_url("account/login") ?>";
                 } else if (response.status == 1) {
-                   // location.href = "<?= base_url("jastip/history") ?>";
+                    // location.href = "<?= base_url("jastip/history") ?>";
                 } else {
                     $('#modal_loading').modal("hide");
                     $('#modal_info').modal("show");
