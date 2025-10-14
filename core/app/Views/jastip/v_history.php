@@ -29,34 +29,41 @@
         z-index: 300;
     }
 </style>
-<form id="form_checkout">
 
-    <div class="container-fluid px-0">
-        <div class="mx-auto" style="max-width: 500px;">
-            <table class="w-100 mb-5" id="table_history"></table>
+<!-- deskripsi -->
+<div class="container mt-3 p-3 shadow-lg ">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-fill" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#deskripsi">On Progress</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#link">Complete</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#link">Canceled</a>
+        </li>
+    </ul>
+
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="deskripsi" class="tab-pane active"><br>
         </div>
-    </div>
-    <div class="fixedContainer bg-white shadow">
-        <div class="mx-auto" style="max-width: 500px;">
+
+
+        <div id="link" class="container tab-pane fade"><br>
             <div class="row">
-                <div class="col-6">
-                    <div class="d-flex align-items-center justify-content-between h-100">
-                        <div class="d-flex align-items-center">
-                            <input type="checkbox" id="cb_checkAll" class="mr-2" style="transform: scale(1.3);">
-                            <label for="cb_checkAll" class="mb-0 font-weight-bold">Pilih Semua</label>
-                        </div>
-                    </div>
+                <div class="col-xl-4 col-sm-6 col-12 mt-3">
+
                 </div>
-                <div class="col-6">
-                    <button type="submit" class="btn btn-success w-100">
-                        Checkout <i class='fas fa-fw fa-arrow-alt-circle-right'></i>
-                    </button>
-                </div>
+
             </div>
         </div>
-    </div>
-</form>
 
+    </div>
+</div>
+<!-- /deskripsi -->
 
 
 <?= $this->endSection(); ?>
