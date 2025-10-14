@@ -79,11 +79,11 @@
             language: {
                 searchPlaceholder: "Search / Filter",
                 search: "",
-                emptyTable: "Keranjang Anda Kosong",
-                zeroRecords: "Keranjang Anda Kosong",
+                emptyTable: "History Kosong",
+                zeroRecords: "History Kosong",
             },
             ajax: {
-                url: '<?= base_url("keranjang/ajax_list_keranjang"); ?>',
+                url: '<?= base_url("keranjang/ajax_data_history"); ?>',
                 type: 'POST',
                 beforeSend: function() {
                     $('#table_history > tbody').html(

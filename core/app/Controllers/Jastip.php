@@ -178,14 +178,7 @@ class Jastip extends BaseController
         $akunModel = new AkunModel();
 
         // Cek jumlah keranjang
-        $list_history =  $akunModel->list_history(session("akun_id"));
-
-
-        
-
-
-        $data["list_product_keranjang"] =  $akunModel->insert_keranjang(session("akun_id"), $_POST["product_id"]);
-        $data["status"] = 1;
+        $data["data"] =  $akunModel->list_history(session("akun_id"));
         echo json_encode($data);
     }
 }
