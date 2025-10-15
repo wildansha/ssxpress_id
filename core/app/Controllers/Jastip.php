@@ -174,11 +174,14 @@ class Jastip extends BaseController
     }
     public function ajax_data_history()
     {
+
+        // echo json_encode($_POST);
+        // exit;
         $this->cek_login_ajax();
         $akunModel = new AkunModel();
 
         // Cek jumlah keranjang
-        $data["data"] =  $akunModel->list_history(session("akun_id"));
+        $data["data"] =  $akunModel->list_history(session("akun_id"), $_POST["tab_type"]);
         echo json_encode($data);
     }
 }

@@ -35,30 +35,20 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#deskripsi">On Progress</a>
+            <span id="btn_progress" class="nav-link active" data-toggle="tab">On Progress</span>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#link">Complete</a>
+            <span id="btn_completed" class="nav-link" data-toggle="tab">Completed</span>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#link">Canceled</a>
+            <span id="btn_canceled" class="nav-link" data-toggle="tab">Canceled</span>
         </li>
     </ul>
 
-
     <!-- Tab panes -->
     <div class="tab-content">
-        <div id="deskripsi" class="tab-pane active"><br>
-        </div>
-
-
-        <div id="link" class="container tab-pane fade"><br>
-            <div class="row">
-                <div class="col-xl-4 col-sm-6 col-12 mt-3">
-
-                </div>
-
-            </div>
+        <div id="tab_p" class="tab-pane active">
+            <table class="w-100 mb-5" id="table_history"></table>
         </div>
 
     </div>
@@ -71,6 +61,7 @@
 <?= $this->section('js'); ?>
 <script>
     var table_history;
+    var tab_type = "btn_progress";
     $(document).ready(function() {
         table_history = $('#table_history').DataTable({
             ordering: false,
@@ -90,7 +81,7 @@
                 zeroRecords: "History Kosong",
             },
             ajax: {
-                url: '<?= base_url("keranjang/ajax_data_history"); ?>',
+                url: '<?= base_url("jastip/ajax_data_history"); ?>',
                 type: 'POST',
                 beforeSend: function() {
                     $('#table_history > tbody').html(
@@ -100,7 +91,7 @@
                     );
                 },
                 data: function(d) {
-                    // d.start_date = $("#start_date").val();
+                    d.tab_type = tab_type;
                 },
             },
             columns: [{
@@ -147,100 +138,10 @@
         table_history.ajax.reload();
     }
 
-    function delete_keranjang(product_id) {
-        $('#modal_loading').modal("show");
-        $.ajax({
-            url: '<?= base_url("jastip/ajax_delete_keranjang") ?>',
-            type: "POST",
-            data: {
-                product_id: product_id
-            },
-            success: function(response) {
-                response = JSON.parse(response);
-                $('#modal_loading').modal("hide");
-                if (response.status == 'exp') {
-                    location.href = "<?= base_url("account/login") ?>";
-                } else if (response.status == 1) {
-                    reload_table();
-                } else {
-                    $('#modal_loading').modal("hide");
-                    $('#modal_info').modal("show");
-                    $('#txt_modal_info').text(response.msg);
-                }
-            },
-            error: function(xhr, status, error) {
-                $('#modal_loading').modal("hide");
-                console.error(error);
-            }
-        });
-    }
-
-    $('#cb_checkAll').on('change', function() {
-        $('.cb_product').prop('checked', $(this).prop('checked'));
-    });
-
-    function updateState() {
-        const total = $('.cb_product').length;
-        const checked = $('.cb_product').filter(':checked').length;
-        const el = $('#cb_checkAll')[0];
-
-        if (checked === 0) {
-            el.checked = false;
-            el.indeterminate = false;
-        } else if (checked === total) {
-            el.checked = true;
-            el.indeterminate = false;
-        } else {
-            el.checked = false;
-            el.indeterminate = true; // inilah yang membuat tampilan "setengah"
-        }
-    }
-
-    // Saat check all diklik
-    $('#cb_checkAll').on('change', function() {
-        $('.cb_product').prop('checked', this.checked);
-        this.indeterminate = false;
-    });
-
-    $(document).on('change', '.cb_product', function() {
-        console.log(this.indeterminate);
-        updateState();
-    });
-
-    // Inisialisasi saat halaman pertama kali dimuat
-    updateState();
-
-
-    $("#form_checkout").on("submit", function(e) {
-        e.preventDefault();
-        $('#modal_loading').modal("show");
-        var formData = new FormData($("#form_checkout")[0]);
-        $.ajax({
-            method: 'POST',
-            url: '<?= base_url("jastip/checkout") ?>',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                response = JSON.parse(response);
-                $('#modal_loading').modal("hide");
-                if (response.status == 'exp') {
-                    location.href = "<?= base_url("account/login") ?>";
-                } else if (response.status == 1) {
-                    // location.href = "<?= base_url("jastip/history") ?>";
-                } else {
-                    $('#modal_loading').modal("hide");
-                    $('#modal_info').modal("show");
-                    $('#txt_modal_info').text(response.msg);
-                }
-            },
-            error: function(xhr, status, error) {
-                $('#modal_loading').modal("hide");
-                console.error(error);
-            },
-        });
-
-        return false;
-    });
+    $(".nav-link").on("click", function(e) {
+        e.preventDefault(); // cegah reload halaman
+        tab_type = e.target.id;
+        reload_table();
+    })
 </script>
 <?= $this->endSection(); ?>

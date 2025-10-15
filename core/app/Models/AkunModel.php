@@ -125,10 +125,26 @@ class AkunModel
         }
     }
 
-    public function list_history()
+    public function list_history($akun_id, $tab_type)
     {
         $db = \Config\Database::connect();
 
-        $this->table('jastip')->orderBy('nama', 'asc');
+        if ($tab_type == "btn_progress") {
+            $jastip_status = 0;
+        } else if ($tab_type == "btn_completed") {
+            $jastip_status = 1;
+        } else if ($tab_type == "btn_canceled") {
+            $jastip_status = 2;
+        } else {
+            $jastip_status = 0;
+        }
+        $query = "SELECT jp.
+        from jastip j 
+        join jastip_product jp on jp.header_id = j.id 
+        where j.akun_id = $akun_id
+        and j.status=$jastip_status
+        ";
+        $arr_history = $db->query($query)->getResultArray();
+        return $arr_history;
     }
 }
