@@ -91,7 +91,6 @@ class AkunModel
     public function checkout($akun_id, $list_product_id)
     {
         $db = \Config\Database::connect();
-        $akun_id;
         $builder = $db->table('jastip');
         $result_insert = $builder->insert([
             "akun_id" => $akun_id,
@@ -99,7 +98,7 @@ class AkunModel
         ]);
         $jastip_id = $db->insertID();
 
-        $query = "INSERT into jastip_product (header_id,product_id ,harga ,qty )
+        $query = "INSERT into jastip_product (jastip_id,product_id ,harga ,qty )
                     SELECT $jastip_id, p.id,p.harga, k.qty
                     FROM keranjang k
                     join product p on p.id=k.product_id 
@@ -116,35 +115,97 @@ class AkunModel
             }
             $query .= " ) ";
         }
+        $db->query($query);
 
-        $result = $db->query($query);
+        // ===========================================================================================
+
+        $query_delete = "DELETE FROM keranjang WHERE akun_id = $akun_id ";
+        if ($jml_product > 0) {
+            $query_delete .= " AND product_id in ( ";
+            for ($i = 0; $i < $jml_product; $i++) {
+                $query_delete .= $db->escape($list_product_id[$i]);
+                if ($i < $jml_product - 1) {
+                    $query_delete .= ",";
+                }
+            }
+            $query_delete .= " ) ";
+        }
+        $db->query($query_delete);
+
+
         if ($db->error()["code"] == 0) {
-            return 1;
+            return $jastip_id;
         } else {
             return 0;
         }
     }
 
-    public function list_history($akun_id, $tab_type)
+    public function jastip_status()
     {
         $db = \Config\Database::connect();
 
-        if ($tab_type == "btn_progress") {
-            $jastip_status = 0;
-        } else if ($tab_type == "btn_completed") {
-            $jastip_status = 1;
-        } else if ($tab_type == "btn_canceled") {
-            $jastip_status = 2;
-        } else {
-            $jastip_status = 0;
-        }
-        $query = "SELECT jp.
+        $query = "SELECT *  from jastip_status";
+        $jastip_statuses = $db->query($query)->getResultArray();
+        return $jastip_statuses;
+    }
+
+    public function list_history($akun_id, $status_id)
+    {
+        $db = \Config\Database::connect();
+        $status_id = $db->escape($status_id);
+
+
+        $query = "SELECT count(jp.product_id)-1 as jml_other,jp.harga, j.id as jastip_id, p.nama as product_name ,p.foto1 , DATE_FORMAT(j.created_at,'%d-%m-%Y %H:%i:%s') as waktu_pesan
         from jastip j 
-        join jastip_product jp on jp.header_id = j.id 
+        join jastip_product jp on jp.jastip_id = j.id
+        join  product p on p.id = jp.product_id
         where j.akun_id = $akun_id
-        and j.status=$jastip_status
+        and j.status = $status_id
+        group by j.id
         ";
         $arr_history = $db->query($query)->getResultArray();
         return $arr_history;
+    }
+
+
+    public function cek_kepemilikan_jastip($akun_id, $jastip_id)
+    {
+        $db = \Config\Database::connect();
+
+        $query = "SELECT count(j.id) as jml
+        from jastip j 
+        where  j.id = $jastip_id
+        and j.akun_id = $akun_id
+        limit 1";
+        $status_kepemilikan = $db->query($query)->getRowArray()["jml"];
+
+        return $status_kepemilikan;
+    }
+
+    public function detail_jastip($akun_id, $jastip_id)
+    {
+        $db = \Config\Database::connect();
+
+        $query = "SELECT j.*, 
+        js.status_name,
+        DATE_FORMAT(j.created_at,'%d-%m-%Y') as waktu_pesan
+        from jastip j
+        join jastip_status js on js.id=j.status 
+        where j.id = $jastip_id
+        and j.akun_id = $akun_id
+        limit 1
+        ";
+        $jastip = $db->query($query)->getRowArray();
+
+        $jastip["list_product"] = [];
+        $query2 = "SELECT jp.*, p.nama as product_name, p.id as product_id, p.slug, p.foto1
+                    from jastip_product jp
+                    join product p on p.id = jp.product_id
+                    where jp.jastip_id = $jastip_id
+                    ";
+
+        $jastip["list_product"] = $db->query($query2)->getResultArray();
+
+        return $jastip;
     }
 }

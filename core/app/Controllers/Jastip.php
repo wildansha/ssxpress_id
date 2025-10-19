@@ -153,7 +153,7 @@ class Jastip extends BaseController
 
         $akunModel = new AkunModel();
 
-        $result_checkout =  $akunModel->checkout(session("akun_id"), $_POST["cb"]);
+        $data["jastip_id"] =  $akunModel->checkout(session("akun_id"), $_POST["cb"]);
         $data["status"] = 1;
         echo json_encode($data);
     }
@@ -170,7 +170,10 @@ class Jastip extends BaseController
     public function history()
     {
         $this->cek_login();
-        return view('jastip/v_history');
+        $akunModel = new AkunModel();
+        $data["list_status"] =  $akunModel->jastip_status();
+
+        return view('jastip/v_history', $data);
     }
     public function ajax_data_history()
     {
@@ -181,7 +184,24 @@ class Jastip extends BaseController
         $akunModel = new AkunModel();
 
         // Cek jumlah keranjang
-        $data["data"] =  $akunModel->list_history(session("akun_id"), $_POST["tab_type"]);
+        $data["data"] =  $akunModel->list_history(session("akun_id"), $_POST["status_id"]);
         echo json_encode($data);
+    }
+
+    public function detail_jastip($jastip_id)
+    {
+        $this->cek_login();
+        $akunModel = new AkunModel();
+        $status_kepemilikan = $akunModel->cek_kepemilikan_jastip(session("akun_id"), $jastip_id);
+        if ($status_kepemilikan == 0) {
+            header("Location: " . base_url("jastip/history"));
+            exit;
+        }
+        // =================================================================================================================================
+        $data["jastip"] = $akunModel->detail_jastip(session("akun_id"), $jastip_id);
+
+        // dd($data);
+
+        return view('jastip/v_detail_jastip', $data);
     }
 }

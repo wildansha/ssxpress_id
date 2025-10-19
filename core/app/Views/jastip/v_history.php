@@ -31,29 +31,17 @@
 </style>
 
 <!-- deskripsi -->
-<div class="container mt-3 p-3 shadow-lg ">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs nav-fill" role="tablist">
-        <li class="nav-item">
-            <span id="btn_progress" class="nav-link active" data-toggle="tab">On Progress</span>
-        </li>
-        <li class="nav-item">
-            <span id="btn_completed" class="nav-link" data-toggle="tab">Completed</span>
-        </li>
-        <li class="nav-item">
-            <span id="btn_canceled" class="nav-link" data-toggle="tab">Canceled</span>
-        </li>
-    </ul>
+<div class="container-fluid px-0 mt-3 ">
+    <div class="mx-auto" style="max-width: 500px;">
+        <select id="filter_status" class="form-control" style="font-weight: bold;">
+            <?php for ($i = 0; $i < count($list_status); $i++) { ?>
+                <option value="<?= $list_status[$i]["id"] ?>"><?= $list_status[$i]["status_name"] ?></option>
+            <?php } ?>
+        </select>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div id="tab_p" class="tab-pane active">
-            <table class="w-100 mb-5" id="table_history"></table>
-        </div>
-
+        <table class="w-100 mb-5" id="table_history"></table>
     </div>
 </div>
-<!-- /deskripsi -->
 
 
 <?= $this->endSection(); ?>
@@ -61,7 +49,6 @@
 <?= $this->section('js'); ?>
 <script>
     var table_history;
-    var tab_type = "btn_progress";
     $(document).ready(function() {
         table_history = $('#table_history').DataTable({
             ordering: false,
@@ -91,38 +78,49 @@
                     );
                 },
                 data: function(d) {
-                    d.tab_type = tab_type;
+                    d.status_id = $('#filter_status').val();
                 },
             },
             columns: [{
                 data: null, // ambil semua data row
                 render: function(data, type, row) {
+                    if (row.jml_other > 0) {
+                        var txt_lainnya = `<div class="col-12 mb-2">
+                                        <hr class="my-0">
+                                        <p class="mb-0 text-center" style="color:grey;font-size:12px !important;">+ ${row.jml_other} produk lainnya...</p>
+                                        <hr class="my-0">
+                                    </div>`;
+                    } else {
+                        var txt_lainnya = "";
+                    }
+
+
                     return `
-                       <div class="card shadow-sm mb-2">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-2 d-flex align-items-center justify-content-center">
-                                        <input type="checkbox" name="cb[]" class="cb_product" value="${row.id}" style=" transform: scale(1.3);">
+                       <div class="card shadow-sm mb-2" >
+                            <div class="card-body pb-0">
+                                <div class="row" onclick="location.href='<?= base_url('jastip/detail_jastip/') ?>/${row.jastip_id}'">
+                                    <div class="col-sm-2 col-4 mb-2">
+                                        <img src="<?= base_url("assets/img/product") ?>/${row.foto1}" class="w-100" style="border-radius: 10px;border:1px solid black" onclick="location.href='<?= base_url('jastip/product_detail') ?>/${row.slug}'">
                                     </div>
-                                    <div class="col-sm-2 col-4">
-                                        <img src="<?= base_url("assets/img/product") ?>/${row.foto1}" class="w-100" style="border-radius: 10px;border:1px solid black" onclick="location.href='<?= base_url('jastip/detail') ?>/${row.slug}'">
-                                    </div>
-                                    <div class="col-sm-8 col-6">
-                                        <p class="mb-0" style="font-weight: bold;" onclick="location.href='<?= base_url('jastip/detail') ?>/${row.slug}'">${row.nama}</p>
+                                    <div class="col-sm-8 col-6 mb-2">
+                                    <p class="mb-0" style="font-weight: bold;">${row.product_name}</p>
                                         <p class="mb-0" style="color: maroon;">Rp ${row.harga}</p>
+                                    </div>
+                                    ${txt_lainnya}
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                            <button class="btn btn-success w-100" onclick="location.href='https://wa.me/6285315999960?text=Saya mau bayar ssxpress.id/konfirmasi_jastip/${row.jastip_id}'">
+                                                <i class="fas fa-fw fa-user"></i> Chat Admin
+                                            </button>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <div class="row">
-                                    <div class="col-4">
-                                        <button class="btn btn-danger w-100" onclick="delete_keranjang(${row.id})"><i class='fas fa-fw fa-trash'></i></button>
-                                    </div>
-                                    <div class="col-4">
-                                    </div>
-                                    <div class="col-4">
-                                        <input required type="number" name="qty_${row.id}" class="form-control text-center w-100" min="0" max="1000" placeholder="Quantity" value="${row.qty}">
-                                    </div>
+                                    <div class="col-12">
+                                        <p class="mb-0" style="font-size:12px !important;color:grey">${row.waktu_pesan}</p>                                    
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
@@ -138,9 +136,8 @@
         table_history.ajax.reload();
     }
 
-    $(".nav-link").on("click", function(e) {
-        e.preventDefault(); // cegah reload halaman
-        tab_type = e.target.id;
+    $("#filter_status").on('change', function(e) {
+        e.preventDefault(); // cegah reload halaman 
         reload_table();
     })
 </script>

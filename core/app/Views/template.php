@@ -39,11 +39,10 @@
 
     <style>
         body,
-        input,
-        textarea,
         p,
         span,
-        button {
+        button,
+        .form-control {
             font-size: 14px !important;
         }
 
@@ -59,6 +58,11 @@
         #dt-search-0 {
             width: 100%;
             /* biar container search full */
+        }
+
+        table.dataTable>tbody>tr>th,
+        table.dataTable>tbody>tr>td {
+            padding: 0;
         }
     </style>
 </head>
@@ -172,6 +176,13 @@
                     <?php if (session("akun_id") !== null) { ?>
                         <ul class="navbar-nav">
                             <li class="nav-item mx-auto">
+                                <a href="<?php echo base_url('jastip/history'); ?>" class="nav-link" style="color: black;font-weight: bold;">
+                                    <p style="width: 30px;"><i class="fas fa-fw fa-file"></i></p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item mx-auto">
                                 <a href="<?php echo base_url('keranjang'); ?>" class="nav-link" style="color: black;font-weight: bold;">
                                     <img src="<?= base_url("assets/img/icon/ic_chart.png") ?>" style=" width: 30px;">
                                 </a>
@@ -254,7 +265,7 @@
             });
         }
 
-    
+
         // ========================================================================================
         $('#modal_info').on('show.bs.modal', function(e) {
             window.location.hash = "hash_modal_info";
