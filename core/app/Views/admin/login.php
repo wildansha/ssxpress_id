@@ -29,9 +29,4 @@
             </form>
         </div>
     </main>
-
-</body>
-
-<body>
-
 </body>
