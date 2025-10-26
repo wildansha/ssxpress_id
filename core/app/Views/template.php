@@ -64,6 +64,9 @@
         table.dataTable>tbody>tr>td {
             padding: 0;
         }
+        .dataTables_empty{
+            color: black !important;
+        }
     </style>
 </head>
 

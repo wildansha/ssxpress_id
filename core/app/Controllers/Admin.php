@@ -6,16 +6,12 @@ use App\Models\AdminModel;
 
 class Admin extends BaseController
 {
-    public function __construct()
-    {
-        if (session('username') == null) {
-            return view('admin/login');
-        }
-    }
+    public function __construct() {}
 
     public function index()
     {
-        if (session('username') == null) {
+        dd(session('admin_id'));
+        if (empty(session('admin_id'))) {
             return view('admin/login');
         } else {
             return redirect()->to(base_url() . '/admin_product')->withInput();
@@ -24,23 +20,22 @@ class Admin extends BaseController
 
     public function login()
     {
-        if ($this->exists($_POST['username'], $_POST['password']) != null) {
-            $session = session();
-            $session->set('username', $_POST['username']);
-            return redirect()->to(base_url() . '/admin');
-        } else {
-            $data['msg'] = 'Username / Password Salah';
-            return view('admin/login', $data);
-        }
+        return view('admin/login');
     }
 
-    public function exists($username, $password)
+    public function proses_login()
     {
-        $adminModel = new AdminModel();
-        $admin = $adminModel->getAdmin($username);
-        if ($admin != null) {
-            if ($username == $admin['username'] &&  $password == $admin['password']) {
-                return $admin;
+        if (isset($_POST["username"])) {
+            $adminModel = new AdminModel();
+            $admin = $adminModel->getAdmin($_POST['username']);
+            if (isset($_POST['password']) && isset($admin["password"]) &&  $_POST['password'] == $admin['password']) {
+                $session = session();
+                $session->set('admin_id', $admin['id']);
+                $session->set('admin_username', $admin['username']);
+                return redirect()->to(base_url() . '/admin');
+            } else {
+                $data['msg'] = 'Username / Password Salah';
+                return view('admin/login', $data);
             }
         }
     }
@@ -48,7 +43,7 @@ class Admin extends BaseController
     public function logout()
     {
         $session = session();
-        $session->remove('username');
+        $session->remove('admin_id');
         return redirect()->to(base_url() . '/admin');
     }
 }

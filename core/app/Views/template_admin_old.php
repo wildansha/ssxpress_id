@@ -54,7 +54,8 @@
                         </li>
 
 
-                        <li class="nav-item ml-auto mr-auto">
+                        <li cla
+                        s="nav-item ml-auto mr-auto">
                             <form action="<?= base_url(); ?>/admin/keluar" method="POST">
                                 <?= csrf_field(); ?>
                                 <input type="hidden" name="_method" value="DELETE">

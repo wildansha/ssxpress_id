@@ -13,7 +13,7 @@
         <div class="container">
             <H1 style="color: red;" class="my-3"><?= isset($msg) ? $msg : '' ?></H1>
 
-            <form action="<?= base_url("admin/masuk"); ?>" method="POST" class="mt-3">
+            <form action="<?= base_url("admin/proses_login"); ?>" method="POST" class="mt-3">
                 <?= csrf_field(); ?>
                 <div class="form-group mt-3">
                     <label for="username">Username</label>

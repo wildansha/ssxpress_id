@@ -14,9 +14,26 @@ class admin_product extends BaseController
         $kategoriModel = new KategoriModel();
         $this->kategori_all =  $kategoriModel->get();
     }
+    private function cek_login()
+    {
+        if (session('admin_id') === null) {
+            header("Location: " . base_url("admin/login"));
+            exit;
+        }
+    }
+
+    private function cek_login_ajax()
+    {
+        if (session('admin_id') === null) {
+            echo json_encode(["status" => "exp"]);
+            exit;
+        }
+    }
 
     public function index()
     {
+        $this->cek_login();
+        
         $dataPerPage = 12;
         $currentPage = $this->request->getVar('page_product') ? $this->request->getVar('page_product') : 1;
 
@@ -26,21 +43,18 @@ class admin_product extends BaseController
         $product = $this->productModel->search($keyword, $kategori);
 
 
-        if (session('username') == null) {
-            return view('admin/login');
-        } else {
-            $data = [
-                'keyword' => $keyword,
-                'kategori' => $kategori,
-                'kategori_all' => $this->kategori_all,
-                'dataPerPage' => $dataPerPage,
-                'product' => $product->paginate($dataPerPage, 'product'),
-                'pager' => $product->pager,
-                'currentPage' => $currentPage
-            ];
 
-            return view('admin_product/index', $data);
-        }
+        $data = [
+            'keyword' => $keyword,
+            'kategori' => $kategori,
+            'kategori_all' => $this->kategori_all,
+            'dataPerPage' => $dataPerPage,
+            'product' => $product->paginate($dataPerPage, 'product'),
+            'pager' => $product->pager,
+            'currentPage' => $currentPage
+        ];
+
+        return view('admin_product/index', $data);
     }
 
 

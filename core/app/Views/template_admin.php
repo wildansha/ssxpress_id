@@ -77,7 +77,7 @@
         }
 
         .dataTables_empty {
-            color: white !important;
+            color: black !important;
         }
 
         .ck {
@@ -154,11 +154,17 @@
             <hr class="sidebar-divider my-0">
 
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url("admin_mitra") ?>">
+                <a class="nav-link" href="<?= base_url("admin_product") ?>">
                     <i class="fas fa-fw fa-file"></i>
-                    <span style="font-size: 13px;">Mitra</span>
+                    <span style="font-size: 13px;">Produk</span>
                 </a>
-            </li> Q
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url("admin_jastip") ?>">
+                    <i class="fas fa-fw fa-file"></i>
+                    <span style="font-size: 13px;">Jastip</span>
+                </a>
+            </li>
             <?php if (session('tipe_akun') === '1') { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= base_url("admin_mitra") ?>">
