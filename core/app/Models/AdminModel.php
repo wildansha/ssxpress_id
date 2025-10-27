@@ -46,13 +46,14 @@ class AdminModel extends Model
         $db = \Config\Database::connect();
         $jastip_id = $db->escape($jastip_id);
 
-        $query = "SELECT j.* , a.email   
+        $query = "SELECT j.* , js.status_name, a.email
         from jastip j
+        join jastip_status js on js.id = j.status
         join akun a on a.id = j.akun_id
         where j.id = $jastip_id ";
         $jastip = $db->query($query)->getRowArray();
 
-        $query_produk = "SELECT jp.harga, p.nama as product_name ,p.foto1
+        $query_produk = "SELECT jp.harga,jp.qty, p.nama as product_name, p.slug ,p.foto1
         from jastip_product jp
         join product p on p.id = jp.product_id
         where jp.jastip_id = $jastip_id ";

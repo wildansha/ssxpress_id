@@ -58,8 +58,7 @@ class admin_jastip extends BaseController
         $this->cek_login();
 
         $adminModel = new adminModel();
-        $jastip =  $adminModel->detail_jastip($jastip_id);
-        dd($jastip);
-        return view('admin_jastip/v_admin_jastip', $data);
+        $data["jastip"] =  $adminModel->detail_jastip($jastip_id);
+        return view('admin_jastip/v_admin_detail_jastip', $data);
     }
 }

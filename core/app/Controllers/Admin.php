@@ -10,7 +10,6 @@ class Admin extends BaseController
 
     public function index()
     {
-        dd(session('admin_id'));
         if (empty(session('admin_id'))) {
             return view('admin/login');
         } else {
