@@ -336,12 +336,7 @@
             element.style.resize = "none";
         }
 
-        $("textarea").each(function() {
-            this.style.height = "5px";
-            this.style.height = (this.scrollHeight + 5) + "px";
-            this.style.oveflow = "none";
-            this.style.resize = "none";
-        });
+
 
         //============================================================================================================
         $('#modal_info').on('show.bs.modal', function(e) {
@@ -355,6 +350,16 @@
     </script>
 
     <?= $this->renderSection('js'); ?>
+
+    <script>
+        $("textarea").each(function() {
+            console.log(this.scrollHeight);
+            var scrollHeight = this.scrollHeight == 0 ? 30 : this.scrollHeight;
+            this.style.height = (scrollHeight + 5) + "px";
+            this.style.oveflow = "none";
+            this.style.resize = "none";
+        });
+    </script>
 
 </body>
 

@@ -45,6 +45,7 @@ class admin_jastip extends BaseController
         $adminModel = new adminModel();
 
         $list_jastip =  $adminModel->list_jastip($_POST["status_id"]);
+        // echo json_encode($list_jastip);
 
         $data["data"] = [];
         for ($i = 0; $i < count($list_jastip); $i++) {
@@ -58,6 +59,7 @@ class admin_jastip extends BaseController
         $this->cek_login();
 
         $adminModel = new adminModel();
+        $data["list_alasan_tolak"] =  $adminModel->alasan_tolak();
         $data["jastip"] =  $adminModel->detail_jastip($jastip_id);
         return view('admin_jastip/v_admin_detail_jastip', $data);
     }

@@ -31,12 +31,15 @@ class AdminModel extends Model
         $db = \Config\Database::connect();
         $status_id = $db->escape($status_id);
 
-        $query = "SELECT count(jp.product_id)-1 as jml_other,jp.harga, j.id as jastip_id, p.nama as product_name ,p.foto1 , DATE_FORMAT(j.created_at,'%d-%m-%Y %H:%i:%s') as waktu_pesan
+        $query = "SELECT count(jp.product_id)-1 as jml_other,jp.harga, j.id as jastip_id, p.nama as product_name ,p.foto1 , DATE_FORMAT(j.created_at,'%d-%m-%Y %H:%i:%s') as waktu_pesan,
+        a.email as email_pemesan
         from jastip j 
         join jastip_product jp on jp.jastip_id = j.id
+        join akun a on a.id = j.akun_id
         join  product p on p.id = jp.product_id
         where j.status = $status_id
         group by j.id
+        order by j.id asc
         ";
         $arr_history = $db->query($query)->getResultArray();
         return $arr_history;
@@ -60,5 +63,15 @@ class AdminModel extends Model
         $jastip["list_product"] = $db->query($query_produk)->getResultArray();
 
         return $jastip;
+    }
+    public function alasan_tolak()
+    {
+        $db = \Config\Database::connect();
+
+        $query = "SELECT *
+        from jastip_alasan_tolak ";
+        $alasan_tolak = $db->query($query)->getResultArray();
+
+        return $alasan_tolak;
     }
 }

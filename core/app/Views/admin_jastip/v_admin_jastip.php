@@ -30,7 +30,7 @@
     }
 </style>
 
-<div class="container-fluid ">
+<div class="container-fluid">
     <div class="btn-group btn-group-toggle w-100 my-2" data-toggle="buttons">
         <?php for ($i = 0; $i < count($list_status); $i++) {  ?>
             <button class="btn btn-info active">
