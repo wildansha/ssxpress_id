@@ -16,6 +16,9 @@
     <!-- fontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link href="<?= base_url() ?>/sb2admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
 
@@ -31,8 +34,6 @@
 
     <!-- venobox -->
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/venobox/venobox.css" type="text/css" media="screen" />
-
-    <link href="<?= base_url() ?>/assets/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- page CSS -->
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/koperasi.css">
@@ -64,7 +65,8 @@
         table.dataTable>tbody>tr>td {
             padding: 0;
         }
-        .dataTables_empty{
+
+        .dataTables_empty {
             color: black !important;
         }
     </style>
@@ -179,8 +181,10 @@
                     <?php if (session("akun_id") !== null) { ?>
                         <ul class="navbar-nav">
                             <li class="nav-item mx-auto">
-                                <a href="<?php echo base_url('jastip/history'); ?>" class="nav-link" style="color: black;font-weight: bold;">
-                                    <p style="width: 30px;"><i class="fas fa-fw fa-file"></i></p>
+                                <a href="<?php echo base_url('jastip/history'); ?>" class="nav-link" style="font-weight: bold;">
+                                    <p style="height:20px; line-height:40px; text-align:center;">
+                                        <i class="fas fa-fw fa-file-alt" style="color: black;font-size: 20px;"></i>
+                                    </p>
                                 </a>
                             </li>
                         </ul>
