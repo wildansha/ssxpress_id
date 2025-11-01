@@ -1,8 +1,8 @@
-<div class="card shadow-sm mb-2">
+<div class="card shadow-sm mb-2" onclick="location.href='<?= base_url('admin_jastip/detail_jastip/' . $jastip_id) ?>'">
     <div class="card-body pb-0">
         <p class="mb-0" style="font-weight: bold;">#<?= $jastip_id ?><br><?= $email_pemesan ?></p>
         <hr class="my-2">
-        <div class="row" onclick="location.href='<?= base_url('admin_jastip/detail_jastip/' . $jastip_id) ?>'">
+        <div class="row" >
             <div class="col-sm-2 col-4 text-center mb-2">
                 <img src="<?= base_url("assets/img/product") ?>/<?= $foto1 ?>" style="border-radius: 10px;border:1px solid black;width: 100%;max-width: 50px;">
             </div>

@@ -31,18 +31,20 @@
 </style>
 
 <div class="container-fluid">
-    <div class="btn-group btn-group-toggle w-100 my-2" data-toggle="buttons">
+    <div class="mx-auto" style="max-width: 700px;">
+        <div class="btn-group btn-group-toggle w-100 my-2" data-toggle="buttons">
+            <?php for ($i = 0; $i < count($list_status); $i++) {  ?>
+                <button class="btn btn-info active">
+                    <input type="radio" name="filter_radio" id="radio_<?= $i ?>" value="<?= $i ?>" autocomplete="off"><?= $list_status[$i]["status_name"] ?>
+                </button>
+            <?php }  ?>
+        </div>
         <?php for ($i = 0; $i < count($list_status); $i++) {  ?>
-            <button class="btn btn-info active">
-                <input type="radio" name="filter_radio" id="radio_<?= $i ?>" value="<?= $i ?>" autocomplete="off"><?= $list_status[$i]["status_name"] ?>
-            </button>
+            <div id="wrapper_table_<?= $i ?>">
+                <table class="w-100 mb-5" id="table_<?= $i ?>"></table>
+            </div>
         <?php }  ?>
     </div>
-    <?php for ($i = 0; $i < count($list_status); $i++) {  ?>
-        <div id="wrapper_table_<?= $i ?>">
-            <table class="w-100 mb-5" id="table_<?= $i ?>"></table>
-        </div>
-    <?php }  ?>
 </div>
 
 

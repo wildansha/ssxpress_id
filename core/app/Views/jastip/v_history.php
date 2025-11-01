@@ -104,7 +104,7 @@
                                     </div>
                                     <div class="col-sm-8 col-6 mb-2">
                                     <p class="mb-0" style="font-weight: bold;">${row.product_name}</p>
-                                        <p class="mb-0" style="color: maroon;">Rp ${row.harga}</p>
+                                        <p class="mb-0" style="color: maroon;">Rp ${ format_angka(row.harga)}</p>
                                     </div>
                                     ${txt_lainnya}
                                 </div>

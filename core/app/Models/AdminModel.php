@@ -49,13 +49,14 @@ class AdminModel extends Model
         $db = \Config\Database::connect();
         $jastip_id = $db->escape($jastip_id);
 
-        $query = "SELECT j.* , js.status_name, a.email
+        $query = "SELECT j.* , js.status_name, a.email,a.nama,coalesce(a.nomor,'') as nomor
         from jastip j
         join jastip_status js on js.id = j.status
         join akun a on a.id = j.akun_id
         where j.id = $jastip_id ";
         $jastip = $db->query($query)->getRowArray();
 
+        // dd($jastip);
         $query_produk = "SELECT jp.harga,jp.qty, p.nama as product_name, p.slug ,p.foto1
         from jastip_product jp
         join product p on p.id = jp.product_id
@@ -63,6 +64,16 @@ class AdminModel extends Model
         $jastip["list_product"] = $db->query($query_produk)->getResultArray();
 
         return $jastip;
+    }
+    public function proses_jastip($jastip_id, $bukti_bayar_name)
+    {
+        $db = \Config\Database::connect();
+        $jastip_id = $db->escape($jastip_id);
+
+        $query = "UPDATE jastip set bukti_bayar='$bukti_bayar_name' ,status=1 where id=$jastip_id ";
+        $result = $db->query($query);
+
+        return $result;
     }
     public function alasan_tolak()
     {
