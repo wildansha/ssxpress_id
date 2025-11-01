@@ -8,7 +8,7 @@ use App\Models\AkunModel;
 use App\Models\AdminModel;
 
 
-class admin_jastip extends BaseController
+class Admin_jastip extends BaseController
 {
     public function __construct() {}
 
@@ -94,7 +94,10 @@ class admin_jastip extends BaseController
         $params["p1"] = "wildanshalahuddin@gmail.com";
         $params["p2"] = "w";
         $params["p3"] = isset($data["jastip"]["resi_ssxpress"]) ? $data["jastip"]["resi_ssxpress"] : "";
-        $data["tracking"] = $this->api($url, $params);
+        // $params["p3"] = "SSIN10653";
+        $data_track = $this->api($url, $params);
+        $data = array_merge($data, $data_track);
+
         return view('admin_jastip/v_admin_detail_jastip', $data);
     }
 
@@ -135,5 +138,19 @@ class admin_jastip extends BaseController
         $data["list_alasan_tolak"] =  $adminModel->alasan_tolak();
         $data["jastip"] =  $adminModel->detail_jastip($jastip_id);
         return view('admin_jastip/v_admin_detail_jastip', $data);
+    }
+
+    public function ajax_input_resi_jastip()
+    {
+        $this->cek_login_ajax();
+
+        $adminModel = new adminModel();
+        $result =  $adminModel->input_resi($_POST["jastip_id"], $_POST["resi_ssxpress"]);
+
+        if ($result) {
+            echo json_encode(["status" => 1]);
+        } else {
+            echo json_encode(["status" => 0, "msg" => "Gagal Memproses Data"]);
+        }
     }
 }

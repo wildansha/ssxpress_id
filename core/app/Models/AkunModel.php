@@ -155,7 +155,7 @@ class AkunModel
         $status_id = $db->escape($status_id);
 
 
-        $query = "SELECT count(jp.product_id)-1 as jml_other,jp.harga, j.id as jastip_id, p.nama as product_name ,p.foto1 , DATE_FORMAT(j.created_at,'%d-%m-%Y %H:%i:%s') as waktu_pesan
+        $query = "SELECT count(jp.product_id)-1 as jml_other,jp.harga, j.id as jastip_id,j.status, p.nama as product_name ,p.foto1 , DATE_FORMAT(j.created_at,'%d-%m-%Y %H:%i:%s') as waktu_pesan
         from jastip j 
         join jastip_product jp on jp.jastip_id = j.id
         join  product p on p.id = jp.product_id

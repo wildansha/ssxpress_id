@@ -19,6 +19,37 @@ class Jastip extends BaseController
         $this->kategori_all =  $kategoriModel->get();
     }
 
+    private function api($url, $params = null, $key = '', $want_decode = true, $want_array = true)
+    {
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        if ($key != '') {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ["key: $key"]);
+        }
+
+        if (isset($params)) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        }
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+
+        if ($want_decode) {
+            $data = json_decode(curl_exec($ch), $want_array);
+        } else {
+            $data = curl_exec($ch);
+        }
+
+        curl_close($ch);
+
+        return $data;
+    }
+
+
     private function cek_login()
     {
         if (session('akun_id') === null) {
@@ -33,7 +64,7 @@ class Jastip extends BaseController
             exit;
         }
     }
-
+ 
     public function index()
     {
         header("Location: " . base_url("jastip/product"));
@@ -177,14 +208,14 @@ class Jastip extends BaseController
     }
     public function ajax_data_history()
     {
-
-        // echo json_encode($_POST);
-        // exit;
         $this->cek_login_ajax();
         $akunModel = new AkunModel();
-
-        // Cek jumlah keranjang
-        $data["data"] =  $akunModel->list_history(session("akun_id"), $_POST["status_id"]);
+        $list_jastip =  $akunModel->list_history(session("akun_id"), $_POST["status_id"]);
+        $data["data"] = [];
+        for ($i = 0; $i < count($list_jastip); $i++) {
+            $list_jastip[$i]["index"] = $i;
+            $data["data"][$i]['item']  = view("jastip/v_item_history_jastip", $list_jastip[$i]);
+        }
         echo json_encode($data);
     }
 
@@ -194,14 +225,19 @@ class Jastip extends BaseController
         $akunModel = new AkunModel();
         $status_kepemilikan = $akunModel->cek_kepemilikan_jastip(session("akun_id"), $jastip_id);
         if ($status_kepemilikan == 0) {
-            header("Location: " . base_url("jastip/history"));
-            exit;
+            return view('v_tidak_berhak');
+        } else {
+            $data["jastip"] = $akunModel->detail_jastip(session("akun_id"), $jastip_id);
+
+            $url = "https://mitraekspedisi.com/order/api_cek_resi";
+            $params["p1"] = "wildanshalahuddin@gmail.com";
+            $params["p2"] = "w";
+            $params["p3"] = isset($data["jastip"]["resi_ssxpress"]) ? $data["jastip"]["resi_ssxpress"] : "";
+            // $params["p3"] = "SSIN10653";
+            $data_track = $this->api($url, $params);
+            $data = array_merge($data, $data_track);
+
+            return view('jastip/v_detail_jastip', $data);
         }
-        // =================================================================================================================================
-        $data["jastip"] = $akunModel->detail_jastip(session("akun_id"), $jastip_id);
-
-        // dd($data);
-
-        return view('jastip/v_detail_jastip', $data);
     }
 }

@@ -47,6 +47,10 @@
             font-size: 14px;
         }
 
+        .card-header {
+            background-color: #2a6a98ff;
+        }
+
         .form-control {
             font-size: 14px !important;
         }

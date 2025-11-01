@@ -206,33 +206,39 @@
 
     $("#form_checkout").on("submit", function(e) {
         e.preventDefault();
-        $('#modal_loading').modal("show");
-        var formData = new FormData($("#form_checkout")[0]);
-        $.ajax({
-            method: 'POST',
-            url: '<?= base_url("jastip/checkout") ?>',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                response = JSON.parse(response);
-                $('#modal_loading').modal("hide");
-                if (response.status == 'exp') {
-                    location.href = "<?= base_url("account/login") ?>";
-                } else if (response.jastip_id != 0) {
-                    location.href = "<?= base_url("jastip/detail_jastip/") ?>/" + response.jastip_id;
-                } else {
-                    $('#modal_loading').modal("hide");
-                    $('#modal_info').modal("show");
-                    $('#txt_modal_info').text(response.msg);
-                }
-            },
-            error: function(xhr, status, error) {
-                $('#modal_loading').modal("hide");
-                console.error(error);
-            },
-        });
 
+        if ($('.cb_product:checked').length < 1) {
+            $('#modal_info').modal("show");
+            $('#txt_modal_info').text("Belum Ada Barang Terpilih di Keranjang Anda");
+
+        } else {
+            $('#modal_loading').modal("show");
+            var formData = new FormData($("#form_checkout")[0]);
+            $.ajax({
+                method: 'POST',
+                url: '<?= base_url("jastip/checkout") ?>',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    $('#modal_loading').modal("hide");
+                    if (response.status == 'exp') {
+                        location.href = "<?= base_url("account/login") ?>";
+                    } else if (response.jastip_id != 0) {
+                        location.href = "<?= base_url("jastip/detail_jastip/") ?>/" + response.jastip_id;
+                    } else {
+                        $('#modal_loading').modal("hide");
+                        $('#modal_info').modal("show");
+                        $('#txt_modal_info').text(response.msg);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#modal_loading').modal("hide");
+                    console.error(error);
+                },
+            });
+        }
         return false;
     });
 </script>

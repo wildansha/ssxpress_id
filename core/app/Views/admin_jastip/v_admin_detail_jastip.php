@@ -51,7 +51,7 @@
                         <p class="mb-0" style="font-weight: bold;">Alasan Penolakan</p>
                         <select required name="alasan_tolak" class="form-control mb-2">
                             <option value="">-- Pilih Alasan --</option>
-                            <?php for ($i = 0; $i < count($list_alasan_tolak); $i++) { ?>
+                            <?php for ($i = 0; $i < isset($list_alasan_tolak) && count($list_alasan_tolak); $i++) { ?>
                                 <option value="<?= $list_alasan_tolak[$i]["id"] ?>"><?= $list_alasan_tolak[$i]["alasan"] ?></option>
                             <?php }  ?>
                         </select>
@@ -87,10 +87,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p class="mb-0" style="font-weight: bold;">Alasan Penolakan</p>
-
-                        <p class="mb-0" style="font-weight: bold;">Keterangan Tambahan</p>
-                        <textarea name="keterangan" class="form-control" oninput="auto_grow(this)" placeholder="-- Tidak Wajib --"></textarea>
+                        <p class="mb-0" style="font-weight: bold;">Resi SSXPRESS</p>
+                        <input required type="text" name="resi_ssxpress" class="form-control" placeholder="SSINXXXX" value="<?= $jastip["resi_ssxpress"] ?>">
                     </div>
 
                     <div class="modal-footer" style="text-align: center;">
@@ -100,7 +98,7 @@
                                     <button type="button" class="btn btn-secondary w-100" onclick="history.back()" style="font-weight: bold;">Batal</button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="submit" class="btn btn-danger w-100" style="font-weight: bold;">Submit</button>
+                                    <button type="submit" class="btn btn-success w-100" style="font-weight: bold;">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +143,7 @@
         <div class="col-xl-8 mb-2">
             <div class="card shadow my-2">
                 <div class="card-body">
-                    <p style="text-align: right;"><?= date("d-m-Y H:i:s", strtotime($jastip["created_at"])) ?></p>
+                    <p class="mb-0" style="text-align: right;"><?= date("d-m-Y H:i:s", strtotime($jastip["created_at"])) ?></p>
                     <div class="row">
                         <div class="col-12 mb-2">
                             <p class="mb-0" style="font-weight: bold;">Pembeli</p>
@@ -162,7 +160,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-2">
+                        <div class="col-12">
+                            <?php if ($jastip["bukti_bayar"] != "") { ?>
+                                <p class="mb-0" style="font-weight: bold;">Bukti Bayar</p>
+                                <a href="<?= base_url("b_byr/" . $jastip["bukti_bayar"]) ?>" target="_blank"><?= $jastip["bukti_bayar"] ?></a>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -182,14 +184,16 @@
     <?php } else if ($jastip["status"] == 1) { ?>
         <button class="btn btn-success " style="font-weight: bold;" onclick="$('#modal_input_resi').modal('show')">
             <i class="fas fa-fw fa-truck"></i>
-            Input Resi</button>
-        <div class="row">
+            Input Resi
+        </button>
+
+        <div class="mx-auto" style="max-width: 500px;">
             <?php if (isset($order_dn)) { ?>
                 <?php if (isset($trackings)) { ?>
                     <div class="row my-3">
                         <div class="col-12">
                             <div class="card shadow">
-                                <div class="card-header bg_primary" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+                                <div class="card-header" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
                                     <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSN' . $order_dn["id"]; ?></p>
                                     <p class="text-center mb-0" style="font-weight: bold;font-size: 18px;"><?= strtoupper($order_dn["ekspedisi"]); ?></p>
                                     <p class="text-center" style="font-weight: bold;font-size: 18px;"><?= strtoupper($order_dn["resi"]); ?></p>
@@ -288,11 +292,7 @@
         </div>
 
     <?php } ?>
-
-
-
 </div>
-
 
 <?= $this->endSection(); ?>
 
@@ -317,7 +317,7 @@
                 } else if (response.status == 1) {
                     $("#modal_berhasil_autoclose").modal("show");
                     setTimeout(() => {
-                        history.back();
+                        location.href = "<?= base_url("admin_jastip") ?>";
                     }, 1000);
                 } else {
                     $('#modal_loading').modal("hide");
@@ -377,6 +377,49 @@
 
         return false;
     });
+    $("#form_input_resi").on("submit", function(e) {
+        e.preventDefault();
+        history.back();
+        $('#modal_loading').modal("show");
+        var formData = new FormData($("#form_input_resi")[0]);
+        $.ajax({
+            method: 'POST',
+            url: '<?= base_url("admin_jastip/ajax_input_resi_jastip") ?>',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.status == 'exp') {
+                    location.reload();
+                } else if (response.status == 1) {
+                    $("#modal_berhasil_autoclose").modal("show");
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    $('#modal_loading').modal("hide");
+                    $('#modal_info').modal("show");
+                    $('#txt_modal_info').text(response.msg);
+                }
+                $('#modal_loading').modal("hide");
+            },
+            error: function(xhr, status, error) {
+                $('#modal_loading').modal("hide");
+                console.error(error);
+            },
+        });
+
+
+
+
+
+        return false;
+    });
+
+
+
+    // ========================================================================
     $('#modal_proses').on('show.bs.modal', function(e) {
         window.location.hash = "hash_modal_proses";
     });
@@ -392,6 +435,14 @@
     $(window).on('hashchange', function(event) {
         if (window.location.hash != "#hash_modal_tolak") {
             $('#modal_tolak').modal('hide');
+        }
+    });
+    $('#modal_input_resi').on('show.bs.modal', function(e) {
+        window.location.hash = "hash_modal_input_resi";
+    });
+    $(window).on('hashchange', function(event) {
+        if (window.location.hash != "#hash_modal_input_resi") {
+            $('#modal_input_resi').modal('hide');
         }
     });
 </script>

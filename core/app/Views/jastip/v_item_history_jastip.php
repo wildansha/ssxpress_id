@@ -1,10 +1,6 @@
-<div class="card shadow-sm mb-2" onclick="location.href='<?= base_url('admin_jastip/detail_jastip/' . $jastip_id) ?>'">
+<div class="card shadow-sm mb-2">
     <div class="card-body pb-0">
-        <p class="mb-0 text-left" style="font-weight: bold;"><?= $email_pemesan ?></p>
-        <p class="mb-0 text-right">#JT<?= $jastip_id ?></p>
-
-        <hr class="my-2">
-        <div class="row">
+        <div class="row" onclick="location.href='<?= base_url('jastip/detail_jastip/' . $jastip_id) ?>'">
             <div class="col-sm-2 col-4 text-center mb-2">
                 <img src="<?= base_url("assets/img/product") ?>/<?= $foto1 ?>" style="border-radius: 10px;border:1px solid black;width: 100%;max-width: 50px;">
             </div>
@@ -20,6 +16,13 @@
             <?php } ?>
         </div>
 
+        <?php if ($status == 0) { ?>
+            <button class="btn btn-success w-100 mb-2" onclick="location.href='https://wa.me/6285315999960?text=Saya mau bayar ssxpress.id/konfirmasi_jastip/detail/<?= $jastip_id ?>'">
+                <i class="fas fa-fw fa-user"></i> Chat Admin
+            </button>
+        <?php } ?>
+
+
     </div>
     <div class="card-footer" style="background-color: #f3f3f3ff;">
         <div class="row">
@@ -30,5 +33,7 @@
                 <p class="mb-0" style="font-size:12px !important;color:black"><?= $waktu_pesan ?></p>
             </div>
         </div>
+
     </div>
+
 </div>

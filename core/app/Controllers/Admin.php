@@ -9,7 +9,7 @@ class Admin extends BaseController
     public function __construct() {}
 
     public function index()
-    {
+    {        
         if (empty(session('admin_id'))) {
             return view('admin/login');
         } else {
@@ -41,8 +41,12 @@ class Admin extends BaseController
 
     public function logout()
     {
+
         $session = session();
         $session->remove('admin_id');
-        return redirect()->to(base_url() . '/admin');
+        $session->remove('admin_username');
+
+
+        return redirect()->to(base_url("admin"));
     }
 }

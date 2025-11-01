@@ -34,31 +34,6 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 
 
-$routes->get('/admin/(:any)', 'Admin::index');
-$routes->delete('/admin/keluar', 'Admin::logout');
-$routes->put('/admin/masuk', 'Admin::login');
-
-
-$routes->get('/admin_product/create', 'Admin_product::create');
-$routes->delete('/admin_product/(:num)', 'Admin_product::delete/$1');
-$routes->get('/admin_product/(:any)', 'Admin_product::detail/$1');
-
-$routes->get('/admin_promo/create', 'Admin_promo::create');
-$routes->delete('/admin_promo/(:num)', 'Admin_promo::delete/$1');
-$routes->get('/admin_promo/(:any)', 'Admin_promo::detail/$1');
-
-$routes->get('/admin_sitemap/create', 'Admin_sitemap::create');
-$routes->delete('/admin_sitemap/(:num)', 'Admin_sitemap::delete/$1');
-$routes->get('/admin_sitemap/(:hash)', 'Admin_sitemap::detail/$1');
-
-$routes->get('/admin_kategori/create', 'Admin_kategori::create');
-$routes->delete('/admin_kategori/(:any)', 'Admin_kategori::delete/$1');
-$routes->get('/admin_kategori/(:any)', 'Admin_kategori::detail/$1');
-
-$routes->get('/promo/(:num)', 'Promo::detail/$1');
-
-
-
 
 
 

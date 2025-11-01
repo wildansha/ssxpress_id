@@ -50,6 +50,7 @@
         body {
             background-color: #f7f7f7ff;
         }
+        
 
         .bg_primary {
             background-color: var(--primary-color);

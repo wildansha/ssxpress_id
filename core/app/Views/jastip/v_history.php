@@ -82,50 +82,7 @@
                 },
             },
             columns: [{
-                data: null, // ambil semua data row
-                render: function(data, type, row) {
-                    if (row.jml_other > 0) {
-                        var txt_lainnya = `<div class="col-12 mb-2">
-                                        <hr class="my-0">
-                                        <p class="mb-0 text-center" style="color:grey;font-size:12px !important;">+ ${row.jml_other} produk lainnya...</p>
-                                        <hr class="my-0">
-                                    </div>`;
-                    } else {
-                        var txt_lainnya = "";
-                    }
-
-
-                    return `
-                       <div class="card shadow-sm mb-2" >
-                            <div class="card-body pb-0">
-                                <div class="row" onclick="location.href='<?= base_url('jastip/detail_jastip/') ?>/${row.jastip_id}'">
-                                    <div class="col-sm-2 col-4 mb-2">
-                                        <img src="<?= base_url("assets/img/product") ?>/${row.foto1}" class="w-100" style="border-radius: 10px;border:1px solid black" onclick="location.href='<?= base_url('jastip/product_detail') ?>/${row.slug}'">
-                                    </div>
-                                    <div class="col-sm-8 col-6 mb-2">
-                                    <p class="mb-0" style="font-weight: bold;">${row.product_name}</p>
-                                        <p class="mb-0" style="color: maroon;">Rp ${ format_angka(row.harga)}</p>
-                                    </div>
-                                    ${txt_lainnya}
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                            <button class="btn btn-success w-100" onclick="location.href='https://wa.me/6285315999960?text=Saya mau bayar ssxpress.id/konfirmasi_jastip/${row.jastip_id}'">
-                                                <i class="fas fa-fw fa-user"></i> Chat Admin
-                                            </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <p class="mb-0" style="font-size:12px !important;color:grey">${row.waktu_pesan}</p>                                    
-                                    </div>                                    
-                                </div>
-                            </div>
-                        </div>
-                `;
-                }
+                data: "item",
             }],
             lengthMenu: [-1],
         });

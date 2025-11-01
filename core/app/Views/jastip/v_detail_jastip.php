@@ -23,10 +23,10 @@
                             <p class="mb-0" onclick="location.href='<?= base_url('jastip/product_detail/' . $jastip['list_product'][$i]['slug']) ?>'" style="font-weight: bold;"><?= $jastip['list_product'][$i]["product_name"] ?></p>
                             <div class="row">
                                 <div class="col-6">
-                                    <p class="mb-0" style="color: maroon;">Rp <?= $jastip['list_product'][$i]["harga"] . " x" . $jastip['list_product'][$i]["qty"] ?></p>
+                                    <p class="mb-0" style="color: maroon;">Rp <?= number_format($jastip['list_product'][$i]["harga"], 0, ',', '.') . " x" . $jastip['list_product'][$i]["qty"] ?></p>
                                 </div>
                                 <div class="col-6">
-                                    <p class="mb-0 text-right" style="color: maroon;">Rp <?= $jastip['list_product'][$i]["harga"] * $jastip['list_product'][$i]["qty"] ?></p>
+                                    <p class="mb-0 text-right" style="color: maroon;">Rp <?= number_format($jastip['list_product'][$i]["harga"] * $jastip['list_product'][$i]["qty"], 0, ',', '.') ?></p>
                                 </div>
                             </div>
                         </div>
@@ -40,14 +40,125 @@
                     <div class="col-6 mb-2">
                     </div>
                     <div class="col-6 mb-2">
-                        <p class="mb-0 text-right" style="color: maroon;font-weight: bold;">Rp <?= $total_harga ?></p>
+                        <p class="mb-0 text-right" style="color: maroon;font-weight: bold;">Rp <?= number_format($total_harga, 0, ',', '.') ?></p>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="btn btn-success my-2 w-100"><i class="fas fa-fw fa-user"></i> Chat Admin</button>
+        <?php if ($jastip["status"] == 0) { ?>
+            <a href="https://wa.me/6285315999960?text=Saya mau bayar ssxpress.id/konfirmasi_jastip/detail/<?= $jastip["id"] ?>'">
+                <button class="btn btn-success my-2 w-100">
+                    <i class="fas fa-fw fa-user"></i> Chat Admin
+                </button>
+            </a>
+        <?php } else if ($jastip["status"] == 1) { ?>
+            <div class="mx-auto" style="max-width: 500px;">
+                <?php if (isset($order_dn)) { ?>
+                    <?php if (isset($trackings)) { ?>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+                                        <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSN' . $order_dn["id"]; ?></p>
+                                        <p class="text-center mb-0" style="font-weight: bold;font-size: 18px;"><?= strtoupper($order_dn["ekspedisi"]); ?></p>
+                                        <p class="text-center" style="font-weight: bold;font-size: 18px;"><?= strtoupper($order_dn["resi"]); ?></p>
+                                        <p class="text-center mb-0"><?= $order_dn["nama_penerima"]; ?></p>
+                                        <p class="text-center" style="font-size: 14px;"><?= strtoupper($order_dn["alamat_penerima"] . ', ' . $order_dn["kecamatan_penerima"] . ', ' . $order_dn["kota_penerima"]) ?></p>
+                                    </div>
+                                    <div class="card-body" style="font-size: 15px;">
+                                        <?php foreach ($trackings as $key => $r) { ?>
+                                            <div class="row px-3">
+                                                <div class="col-sm-2 col-4 border p-auto">
+                                                    <img class="" src="<?= base_url('assets/img/icon/check.png'); ?>" style="width: 100%;height: 100%;object-fit: contain;">
+                                                </div>
+                                                <div class="col-sm-10 col-8 border p-3">
+                                                    <span style="text-transform: uppercase;font-weight: bold;"><?= $r["status"]; ?></span>
+                                                    <br>
+                                                    <span style="text-transform: uppercase;"><?= $r["notes"]; ?></span>
+                                                    <br>
+                                                    <p style="text-transform: uppercase;"><?= $r["extra"]; ?></p>
+                                                    <p>
+                                                        <?= $r["date"]; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } else { ?>
+                        <div class="row  my-3">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header bg_primary" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+                                        <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSN' . $order_dn["id"]; ?></p>
+                                        <p class="text-center mb-0" style="font-weight: bold;font-size: 18px;text-transform: uppercase;"><?= $order_dn["ekspedisi"]; ?></p>
+                                        <p class="text-center" style="font-weight: bold;font-size: 18px;text-transform: uppercase;"><?= $order_dn["resi"]; ?></p>
+                                        <p class="text-center mb-0" style="text-transform: uppercase;font-weight: bold;"><?= $order_dn["nama_penerima"]; ?></p>
+                                        <p class="text-center" style="font-size: 12px;text-transform: uppercase;"><?= $order_dn["alamat_penerima"] . ', ' . $order_dn["kecamatan_penerima"] . ', ' . $order_dn["kota_penerima"] ?></p>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } elseif (isset($order_ln)) { ?>
+                    <?php if (isset($trackings)) { ?>
+                        <div class="row  my-3">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header bg_primary" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+                                        <p class="text-center" style="font-weight: bold;font-size: 18px;"><?= $order_ln["ekspedisi"]; ?></p>
+                                        <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSIN' . $order_ln["id"]; ?></p>
+                                        <p class="text-center mb-0"><?= $order_ln["nama_penerima"]; ?></p>
+                                        <p class="text-center" style="font-size: 14px;"><?= $order_ln["alamat_penerima"]; ?>, <?= $order_ln["negara_penerima"]; ?></p>
+
+                                    </div>
+                                    <div class="card-body" style="font-size: 15px;">
+                                        <?php foreach ($trackings as $key => $r) { ?>
+                                            <div class="row px-3">
+                                                <div class="col-sm-2 col-4 border p-auto">
+                                                    <img class="" src="<?= base_url('assets/img/icon/check.png'); ?>" style="width: 100%;height: 100%;object-fit: contain;">
+                                                </div>
+                                                <div class="col-sm-10 col-8 border p-3">
+                                                    <span style="text-transform: uppercase;font-weight: bold;"><?= $r["status"]; ?></span>
+                                                    <br>
+                                                    <span style="text-transform: uppercase;"><?= $r["notes"]; ?></span>
+                                                    <br>
+                                                    <p style="text-transform: uppercase;"><?= $r["extra"]; ?></p>
+                                                    <p>
+                                                        <?= $r["date"]; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } else { ?>
+                        <div class="row  my-3">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-header bg_primary" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+                                        <p class="text-center" style="font-weight: bold;font-size: 18px;text-transform: uppercase;"><?= $order_ln["ekspedisi"]; ?></p>
+                                        <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSIN' . $order_ln["id"]; ?></p>
+                                        <p class="text-center mb-0" style="text-transform: uppercase;font-weight: bold;"><?= $order_ln["nama_penerima"]; ?></p>
+                                        <p class="text-center" style="font-size: 12px;text-transform: uppercase;"><?= $order_ln["alamat_penerima"]; ?>, <?= $order_ln["negara_penerima"]; ?></p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                <?php } ?>
+            </div>
+
+        <?php } ?>
     </div>
+
 </div>
 
 

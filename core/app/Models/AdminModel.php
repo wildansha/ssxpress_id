@@ -85,4 +85,15 @@ class AdminModel extends Model
 
         return $alasan_tolak;
     }
+
+    public function input_resi($jastip_id, $resi)
+    {
+        $db = \Config\Database::connect();
+        $jastip_id = $db->escape($jastip_id);
+
+        $query = "UPDATE jastip set resi_ssxpress='$resi' ,status=1 where id=$jastip_id ";
+        $result = $db->query($query);
+
+        return $result;
+    }
 }
