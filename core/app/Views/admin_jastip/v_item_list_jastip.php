@@ -1,7 +1,14 @@
 <div class="card shadow-sm mb-2" onclick="location.href='<?= base_url('admin_jastip/detail_jastip/' . $jastip_id) ?>'">
     <div class="card-body pb-0">
-        <p class="mb-0 text-left" style="font-weight: bold;"><?= $email_pemesan ?></p>
-        <p class="mb-0 text-right">#JT<?= $jastip_id ?></p>
+        <div class="row">
+            <div class="col-6">
+                <p class="mb-0 text-left" style="font-weight: bold;"><?= $email_pemesan ?></p>
+            </div>
+            <div class="col-6">
+                <p class="mb-0 text-right" style="font-size: 12px;">#JT<?= $jastip_id ?></p>
+            </div>
+
+        </div>
 
         <hr class="my-2">
         <div class="row">

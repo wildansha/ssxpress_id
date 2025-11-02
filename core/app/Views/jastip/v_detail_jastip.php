@@ -2,7 +2,6 @@
 <?= $this->section('main'); ?>
 <div class="container-fluid  mt-3">
     <div class="mx-auto" style="max-width: 500px;">
-
         <div class="row">
             <div class="col-12 mb-2">
                 <span class="rounded px-3 py-1 bg-secondary" style="color: white;">#<?= $jastip['status_name'] ?></span>
@@ -48,7 +47,7 @@
         <?php if ($jastip["status"] == 0) { ?>
             <a href="https://wa.me/6285315999960?text=Saya mau bayar ssxpress.id/konfirmasi_jastip/detail/<?= $jastip["id"] ?>'">
                 <button class="btn btn-success my-2 w-100">
-                    <i class="fas fa-fw fa-user"></i> Chat Admin
+                    <i class="fas fa-fw fa-user"></i> Chat Admin Untuk Konfirmasi
                 </button>
             </a>
         <?php } else if ($jastip["status"] == 1) { ?>

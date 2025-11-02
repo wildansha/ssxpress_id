@@ -18,7 +18,8 @@
 
         <?php if ($status == 0) { ?>
             <button class="btn btn-success w-100 mb-2" onclick="location.href='https://wa.me/6285315999960?text=Saya mau bayar ssxpress.id/konfirmasi_jastip/detail/<?= $jastip_id ?>'">
-                <i class="fas fa-fw fa-user"></i> Chat Admin
+                <i class="fas fa-fw fa-user"></i> Chat Admin Untuk Konfirmasi
+
             </button>
         <?php } ?>
 
