@@ -113,5 +113,6 @@ class Account extends BaseController
     public function profile()
     {
         $this->cek_login();
+        return view('account/v_profile');
     }
 }
