@@ -4,12 +4,25 @@ namespace App\Models;
 
 class AkunModel
 {
+    public function list_negara_ln()
+    {
+        $db = \Config\Database::connect();
+        $query = "SELECT * from negara_ln order by negara";
+        return $db->query($query)->getResultArray();
+    }
 
     public function get_detail_akun($email)
     {
         $db = \Config\Database::connect();
         $email = $db->escape($email);
         $query = "SELECT * from akun where email=$email";
+        return $db->query($query)->getRowArray();
+    }
+    public function get_detail_akun_by_id($id)
+    {
+        $db = \Config\Database::connect();
+        $id = $db->escape($id);
+        $query = "SELECT * from akun where id=$id";
         return $db->query($query)->getRowArray();
     }
     public function insert_akun($email, $password)
@@ -207,5 +220,13 @@ class AkunModel
         $jastip["list_product"] = $db->query($query2)->getResultArray();
 
         return $jastip;
+    }
+
+    public function simpan_alamat_dn($params)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('alamat_dn');
+        $result_insert = $builder->insert($params);
+        return $result_insert;
     }
 }

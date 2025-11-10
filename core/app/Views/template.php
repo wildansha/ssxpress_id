@@ -25,6 +25,8 @@
     <!-- Vendor CSS Files -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
+    <link href="<?= base_url() ?>/sb2admin/vendor/select2/css/select2.min.css" rel="stylesheet">
+
     <!-- datatable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
 
@@ -47,10 +49,14 @@
             font-size: 14px !important;
         }
 
+        p {
+            margin-bottom: 0;
+        }
+
         body {
             background-color: #f7f7f7ff;
         }
-        
+
 
         .bg_primary {
             background-color: var(--primary-color);
@@ -70,6 +76,54 @@
         .dataTables_empty {
             color: black !important;
         }
+
+
+        /* SELECT2 START================================================================================================== */
+        .select2-container--default .select2-selection--multiple {
+            min-height: 38px;
+            /* sesuaikan dengan tinggi input */
+            height: auto !important;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            margin-top: 2px;
+        }
+
+   
+
+        .select2-selection__choice {
+            font-size: 14px !important;
+        }
+
+        .select2 {
+            width: 100% !important;
+        }
+
+ 
+
+        .select2-results__options {
+            text-transform: capitalize;
+        }
+
+        .select2-selection__rendered {
+            text-transform: capitalize;
+        }
+
+        .select2-selection,
+        .select2-selection__arrow {
+            height: 35px !important;
+            padding-top: 3px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+        }
+
+        /* SELECT2 END================================================================================================== */
     </style>
 </head>
 
@@ -136,7 +190,6 @@
                     <img class="showimage img-responsive mb-3" src="" />
                     <h3 class="modal-harga" id="ModalLabel" style="font-weight: bold; color: var(--color-harga);"></h3>
                     <h5 class="modal-deskripsi" id="ModalLabel"></h5>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -174,7 +227,7 @@
 
                     <!-- <ul class="navbar-nav">
                         <li class="nav-item mx-auto">
-                            <a href="<?php echo base_url('account/profile'); ?>" class="nav-link" style="color: black;font-weight: bold;">
+                            <a href="<?php echo base_url('akun/profile'); ?>" class="nav-link" style="color: black;font-weight: bold;">
                                 <img src="https://localhost/serverssxpress/sb2admin/img/undraw_profile.svg" style="width: 30px;">
                             </a>
                         </li>
@@ -183,7 +236,7 @@
                         <ul class="navbar-nav">
                             <li class="nav-item mx-auto">
                                 <a href="<?php echo base_url('jastip/history'); ?>" class="nav-link" style="font-weight: bold;">
-                                    <p style="height:20px; line-height:40px; text-align:center;">
+                                    <p style="text-align:center;">
                                         <i class="fas fa-fw fa-file-alt" style="color: black;font-size: 20px;"></i>
                                     </p>
                                 </a>
@@ -192,13 +245,23 @@
                         <ul class="navbar-nav">
                             <li class="nav-item mx-auto">
                                 <a href="<?php echo base_url('keranjang'); ?>" class="nav-link" style="color: black;font-weight: bold;">
-                                    <img src="<?= base_url("assets/img/icon/ic_chart.png") ?>" style=" width: 30px;">
+                                    <img src="<?= base_url("assets/img/icon/ic_chart.png") ?>" style=" width: 25px;">
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav">
+                            <li class="nav-item mx-auto">
+                                <a href="<?php echo base_url('akun/data'); ?>" class="nav-link" style="font-weight: bold;">
+                                    <p style=" text-align:center;">
+                                        <i class="fas fa-fw fa-user" style="color: black;font-size: 20px;"></i>
+                                    </p>
                                 </a>
                             </li>
                         </ul>
                         <ul class="navbar-nav">
                             <li class="nav-item mx-auto">
-                                <a href="<?php echo base_url('account/logout'); ?>" class="nav-link" style="color: black;font-weight: bold;">
+                                <a href="<?php echo base_url('akun/logout'); ?>" class="nav-link" style="color: black;font-weight: bold;">
                                     <button class="btn btn-danger">Logout</button>
                                 </a>
                             </li>
@@ -206,7 +269,7 @@
                     <?php } else { ?>
                         <ul class="navbar-nav">
                             <li class="nav-item mx-auto">
-                                <a href="<?php echo base_url('account/login'); ?>" class="nav-link" style="color: black;font-weight: bold;">
+                                <a href="<?php echo base_url('akun/login'); ?>" class="nav-link" style="color: black;font-weight: bold;">
                                     <button class="btn btn-success">Login</button>
                                 </a>
                             </li>
@@ -236,6 +299,9 @@
     <!-- venobox -->
     <script type="text/javascript" src="<?= base_url(); ?>/assets/venobox/venobox.min.js"></script>
 
+    <script src="<?= base_url() . '/sb2admin/vendor/select2/js/select2.min.js' ?>"></script>
+
+
     <!-- Template Main JS File -->
     <script type="text/javascript" src="<?= base_url(); ?>/assets/js/main.js"></script>
 
@@ -254,7 +320,7 @@
                     response = JSON.parse(response);
                     $('#modal_loading').modal("hide");
                     if (response.status == 'exp') {
-                        location.href = "<?= base_url("account/login") ?>";
+                        location.href = "<?= base_url("akun/login") ?>";
                     } else if (response.status == 1) {
                         $("#modal_berhasil_autoclose").modal("show");
                         setTimeout(() => {

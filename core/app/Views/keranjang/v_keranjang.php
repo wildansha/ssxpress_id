@@ -152,7 +152,7 @@
                 response = JSON.parse(response);
                 $('#modal_loading').modal("hide");
                 if (response.status == 'exp') {
-                    location.href = "<?= base_url("account/login") ?>";
+                    location.href = "<?= base_url("akun/login") ?>";
                 } else if (response.status == 1) {
                     reload_table();
                 } else {
@@ -224,7 +224,7 @@
                     response = JSON.parse(response);
                     $('#modal_loading').modal("hide");
                     if (response.status == 'exp') {
-                        location.href = "<?= base_url("account/login") ?>";
+                        location.href = "<?= base_url("akun/login") ?>";
                     } else if (response.jastip_id != 0) {
                         location.href = "<?= base_url("jastip/detail_jastip/") ?>/" + response.jastip_id;
                     } else {

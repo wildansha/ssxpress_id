@@ -61,7 +61,7 @@
             var formData = new FormData($("#form_signup")[0]);
             $.ajax({
                 method: 'POST',
-                url: '<?= base_url("account/ajax_signup") ?>',
+                url: '<?= base_url("akun/ajax_signup") ?>',
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -73,7 +73,7 @@
                     } else if (response.status == 1) {
                         $("#modal_berhasil_autoclose").modal("show");
                         setTimeout(() => {
-                            location.href = "<?= base_url('account/login') ?>";
+                            location.href = "<?= base_url('akun/login') ?>";
                         }, 1000);
                     } else {
                         $('#modal_loading').modal("hide");

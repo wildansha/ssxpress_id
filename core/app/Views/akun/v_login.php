@@ -27,7 +27,7 @@
                                             <b>Login</b>
                                         </button>
 
-                                        <span>Belum punya akun?</span> <a href="<?= base_url("account/signup") ?>"> Buat Akun</a>
+                                        <span>Belum punya akun?</span> <a href="<?= base_url("akun/signup") ?>"> Buat Akun</a>
                                     </form>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
         var formData = new FormData($("#form_login")[0]);
         $.ajax({
             method: 'POST',
-            url: '<?= base_url("account/ajax_login") ?>',
+            url: '<?= base_url("akun/ajax_login") ?>',
             data: formData,
             contentType: false,
             processData: false,

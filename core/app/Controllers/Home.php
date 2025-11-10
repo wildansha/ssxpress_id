@@ -46,7 +46,7 @@ class Home extends BaseController
     private function cek_login()
     {
         if (session('email_akun') === null) {
-            header("Location: " . base_url("account/login"));
+            header("Location: " . base_url("akun/login"));
             exit;
         }
     }
