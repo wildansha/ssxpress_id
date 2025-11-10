@@ -142,14 +142,9 @@ class Akun extends BaseController
     public function data()
     {
         $this->cek_login();
-
         $akunModel = new AkunModel();
         $data["akun"] =  $akunModel->get_detail_akun_by_id(session("akun_id"));
-        $data["list_negara"] = $akunModel->list_negara_ln();
 
-        $url = "https://rajaongkir.komerce.id/api/v1/destination/province";
-        $key = "951566e0f3a1c31edf61914c32c4e01a";
-        $data["list_provinsi"] = $this->api($url, null, $key)['data'];
 
         return view('akun/v_data_akun', $data);
     }
@@ -174,7 +169,35 @@ class Akun extends BaseController
         echo json_encode($data);
     }
 
-    public function ajax_list_simpan_alanat_dn()
+    public function alamat()
+    {
+        $this->cek_login();
+
+        $akunModel = new AkunModel();
+        $data["list_negara"] = $akunModel->list_negara_ln();
+
+        $url = "https://rajaongkir.komerce.id/api/v1/destination/province";
+        $key = "951566e0f3a1c31edf61914c32c4e01a";
+        $data["list_provinsi"] = $this->api($url, null, $key)['data'];
+
+        return view('akun/v_alamat', $data);
+    }
+    public function ajax_alamat_dn()
+    {
+        $this->cek_login_ajax();
+
+        $akunModel = new AkunModel();
+        $result =  $akunModel->list_alamat_dn(session("akun_id"));
+
+        $data["data"] = [];
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]["index"] = $i;
+            $data["data"][$i]['item']  = view("akun/v_item_alamat_dn", $result[$i]);
+        }
+
+        echo json_encode($data);
+    }
+    public function ajax_simpan_alamat_dn()
     {
         $this->cek_login_ajax();
 
@@ -183,6 +206,24 @@ class Akun extends BaseController
         $params["akun_id"] = session("akun_id");
 
         $result =  $akunModel->simpan_alamat_dn($params);
+        if ($result) {
+            $data["status"] = 1;
+        } else {
+            $data["status"] = 0;
+            $data["msg"] = "Gagal Insert di Database";
+        }
+
+        echo json_encode($data);
+    }
+    public function ajax_simpan_alamat_ln()
+    {
+        $this->cek_login_ajax();
+
+        $akunModel = new AkunModel();
+        $params = $_POST;
+        $params["akun_id"] = session("akun_id");
+
+        $result =  $akunModel->simpan_alamat_ln($params);
         if ($result) {
             $data["status"] = 1;
         } else {

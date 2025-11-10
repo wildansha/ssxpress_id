@@ -339,7 +339,12 @@
             });
         }
 
-
+          function auto_grow(element) {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight + 5) + "px";
+            element.style.oveflow = "none";
+            element.style.resize = "none";
+        }
         // ========================================================================================
         $('#modal_info').on('show.bs.modal', function(e) {
             window.location.hash = "hash_modal_info";

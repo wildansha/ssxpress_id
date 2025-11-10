@@ -222,10 +222,37 @@ class AkunModel
         return $jastip;
     }
 
+
+    public function list_alamat_dn($akun_id)
+    {
+        $db = \Config\Database::connect();
+        $query = "SELECT a.*
+                    from alamat_dn a
+                    where a.akun_id = $akun_id
+                    ";
+        return $db->query($query)->getResultArray();
+    }
+    public function list_alamat_ln($akun_id)
+    {
+        $db = \Config\Database::connect();
+        $query = "SELECT a.* , n.negara
+                    from alamat_ln a
+                    join negara_ln n on n.id = a.id_negara
+                    where a.akun_id = $akun_id
+                    ";
+        return $db->query($query)->getResultArray();
+    }
     public function simpan_alamat_dn($params)
     {
         $db = \Config\Database::connect();
         $builder = $db->table('alamat_dn');
+        $result_insert = $builder->insert($params);
+        return $result_insert;
+    }
+    public function simpan_alamat_ln($params)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('alamat_ln');
         $result_insert = $builder->insert($params);
         return $result_insert;
     }

@@ -1,0 +1,10 @@
+<div class="card shadow w-100 mb-3" onclick='location.href="<?= base_url("akun/detail/$id") ?>"'>
+    <div class="card-body">
+        <p class="mb-0" style="font-size: 16px;font-weight: bold;"><?= $nama_penerima ?></p>
+        <p class="mb-0" style="font-size: 12px;color: gray;"><?= "+" . $telp_penerima ?></p>
+        <p class="mb-0 p-1 rounded" style="font-size: 12px;text-align: left;background-color: grey;color: white;"><?= $alamat . ", " . $kecamatan . ", " . $kabupaten . ", " . $provinsi ?></p>
+        <hr class="my-2" style="border-bottom: 1px solid black;">
+        <button class="btn btn-danger"><i class="fas fa-fw fa-trash-alt"></i> Hapus</button>
+        <button class="btn btn-info"><i class="fas fa-fw fa-pen"></i> Ubah</button>
+    </div>
+</div>
