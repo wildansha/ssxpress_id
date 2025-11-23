@@ -209,6 +209,7 @@
         load_dn_kecamatan(data.id)
     });
 
+
     function load_dn_kecamatan(kabupaten_id = "") {
         $('#dn_kecamatan').val('').empty().append('<option value="">-- Loading --</option>');;
         $.ajax({
@@ -259,8 +260,9 @@
                     location.reload();
                 } else if (response.status == 1) {
                     $("#modal_berhasil_autoclose").modal("show");
+                    reload_table_dn();
                     setTimeout(() => {
-                        location.reload();
+                        $("#modal_berhasil_autoclose").modal("hide");
                     }, 1000);
                 } else {
                     $('#modal_loading').modal("hide");
@@ -295,8 +297,9 @@
                     location.reload();
                 } else if (response.status == 1) {
                     $("#modal_berhasil_autoclose").modal("show");
+                    reload_table_ln();
                     setTimeout(() => {
-                        location.reload();
+                        $("#modal_berhasil_autoclose").modal("hide");
                     }, 1000);
                 } else {
                     $('#modal_loading').modal("hide");
@@ -330,8 +333,8 @@
             language: {
                 searchPlaceholder: "Search / Filter",
                 search: "",
-                emptyTable: "History Kosong",
-                zeroRecords: "History Kosong",
+                emptyTable: "Alamat Kosong",
+                zeroRecords: "Alamat Kosong",
             },
             ajax: {
                 url: '<?= base_url("akun/ajax_alamat_dn"); ?>',
@@ -350,11 +353,104 @@
             }],
             lengthMenu: [-1],
         });
+
+        table_alamat_ln = $('#table_alamat_ln').DataTable({
+            ordering: false,
+            serverSide: false,
+            processing: false,
+            searching: false,
+            lengthChange: false,
+            info: false,
+            paging: false,
+            responsive: false,
+            pagingType: "numbers",
+            stateSave: false,
+            language: {
+                searchPlaceholder: "Search / Filter",
+                search: "",
+                emptyTable: "Alamat Kosong",
+                zeroRecords: "Alamat Kosong",
+            },
+            ajax: {
+                url: '<?= base_url("akun/ajax_alamat_ln"); ?>',
+                type: 'POST',
+                beforeSend: function() {
+                    $('#table_alamat_ln > tbody').html(
+                        '<tr class="odd">' +
+                        '<td valign="top" colspan="1" class="dataTables_empty">Loading&hellip;</td>' +
+                        '</tr>'
+                    );
+                },
+                data: function(d) {},
+            },
+            columns: [{
+                data: "item",
+            }],
+            lengthMenu: [-1],
+        });
     });
 
-    function reload_table() {
+    function reload_table_dn() {
         table_alamat_dn.clear();
         table_alamat_dn.ajax.reload();
+    }
+
+    function reload_table_ln() {
+        table_alamat_ln.clear();
+        table_alamat_ln.ajax.reload();
+    }
+
+
+
+
+    function delete_alamat_dn(alamat_dn_id) {
+        $.ajax({
+            url: '<?= base_url("akun/ajax_delete_alamat_dn") ?>',
+            type: 'POST',
+            data: {
+                alamat_dn_id: alamat_dn_id
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'exp') {
+                    location.reload();
+                } else if (response.status == 1) {
+                    $("#modal_berhasil_autoclose").modal("show");
+                    reload_table_dn();
+                    setTimeout(() => {
+                        $("#modal_berhasil_autoclose").modal("hide");
+                    }, 1000);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('AJAX Error:', error);
+            }
+        });
+    }
+
+    function delete_alamat_ln(alamat_ln_id) {
+        $.ajax({
+            url: '<?= base_url("akun/ajax_delete_alamat_ln") ?>',
+            type: 'POST',
+            data: {
+                alamat_ln_id: alamat_ln_id
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'exp') {
+                    location.reload();
+                } else if (response.status == 1) {
+                    $("#modal_berhasil_autoclose").modal("show");
+                    reload_table_ln();
+                    setTimeout(() => {
+                        $("#modal_berhasil_autoclose").modal("hide");
+                    }, 1000);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('AJAX Error:', error);
+            }
+        });
     }
 </script>
 <script>

@@ -89,6 +89,8 @@ class Admin_jastip extends BaseController
 
         $adminModel = new adminModel();
         $data["jastip"] =  $adminModel->detail_jastip($jastip_id);
+        $data["list_alasan_tolak"] =  $adminModel->alasan_tolak();
+        // dd($data);exit;
 
         $url = "https://mitraekspedisi.com/order/api_cek_resi";
         $params["p1"] = "wildanshalahuddin@gmail.com";
@@ -130,14 +132,14 @@ class Admin_jastip extends BaseController
             echo json_encode(["status" => 0, "msg" => "Gagal Memproses Data"]);
         }
     }
-    public function ajax_tolak_jastip($jastip_id)
+    public function ajax_tolak_jastip()
     {
         $this->cek_login_ajax();
 
         $adminModel = new adminModel();
-        $data["list_alasan_tolak"] =  $adminModel->alasan_tolak();
-        $data["jastip"] =  $adminModel->detail_jastip($jastip_id);
-        return view('admin_jastip/v_admin_detail_jastip', $data);
+        $result =  $adminModel->tolak_jastip($_POST["jastip_id"], $_POST["alasan_tolak"], $_POST["keterangan"]);
+
+        echo json_encode($result);
     }
 
     public function ajax_input_resi_jastip()

@@ -22,8 +22,17 @@ class AkunModel
     {
         $db = \Config\Database::connect();
         $id = $db->escape($id);
+
         $query = "SELECT * from akun where id=$id";
-        return $db->query($query)->getRowArray();
+        $detail = $db->query($query)->getRowArray();
+
+        $query = "SELECT * from alamat_dn where akun_id=$id";
+        $detail["list_alamat_dn"] = $db->query($query)->getResultArray();
+
+        $query = "SELECT * from alamat_ln where akun_id=$id";
+        $detail["list_alamat_ln"] = $db->query($query)->getResultArray();
+
+        return $detail;
     }
     public function insert_akun($email, $password)
     {
@@ -229,8 +238,33 @@ class AkunModel
         $query = "SELECT a.*
                     from alamat_dn a
                     where a.akun_id = $akun_id
+                    order by id desc
                     ";
         return $db->query($query)->getResultArray();
+    }
+    public function detail_alamat_dn($akun_id, $alamat_id)
+    {
+        $db = \Config\Database::connect();
+        $alamat_id = $db->escape($alamat_id);
+
+        $query = "SELECT a.*
+                    from alamat_dn a
+                    where a.id = $alamat_id
+                    and a.akun_id = $akun_id
+                    ";
+        return $db->query($query)->getRowArray();
+    }
+    public function detail_alamat_ln($akun_id, $alamat_id)
+    {
+        $db = \Config\Database::connect();
+        $alamat_id = $db->escape($alamat_id);
+
+        $query = "SELECT a.*
+                    from alamat_ln a
+                    where a.id = $alamat_id
+                    and a.akun_id = $akun_id
+                    ";
+        return $db->query($query)->getRowArray();
     }
     public function list_alamat_ln($akun_id)
     {
@@ -239,6 +273,7 @@ class AkunModel
                     from alamat_ln a
                     join negara_ln n on n.id = a.id_negara
                     where a.akun_id = $akun_id
+                    order by id desc
                     ";
         return $db->query($query)->getResultArray();
     }
@@ -255,5 +290,23 @@ class AkunModel
         $builder = $db->table('alamat_ln');
         $result_insert = $builder->insert($params);
         return $result_insert;
+    }
+
+    public function delete_alamat_dn($alamat_dn_id, $akun_id)
+    {
+        $db = \Config\Database::connect();
+        $alamat_dn_id = $db->escape($alamat_dn_id);
+
+        $query = "DELETE FROM alamat_dn where id=$alamat_dn_id and akun_id=$akun_id ";
+        return $db->query($query);
+    }
+
+    public function delete_alamat_ln($alamat_ln_id, $akun_id)
+    {
+        $db = \Config\Database::connect();
+        $alamat_ln_id = $db->escape($alamat_ln_id);
+
+        $query = "DELETE FROM alamat_ln where id=$alamat_ln_id and akun_id=$akun_id ";
+        return $db->query($query);
     }
 }

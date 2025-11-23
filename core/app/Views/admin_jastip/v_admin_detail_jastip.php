@@ -51,12 +51,12 @@
                         <p class="mb-0" style="font-weight: bold;">Alasan Penolakan</p>
                         <select required name="alasan_tolak" class="form-control mb-2">
                             <option value="">-- Pilih Alasan --</option>
-                            <?php for ($i = 0; $i < isset($list_alasan_tolak) && count($list_alasan_tolak); $i++) { ?>
+                            <?php for ($i = 0; isset($list_alasan_tolak) && $i < count($list_alasan_tolak); $i++) { ?>
                                 <option value="<?= $list_alasan_tolak[$i]["id"] ?>"><?= $list_alasan_tolak[$i]["alasan"] ?></option>
                             <?php }  ?>
                         </select>
                         <p class="mb-0" style="font-weight: bold;">Keterangan Tambahan</p>
-                        <textarea name="keterangan" class="form-control" oninput="auto_grow(this)" placeholder="-- Tidak Wajib --"></textarea>
+                        <textarea name="keterangan" class="form-control" oninput="auto_grow(this)" placeholder="............"></textarea>
                     </div>
 
                     <div class="modal-footer" style="text-align: center;">

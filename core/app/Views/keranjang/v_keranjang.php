@@ -30,7 +30,6 @@
     }
 </style>
 <form id="form_checkout">
-
     <div class="container-fluid px-0">
         <div class="mx-auto" style="max-width: 500px;">
             <table class="w-100 mb-5" id="table_keranjang"></table>
@@ -118,7 +117,7 @@
                             <div class="card-footer">
                                 <div class="row">
                                     <div class="col-4">
-                                        <button class="btn btn-danger w-100" onclick="delete_keranjang(${row.id})"><i class='fas fa-fw fa-trash'></i></button>
+                                        <button type="button" class="btn btn-danger w-100" onclick="delete_keranjang(${row.id})"><i class='fas fa-fw fa-trash'></i></button>
                                     </div>
                                     <div class="col-4">
                                     </div>
@@ -210,7 +209,6 @@
         if ($('.cb_product:checked').length < 1) {
             $('#modal_info').modal("show");
             $('#txt_modal_info').text("Belum Ada Barang Terpilih di Keranjang Anda");
-
         } else {
             $('#modal_loading').modal("show");
             var formData = new FormData($("#form_checkout")[0]);

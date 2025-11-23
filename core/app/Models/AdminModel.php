@@ -86,6 +86,32 @@ class AdminModel extends Model
         return $alasan_tolak;
     }
 
+    public function tolak_jastip($jastip_id, $alasan_tolak_id, $keterangan)
+    {
+        $db = \Config\Database::connect();
+        $this->db->transStart();
+
+        $jastip_id = $db->escape($jastip_id);
+        $alasan_tolak_id = $db->escape($alasan_tolak_id);
+        $keterangan = $db->escape($keterangan);
+
+        $query = "UPDATE jastip set status=4 where id=$jastip_id ";
+        $db->query($query);
+
+        $query = "INSERT INTO jastip_log_tolak (jastip_id,alasan_tolak_id,keterangan) VALUES ($jastip_id,$alasan_tolak_id,$keterangan) ";
+        $db->query($query);
+
+
+        $this->db->transComplete();
+
+        if ($this->db->transStatus() === false) {
+            return ["status" => 0];
+        } else {
+            return ["status" => 1];
+        }
+    }
+
+
     public function input_resi($jastip_id, $resi)
     {
         $db = \Config\Database::connect();

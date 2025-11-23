@@ -144,10 +144,11 @@ class Akun extends BaseController
         $this->cek_login();
         $akunModel = new AkunModel();
         $data["akun"] =  $akunModel->get_detail_akun_by_id(session("akun_id"));
-
+        dd($data);
 
         return view('akun/v_data_akun', $data);
     }
+
     public function ajax_list_kabupaten()
     {
         $this->cek_login_ajax();
@@ -197,6 +198,42 @@ class Akun extends BaseController
 
         echo json_encode($data);
     }
+
+    public function ajax_detail_alamat_dn()
+    {
+        $this->cek_login_ajax();
+
+        $akunModel = new AkunModel();
+        $result["detail"] =  $akunModel->detail_alamat_dn(session("akun_id"), $_POST["alamat_dn_id"]);
+        $result["status"] = 1;
+
+        echo json_encode($result);
+    }
+    public function ajax_detail_alamat_ln()
+    {
+        $this->cek_login_ajax();
+
+        $akunModel = new AkunModel();
+        $result["detail"] =  $akunModel->detail_alamat_ln(session("akun_id"), $_POST["alamat_ld_id"]);
+        $result["status"] = 1;
+
+        echo json_encode($result);
+    }
+    public function ajax_alamat_ln()
+    {
+        $this->cek_login_ajax();
+
+        $akunModel = new AkunModel();
+        $result =  $akunModel->list_alamat_ln(session("akun_id"));
+
+        $data["data"] = [];
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]["index"] = $i;
+            $data["data"][$i]['item']  = view("akun/v_item_alamat_ln", $result[$i]);
+        }
+
+        echo json_encode($data);
+    }
     public function ajax_simpan_alamat_dn()
     {
         $this->cek_login_ajax();
@@ -224,6 +261,37 @@ class Akun extends BaseController
         $params["akun_id"] = session("akun_id");
 
         $result =  $akunModel->simpan_alamat_ln($params);
+        if ($result) {
+            $data["status"] = 1;
+        } else {
+            $data["status"] = 0;
+            $data["msg"] = "Gagal Insert di Database";
+        }
+
+        echo json_encode($data);
+    }
+
+    public function ajax_delete_alamat_dn()
+    {
+        $this->cek_login_ajax();
+
+        $akunModel = new AkunModel();
+        $result =  $akunModel->delete_alamat_dn($_POST["alamat_dn_id"], session("akun_id"));
+        if ($result) {
+            $data["status"] = 1;
+        } else {
+            $data["status"] = 0;
+            $data["msg"] = "Gagal Insert di Database";
+        }
+
+        echo json_encode($data);
+    }
+    public function ajax_delete_alamat_ln()
+    {
+        $this->cek_login_ajax();
+
+        $akunModel = new AkunModel();
+        $result =  $akunModel->delete_alamat_ln($_POST["alamat_ln_id"], session("akun_id"));
         if ($result) {
             $data["status"] = 1;
         } else {
