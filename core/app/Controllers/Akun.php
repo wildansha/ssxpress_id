@@ -144,7 +144,7 @@ class Akun extends BaseController
         $this->cek_login();
         $akunModel = new AkunModel();
         $data["akun"] =  $akunModel->get_detail_akun_by_id(session("akun_id"));
-        dd($data);
+        // dd($data);
 
         return view('akun/v_data_akun', $data);
     }

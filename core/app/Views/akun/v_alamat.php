@@ -53,7 +53,7 @@
                     <input type="text" name="nama_penerima" class="form-control" placeholder="Andi, Budi dll">
 
                     <p class="judul_input">Telp / Whatsapp</p>
-                    <p class="mb-0" style="font-size: 12px;color: gray;">**Jangan tulis '0' atau '+' di awal, langsung 62.... </p>
+                    <p class="mb-0" style="font-size: 12px;color: gray;">Tanpa '0' di awal, langsung kode negara dan nomor</p>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">+</span>
@@ -94,7 +94,7 @@
                     <input type="text" name="nama_penerima" class="form-control" placeholder="Andi, Budi dll">
 
                     <p class="judul_input">Telp / Whatsapp</p>
-                    <p class="mb-0" style="font-size: 12px;color: gray;">**Jangan tulis '0' atau '+' di awal, langsung kode negara dan nomor digabung</p>
+                    <p class="mb-0" style="font-size: 12px;color: gray;">Tanpa '0' di awal, langsung kode negara dan nomor</p>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">+</span>
@@ -110,7 +110,7 @@
         </div>
     </div>
 </div>
-<div class="container mt-3 p-3 shadow-lg" style="max-width: 700px;">
+<div class="container mt-3 shadow" >
     <ul class="nav nav-tabs nav-fill" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#tab_dn">Dalam Negeri</a>
@@ -333,8 +333,8 @@
             language: {
                 searchPlaceholder: "Search / Filter",
                 search: "",
-                emptyTable: "Alamat Kosong",
-                zeroRecords: "Alamat Kosong",
+                emptyTable: "-- Kosong --",
+                zeroRecords: "-- Kosong --",
             },
             ajax: {
                 url: '<?= base_url("akun/ajax_alamat_dn"); ?>',
@@ -368,8 +368,8 @@
             language: {
                 searchPlaceholder: "Search / Filter",
                 search: "",
-                emptyTable: "Alamat Kosong",
-                zeroRecords: "Alamat Kosong",
+                emptyTable: "-- Kosong --",
+                zeroRecords: "-- Kosong --",
             },
             ajax: {
                 url: '<?= base_url("akun/ajax_alamat_ln"); ?>',

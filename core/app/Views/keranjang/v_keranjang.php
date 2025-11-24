@@ -47,9 +47,50 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <button type="submit" class="btn btn-success w-100">
+                    <button type="button" class="btn btn-success w-100" onclick="pilih_pengiriman()">
                         Checkout <i class='fas fa-fw fa-arrow-alt-circle-right'></i>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="modal_ekspedisi" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_ekspedisiLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p class="modal-title mb-0" style="font-weight: bold;">Tambah Alamat Luar Negeri</p>
+                        <button type="button" class="close" onclick="history.back()">
+                            <span aria-hidden="true" style="font-size: 24px !important;">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body pt-0">
+                        <form id="form_alamat_ln" autocomplete="off">
+                            <p class="judul_input">Negara</p>
+                            <select required name="id_negara" id="negara" class="form-control w-100">
+                                <option value="">-- Pilih Negara --</option>
+                                <?php for ($i = 0; $i < count($list_negara); $i++) { ?>
+                                    <option value="<?= $list_negara[$i]["id"] ?>">
+                                        <?= $list_negara[$i]["negara"] ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                            <p class="judul_input">Penerima</p>
+                            <input type="text" name="nama_penerima" class="form-control" placeholder="Andi, Budi dll">
+
+                            <p class="judul_input">Telp / Whatsapp</p>
+                            <p class="mb-0" style="font-size: 12px;color: gray;">Tanpa '0' di awal, langsung kode negara dan nomor</p>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">+</span>
+                                </div>
+                                <input required type="number" name="telp_penerima" class="form-control" placeholder="6281293948290">
+                            </div>
+
+                            <p class="judul_input">Detail Alamat</p>
+                            <textarea required name="alamat" class="form-control" oninput="auto_grow(this)" placeholder="Nomor rumah, warna pagar, dll"></textarea>
+                            <button type="submit" class="btn btn-success w-100 my-3">Simpan</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

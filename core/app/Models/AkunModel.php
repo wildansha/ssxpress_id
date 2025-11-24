@@ -26,11 +26,6 @@ class AkunModel
         $query = "SELECT * from akun where id=$id";
         $detail = $db->query($query)->getRowArray();
 
-        $query = "SELECT * from alamat_dn where akun_id=$id";
-        $detail["list_alamat_dn"] = $db->query($query)->getResultArray();
-
-        $query = "SELECT * from alamat_ln where akun_id=$id";
-        $detail["list_alamat_ln"] = $db->query($query)->getResultArray();
 
         return $detail;
     }
