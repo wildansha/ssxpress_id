@@ -119,19 +119,16 @@
             <a class="nav-link" data-toggle="tab" href="#tab_ln">Luar Negeri</a>
         </li>
     </ul>
-
     <div class="tab-content">
         <div id="tab_dn" class="tab-pane active">
             <button class="btn btn-success" style="font-weight: bold;" onclick="open_modal_add_alamat_dn()">+ Alamat</button>
             <table class="w-100" id="table_alamat_dn"></table>
         </div>
 
-
         <div id="tab_ln" class="tab-pane fade">
             <button class="btn btn-success" style="font-weight: bold;" onclick="open_modal_add_alamat_ln()">+ Alamat</button>
             <table class="w-100" id="table_alamat_ln"></table>
         </div>
-
     </div>
 </div>
 

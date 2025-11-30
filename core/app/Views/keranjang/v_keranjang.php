@@ -29,7 +29,83 @@
         z-index: 300;
     }
 </style>
-<form id="form_checkout">
+<form id="form_checkout" action="<?= base_url("webapps/pilih_pengiriman") ?>" method="POST">
+    <div class="modal" id="modal_alamat" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_alamatLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header py-2">
+                    <p class="modal-title mb-0" style="font-weight: bold;">Pilih Alamat Pengiriman</p>
+                    <button type="button" class="close" onclick="history.back()">
+                        <span aria-hidden="true" style="font-size: 24px !important;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body py-2">
+                    <ul class="nav nav-tabs nav-fill" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tab_dn">Dalam Negeri</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab_ln">Luar Negeri</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab_dn" class="tab-pane active">
+                            <div id="wrapper_alamat_dn" class="my-2">
+                            </div>
+                        </div>
+                        <div id="tab_ln" class="tab-pane fade">
+                            <div id="wrapper_alamat_ln" class="my-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pt-0">
+                    <button class="btn btn-success">Berikutnya <i class="fa fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="modal_ekspedisi" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_ekspedisiLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title mb-0" style="font-weight: bold;">Tambah Alamat Luar Negeri</p>
+                    <button type="button" class="close" onclick="history.back()">
+                        <span aria-hidden="true" style="font-size: 24px !important;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pt-0">
+                    <form id="form_alamat_ln" autocomplete="off">
+                        <p class="judul_input">Negara</p>
+                        <select required name="id_negara" id="negara" class="form-control w-100">
+                            <option value="">-- Pilih Negara --</option>
+                            <?php for ($i = 0; $i < count($list_negara); $i++) { ?>
+                                <option value="<?= $list_negara[$i]["id"] ?>">
+                                    <?= $list_negara[$i]["negara"] ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                        <p class="judul_input">Penerima</p>
+                        <input type="text" name="nama_penerima" class="form-control" placeholder="Andi, Budi dll">
+
+                        <p class="judul_input">Telp / Whatsapp</p>
+                        <p class="mb-0" style="font-size: 12px;color: gray;">Tanpa '0' di awal, langsung kode negara dan nomor</p>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">+</span>
+                            </div>
+                            <input required type="number" name="telp_penerima" class="form-control" placeholder="6281293948290">
+                        </div>
+
+                        <p class="judul_input">Detail Alamat</p>
+                        <textarea required name="alamat" class="form-control" oninput="auto_grow(this)" placeholder="Nomor rumah, warna pagar, dll"></textarea>
+                        <button type="submit" class="btn btn-success w-100 my-3">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid px-0">
         <div class="mx-auto" style="max-width: 500px;">
             <table class="w-100 mb-5" id="table_keranjang"></table>
@@ -47,50 +123,9 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <button type="button" class="btn btn-success w-100" onclick="pilih_pengiriman()">
+                    <button type="button" class="btn btn-success w-100" onclick="pilih_alamat()">
                         Checkout <i class='fas fa-fw fa-arrow-alt-circle-right'></i>
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal" id="modal_ekspedisi" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_ekspedisiLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <p class="modal-title mb-0" style="font-weight: bold;">Tambah Alamat Luar Negeri</p>
-                        <button type="button" class="close" onclick="history.back()">
-                            <span aria-hidden="true" style="font-size: 24px !important;">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body pt-0">
-                        <form id="form_alamat_ln" autocomplete="off">
-                            <p class="judul_input">Negara</p>
-                            <select required name="id_negara" id="negara" class="form-control w-100">
-                                <option value="">-- Pilih Negara --</option>
-                                <?php for ($i = 0; $i < count($list_negara); $i++) { ?>
-                                    <option value="<?= $list_negara[$i]["id"] ?>">
-                                        <?= $list_negara[$i]["negara"] ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                            <p class="judul_input">Penerima</p>
-                            <input type="text" name="nama_penerima" class="form-control" placeholder="Andi, Budi dll">
-
-                            <p class="judul_input">Telp / Whatsapp</p>
-                            <p class="mb-0" style="font-size: 12px;color: gray;">Tanpa '0' di awal, langsung kode negara dan nomor</p>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">+</span>
-                                </div>
-                                <input required type="number" name="telp_penerima" class="form-control" placeholder="6281293948290">
-                            </div>
-
-                            <p class="judul_input">Detail Alamat</p>
-                            <textarea required name="alamat" class="form-control" oninput="auto_grow(this)" placeholder="Nomor rumah, warna pagar, dll"></textarea>
-                            <button type="submit" class="btn btn-success w-100 my-3">Simpan</button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -279,6 +314,60 @@
             });
         }
         return false;
+    });
+
+
+    function pilih_alamat() {
+        if ($('.cb_product:checked').length < 1) {
+            $('#modal_info').modal("show");
+            $('#txt_modal_info').text("Belum Ada Barang Terpilih di Keranjang Anda");
+        } else {
+            $.ajax({
+                url: '<?= base_url("keranjang/ajax_alamat") ?>',
+                type: "POST",
+                data: {},
+                success: function(response) {
+                    response = JSON.parse(response);
+                    $('#modal_loading').modal("hide");
+                    if (response.status == 'exp') {
+                        location.href = "<?= base_url("akun/login") ?>";
+                    } else {
+
+                        $("#wrapper_alamat_ln").html("");
+                        for (let index = 0; index < response.alamat_ln.length; index++) {
+                            $("#wrapper_alamat_ln").append(response.alamat_ln[index]);
+
+                        }
+
+
+                        $("#modal_alamat").modal("show");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#modal_loading').modal("hide");
+                    console.error(error);
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+    $('#modal_alamat').on('show.bs.modal', function(e) {
+        window.location.hash = "hash_modal_alamat";
+    });
+    $(window).on('hashchange', function(event) {
+        if (window.location.hash != "#hash_modal_alamat") {
+            $('#modal_alamat').modal('hide');
+        }
+    });
+    $('#modal_ekspedisi').on('show.bs.modal', function(e) {
+        window.location.hash = "hash_modal_ekspedisi";
+    });
+    $(window).on('hashchange', function(event) {
+        if (window.location.hash != "#hash_modal_ekspedisi") {
+            $('#modal_ekspedisi').modal('hide');
+        }
     });
 </script>
 <?= $this->endSection(); ?>

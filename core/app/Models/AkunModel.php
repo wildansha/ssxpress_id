@@ -29,6 +29,7 @@ class AkunModel
 
         return $detail;
     }
+
     public function insert_akun($email, $password)
     {
         $db      = \Config\Database::connect();
@@ -237,6 +238,30 @@ class AkunModel
                     ";
         return $db->query($query)->getResultArray();
     }
+
+    public function list_alamat_dn_singkat($akun_id)
+    {
+        $db = \Config\Database::connect();
+        $query = "SELECT a.id, a.provinsi, a.kabupaten, a.kecamatan, a.alamat, a.nama_penerima, a.telp_penerima
+                    from alamat_dn a
+                    where a.akun_id = $akun_id
+                    order by id desc
+                    ";
+        return $db->query($query)->getResultArray();
+    }
+    public function list_alamat_ln_singkat($akun_id)
+    {
+        $db = \Config\Database::connect();
+        $query = "SELECT a.id, nl.negara, a.alamat, a.nama_penerima, a.telp_penerima
+                    from alamat_ln a
+                    join negara_ln nl on nl.id=a.id_negara
+                    where a.akun_id = $akun_id
+                    order by id desc
+                    ";
+        return $db->query($query)->getResultArray();
+    }
+
+
     public function detail_alamat_dn($akun_id, $alamat_id)
     {
         $db = \Config\Database::connect();
