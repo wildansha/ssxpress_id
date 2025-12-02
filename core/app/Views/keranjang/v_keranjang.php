@@ -31,15 +31,20 @@
 </style>
 <form id="form_checkout" action="<?= base_url("webapps/pilih_pengiriman") ?>" method="POST">
     <div class="modal" id="modal_alamat" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_alamatLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog  modal-dialog-scrollable">
             <div class="modal-content">
-                <div class="modal-header py-2">
-                    <p class="modal-title mb-0" style="font-weight: bold;">Pilih Alamat Pengiriman</p>
+                <div class="modal-header">
+                    <p class="modal-title mb-0" style="font-weight: bold;">Pilih Alamat</p>
                     <button type="button" class="close" onclick="history.back()">
                         <span aria-hidden="true" style="font-size: 24px !important;">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body py-2">
+                    <div class="w-100 text-right">
+                        <a href="<?= base_url("akun/alamat") ?>">
+                            <button type="button" class="btn btn-info mb-2" style="font-size: 12px !important;border-radius: 20px !important;"><i class="fa fa-home"></i> Atur Alamat</button>
+                        </a>
+                    </div>
                     <ul class="nav nav-tabs nav-fill" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#tab_dn">Dalam Negeri</a>
@@ -51,62 +56,51 @@
                     <div class="tab-content">
                         <div id="tab_dn" class="tab-pane active">
                             <div id="wrapper_alamat_dn" class="my-2">
+                                <?php for ($i = 0; $i < count($alamat_dn); $i++) {  ?>
+                                    <?= $alamat_dn[$i] ?>
+                                <?php } ?>
                             </div>
                         </div>
                         <div id="tab_ln" class="tab-pane fade">
                             <div id="wrapper_alamat_ln" class="my-2">
+                                <?php for ($i = 0; $i < count($alamat_ln); $i++) {  ?>
+                                    <?= $alamat_ln[$i] ?>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer pt-0">
-                    <button class="btn btn-success">Berikutnya <i class="fa fa-arrow-right"></i></button>
+                <div class="modal-footer py-1">
+                    <p id="txt_alert_alamat" class="mb-0" style="color: red;font-size: 12px;"></p>
+                    <button type="button" class="btn btn-success" onclick="pilih_ekspedisi()">Berikutnya <i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>
         </div>
     </div>
     <div class="modal" id="modal_ekspedisi" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="modal_ekspedisiLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog  modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title mb-0" style="font-weight: bold;">Tambah Alamat Luar Negeri</p>
+                    <p class="modal-title mb-0" style="font-weight: bold;">Pilih Ekspedisi</p>
                     <button type="button" class="close" onclick="history.back()">
                         <span aria-hidden="true" style="font-size: 24px !important;">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body pt-0">
-                    <form id="form_alamat_ln" autocomplete="off">
-                        <p class="judul_input">Negara</p>
-                        <select required name="id_negara" id="negara" class="form-control w-100">
-                            <option value="">-- Pilih Negara --</option>
-                            <?php for ($i = 0; $i < count($list_negara); $i++) { ?>
-                                <option value="<?= $list_negara[$i]["id"] ?>">
-                                    <?= $list_negara[$i]["negara"] ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                        <p class="judul_input">Penerima</p>
-                        <input type="text" name="nama_penerima" class="form-control" placeholder="Andi, Budi dll">
-
-                        <p class="judul_input">Telp / Whatsapp</p>
-                        <p class="mb-0" style="font-size: 12px;color: gray;">Tanpa '0' di awal, langsung kode negara dan nomor</p>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">+</span>
-                            </div>
-                            <input required type="number" name="telp_penerima" class="form-control" placeholder="6281293948290">
-                        </div>
-
-                        <p class="judul_input">Detail Alamat</p>
-                        <textarea required name="alamat" class="form-control" oninput="auto_grow(this)" placeholder="Nomor rumah, warna pagar, dll"></textarea>
-                        <button type="submit" class="btn btn-success w-100 my-3">Simpan</button>
-                    </form>
+                <div class="modal-body pt-2">
+                    <div id="wrapper_ekspedisi"></div>
+                </div>
+                <div class="modal-footer py-1">
+                    <div class="w-100">
+                        <p id="txt_alert_ekspedisi" class="mb-0 text-right" style="color: red;font-size: 12px;"></p>
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="pilih_alamat()"><i class="fa fa-arrow-left"></i> Kembali</button>
+                    <button type="submit" class="btn btn-success">Submit <i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid px-0">
+    <div class="container">
         <div class="mx-auto" style="max-width: 500px;">
             <table class="w-100 mb-5" id="table_keranjang"></table>
         </div>
@@ -182,7 +176,7 @@
                                         <input type="checkbox" name="cb[]" class="cb_product" value="${row.id}" style=" transform: scale(1.3);">
                                     </div>
                                     <div class="col-sm-2 col-4">
-                                        <img src="<?= base_url("assets/img/product") ?>/${row.foto1}" class="w-100" style="border-radius: 10px;border:1px solid black" onclick="location.href='<?= base_url('jastip/detail') ?>/${row.slug}'">
+                                        <img src="<?= base_url("assets/img/product") ?>/${row.foto1}" class="w-100" style="border-radius: 10px;border:1px solid black;max-width:50px" onclick="location.href='<?= base_url('jastip/detail') ?>/${row.slug}'">
                                     </div>
                                     <div class="col-sm-8 col-6">
                                         <p class="mb-0" style="font-weight: bold;" onclick="location.href='<?= base_url('jastip/detail') ?>/${row.slug}'">${row.nama}</p>
@@ -190,15 +184,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer">
+                            <div class="card-footer py-1" style="background-color:#a3acb5">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-auto">
                                         <button type="button" class="btn btn-danger w-100" onclick="delete_keranjang(${row.id})"><i class='fas fa-fw fa-trash'></i></button>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col">
                                     </div>
-                                    <div class="col-4">
-                                        <input required type="number" name="qty_${row.id}" class="form-control text-center w-100" min="0" max="1000" placeholder="Quantity" value="${row.qty}">
+                                    <div class="col-auto">
+                                        <input required type="number" name="qty_${row.id}" class="form-control text-center" min="0" max="1000" placeholder="Quantity" value="${row.qty}">
                                     </div>
                                 </div>
                             </div>
@@ -282,9 +276,8 @@
     $("#form_checkout").on("submit", function(e) {
         e.preventDefault();
 
-        if ($('.cb_product:checked').length < 1) {
-            $('#modal_info').modal("show");
-            $('#txt_modal_info').text("Belum Ada Barang Terpilih di Keranjang Anda");
+        if (!$('[name="ekspedisi"]:checked').val()) {
+            $('#txt_alert_ekspedisi').text("Pilih Ekspedisi Dahulu");
         } else {
             $('#modal_loading').modal("show");
             var formData = new FormData($("#form_checkout")[0]);
@@ -322,26 +315,40 @@
             $('#modal_info').modal("show");
             $('#txt_modal_info').text("Belum Ada Barang Terpilih di Keranjang Anda");
         } else {
+            $("#modal_alamat").modal("show");
+        }
+    }
+
+    function pilih_ekspedisi() {
+        $('#txt_alert_alamat').text("");
+
+        if (!$('[name="alamat"]:checked').val()) {
+            $('#txt_alert_alamat').text("Pilih Alamat Terlebih Dahulu");
+        } else {
+            history.back();
+            $('#modal_loading').modal("show");
+
             $.ajax({
-                url: '<?= base_url("keranjang/ajax_alamat") ?>',
+                url: '<?= base_url("keranjang/ajax_ekspedisi") ?>',
                 type: "POST",
-                data: {},
+                data: {
+                    alamat: $('[name="alamat"]:checked').val()
+                },
                 success: function(response) {
                     response = JSON.parse(response);
                     $('#modal_loading').modal("hide");
                     if (response.status == 'exp') {
                         location.href = "<?= base_url("akun/login") ?>";
+                    } else if (response.status == 1) {
+                        $('#modal_loading').modal("hide");
+                        $('#modal_ekspedisi').modal("show");
+                        $('#wrapper_ekspedisi').html(response.list_pengiriman);
                     } else {
-
-                        $("#wrapper_alamat_ln").html("");
-                        for (let index = 0; index < response.alamat_ln.length; index++) {
-                            $("#wrapper_alamat_ln").append(response.alamat_ln[index]);
-
-                        }
-
-
-                        $("#modal_alamat").modal("show");
+                        $('#modal_loading').modal("hide");
+                        $('#modal_info').modal("show");
+                        $('#txt_modal_info').text(response.message);
                     }
+
                 },
                 error: function(xhr, status, error) {
                     $('#modal_loading').modal("hide");

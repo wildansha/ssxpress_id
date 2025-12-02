@@ -44,7 +44,36 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		// $this->session = \Config\Services::session();
+	}
 
-		
+
+	public function api($url, $params = null, $key = '', $want_decode = true, $want_array = true)
+	{
+
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+		if ($key != '') {
+			curl_setopt($ch, CURLOPT_HTTPHEADER, ["key: $key"]);
+		}
+
+		if (isset($params)) {
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+		}
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+
+		if ($want_decode) {
+			$data = json_decode(curl_exec($ch), $want_array);
+		} else {
+			$data = curl_exec($ch);
+		}
+
+		curl_close($ch);
+
+		return $data;
 	}
 }
