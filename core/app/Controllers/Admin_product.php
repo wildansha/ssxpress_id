@@ -14,21 +14,7 @@ class admin_product extends BaseController
         $kategoriModel = new KategoriModel();
         $this->kategori_all =  $kategoriModel->get();
     }
-    private function cek_login()
-    {
-        if (session('admin_id') === null) {
-            header("Location: " . base_url("admin/login"));
-            exit;
-        }
-    }
-
-    private function cek_login_ajax()
-    {
-        if (session('admin_id') === null) {
-            echo json_encode(["status" => "exp"]);
-            exit;
-        }
-    }
+  
 
     public function index()
     {

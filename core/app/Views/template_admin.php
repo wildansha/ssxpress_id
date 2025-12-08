@@ -89,6 +89,10 @@
         }
 
         /* END datatable */
+
+        .select2-container {
+            width: 100% !important;
+        }
     </style>
 
 </head>

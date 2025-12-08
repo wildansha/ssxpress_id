@@ -106,12 +106,22 @@ class AkunModel
         }
     }
 
-    public function checkout($akun_id, $list_product_id)
+    public function checkout($akun_id, $list_product_id, $ongkir, $detail_alamat)
     {
         $db = \Config\Database::connect();
         $builder = $db->table('jastip');
         $result_insert = $builder->insert([
             "akun_id" => $akun_id,
+            "ongkir" => $ongkir,
+            "provinsi_id" => $detail_alamat["provinsi_id"],
+            "provinsi" => $detail_alamat["provinsi"],
+            "kabupaten" => $detail_alamat["kabupaten"],
+            "kecamatan" => $detail_alamat["kecamatan"],
+            "kabupaten_id" => $detail_alamat["kabupaten_id"],
+            "kecamatan_id" => $detail_alamat["kecamatan_id"],
+            "nama_penerima" => $detail_alamat["nama_penerima"],
+            "telp_penerima" => $detail_alamat["telp_penerima"],
+            "alamat_penerima" => $detail_alamat["alamat_penerima"],
             "status" => 0,
         ]);
         $jastip_id = $db->insertID();

@@ -149,24 +149,149 @@ class Jastip extends BaseController
             exit;
         }
 
-        // echo json_encode( $_POST["cb"]);exit;
+        $code_ekspedisi = explode("~", $_POST["ekspedisi"])[0];
+        $service_ekspedisi = explode("~", $_POST["ekspedisi"])[1];
 
         $akunModel = new AkunModel();
+        $list_ekspedisi = $this->cek_ongkir_dn(explode("_", $_POST["alamat"])[1], 1);
+        $ongkir = 0;
 
-        $data["jastip_id"] =  $akunModel->checkout(session("akun_id"), $_POST["cb"]);
+        if (isset($list_ekspedisi)) {
+            for ($i = 0; $i < count($list_ekspedisi); $i++) {
+                if (strtolower($list_ekspedisi[$i]["code"]) == strtolower($code_ekspedisi) && strtolower($list_ekspedisi[$i]["service"]) == strtolower($service_ekspedisi)) {
+                    $ongkir = $list_ekspedisi[$i]["cost"];
+                }
+            }
+        }
+
+        $detail_alamat =  $akunModel->detail_alamat_dn(session("akun_id"), explode("_", $_POST["alamat"])[1]);
+
+
+        $data["jastip_id"] =  $akunModel->checkout(session("akun_id"), $_POST["cb"], $ongkir, $detail_alamat);
         $data["status"] = 1;
         echo json_encode($data);
     }
 
-    public function ajax_delete_keranjang()
+
+    public function ajax_alamat()
+    {
+        $this->cek_login_ajax();
+
+        $akunModel = new AkunModel();
+        $data["status"] = 1;
+        $list_alamat_dn =  $akunModel->list_alamat_dn_singkat(session("akun_id"));
+        $list_alamat_ln =  $akunModel->list_alamat_ln_singkat(session("akun_id"));
+
+        $data["alamat_dn"] = [];
+        for ($i = 0; $i < count($list_alamat_dn); $i++) {
+            $data["alamat_dn"][] = view('jastip/v_item_pilih_alamat_dn',  $list_alamat_dn[$i]);
+        }
+
+        $data["alamat_ln"] = [];
+        for ($i = 0; $i < count($list_alamat_ln); $i++) {
+            $data["alamat_ln"][] = view('jastip/v_item_pilih_alamat_ln',  $list_alamat_ln[$i]);
+        }
+
+        echo json_encode($data);
+    }
+    public function keranjang()
+    {
+        $this->cek_login();
+        $akunModel = new AkunModel();
+        $data["list_negara"] =  $akunModel->list_negara_ln(session("akun_id"));
+
+        $list_alamat_dn =  $akunModel->list_alamat_dn_singkat(session("akun_id"));
+        $list_alamat_ln =  $akunModel->list_alamat_ln_singkat(session("akun_id"));
+        $data["alamat_dn"] = [];
+        for ($i = 0; $i < count($list_alamat_dn); $i++) {
+            $data["alamat_dn"][] = view('jastip/v_item_pilih_alamat_dn',  $list_alamat_dn[$i]);
+        }
+        $data["alamat_ln"] = [];
+        for ($i = 0; $i < count($list_alamat_ln); $i++) {
+            $data["alamat_ln"][] = view('jastip/v_item_pilih_alamat_ln',  $list_alamat_ln[$i]);
+        }
+        return view('jastip/v_keranjang', $data);
+    }
+
+    public function ajax_list_keranjang()
     {
         $this->cek_login_ajax();
         $akunModel = new AkunModel();
 
-        $data["list_product_keranjang"] =  $akunModel->delete_keranjang(session("akun_id"), $_POST["product_id"]);
         $data["status"] = 1;
+        $data["data"] =  $akunModel->list_product_keranjang(session("akun_id"));
+
         echo json_encode($data);
     }
+
+
+    public function ajax_ekspedisi()
+    {
+        $this->cek_login_ajax();
+        $akunModel = new AkunModel();
+
+        $arr_alamat = explode("_", $_POST["alamat"]);
+        $detail_alamat =  $akunModel->detail_alamat_dn(session("akun_id"), $arr_alamat[1]);
+
+        $data["status"] = 1;
+        if ($arr_alamat[0] == "dn") {
+            // $volume = $_POST["panjang"] * $_POST["lebar"] * $_POST["tinggi"];
+            // $berat = $_POST["berat"];
+            $volume = 1;
+            $berat = 1;
+            if ($volume / 6000 > $berat) {
+                $berat = $volume / 6000;
+            }
+            $berat = ceil($berat);
+
+            $list_ekspedisi = $this->cek_ongkir_dn($arr_alamat[1], $berat);
+
+            if (isset($list_ekspedisi)) {
+                $city_origin = "INDRAMAYU";
+                $province_origin = "JAWA BARAT";
+                $city_destination = $detail_alamat["kabupaten"];
+                $province_destination = $detail_alamat["provinsi"];
+
+                $data["list_ekspedisi"]  = view('jastip/v_item_list_ekspedisi_dn', [
+                    "list_ekspedisi" =>  $list_ekspedisi,
+                    "city_origin" => $city_origin,
+                    "province_origin" => $province_origin,
+                    "city_destination" => $city_destination,
+                    "province_destination" => $province_destination,
+                    "berat" => $berat
+                ]);
+            } else {
+                $data["list_ekspedisi"]  = [];
+            }
+        }
+        echo json_encode($data);
+    }
+
+    public function cek_ongkir_dn($alamat_id, $berat)
+    {
+        $akunModel = new AkunModel();
+        $detail_alamat =  $akunModel->detail_alamat_dn(session("akun_id"), $alamat_id);
+
+        // 1193 = Kec.indramayu Kab. Indramayu
+        $id_origin = 1193;
+        $id_destination = $detail_alamat["kecamatan_id"];
+
+
+        $url = "https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost";
+        $key = "951566e0f3a1c31edf61914c32c4e01a";
+        $params["origin"] = $id_origin;
+        $params["destination"] = $id_destination;
+        $params["weight"] = $berat;
+        $params["courier"] = "jne:jnt";
+
+        $response = $this->api($url, $params, $key);
+        if (isset($response["data"])) {
+            return $response["data"];
+        } else {
+            return [];
+        }
+    }
+
     public function history()
     {
         $this->cek_login();
@@ -185,6 +310,15 @@ class Jastip extends BaseController
             $list_jastip[$i]["index"] = $i;
             $data["data"][$i]['item']  = view("jastip/v_item_history_jastip", $list_jastip[$i]);
         }
+        echo json_encode($data);
+    }
+    public function ajax_delete_keranjang()
+    {
+        $this->cek_login_ajax();
+        $akunModel = new AkunModel();
+
+        $data["list_product_keranjang"] =  $akunModel->delete_keranjang(session("akun_id"), $_POST["product_id"]);
+        $data["status"] = 1;
         echo json_encode($data);
     }
 

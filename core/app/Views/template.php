@@ -244,7 +244,7 @@
                         </ul>
                         <ul class="navbar-nav">
                             <li class="nav-item mx-auto">
-                                <a href="<?php echo base_url('keranjang'); ?>" class="nav-link" style="color: black;font-weight: bold;">
+                                <a href="<?php echo base_url('jastip/keranjang'); ?>" class="nav-link" style="color: black;font-weight: bold;">
                                     <img src="<?= base_url("assets/img/icon/ic_chart.png") ?>" style=" width: 25px;">
                                 </a>
                             </li>

@@ -26,6 +26,30 @@ class AdminModel extends Model
     {
         return $this->where(['username' => $username])->first();
     }
+    public function all_product()
+    {
+        $db = \Config\Database::connect();
+
+        $query = "SELECT *
+        from product 
+        order by nama
+        ";
+        $result = $db->query($query)->getResultArray();
+        return $result;
+    }
+    public function detail_product($product_id)
+    {
+        $db = \Config\Database::connect();
+        $product_id = $db->escape($product_id);
+
+        $query = "SELECT *
+        from product 
+        where id=$product_id
+        ";
+        $result = $db->query($query)->getResultArray();
+        return $result;
+    }
+
     public function list_jastip($status_id)
     {
         $db = \Config\Database::connect();
@@ -44,6 +68,7 @@ class AdminModel extends Model
         $arr_history = $db->query($query)->getResultArray();
         return $arr_history;
     }
+
     public function detail_jastip($jastip_id)
     {
         $db = \Config\Database::connect();

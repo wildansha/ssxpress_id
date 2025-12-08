@@ -3,19 +3,64 @@
 namespace App\Controllers;
 
 use App\Models\AdminModel;
+use App\Models\ProductModel;
+use App\Models\KategoriModel;
 
 class Admin extends BaseController
 {
     public function __construct() {}
 
-    public function index()
-    {        
-        if (empty(session('admin_id'))) {
-            return view('admin/login');
-        } else {
-            return redirect()->to(base_url() . '/admin_product')->withInput();
+
+    private function cek_login()
+    {
+        if (session('admin_id') === null) {
+            header("Location: " . base_url("admin/login"));
+            exit;
         }
     }
+
+    private function cek_login_ajax()
+    {
+        if (session('admin_id') === null) {
+            echo json_encode(["status" => "exp"]);
+            exit;
+        }
+    }
+    public function index()
+    {
+        header("Location: " . base_url("admin/product"));
+        exit;
+    }
+
+    public function product()
+    {
+        $this->cek_login();
+        $kategoriModel = new KategoriModel();
+
+        $data = [
+            'kategori_all' => $kategoriModel->get(),
+        ];
+        return view('admin/v_admin_product', $data);
+    }
+
+    public function ajax_list_product()
+    {
+        $adminModel = new AdminModel();
+        $data["data"] = $adminModel->all_product();
+
+
+        echo json_encode($data);
+    }
+
+
+    public function detail_product()
+    {
+        $adminModel = new AdminModel();
+        $data["data"] = $adminModel->all_product();
+
+        return view('admin/v_admin_product', $data);
+    }
+
 
     public function login()
     {

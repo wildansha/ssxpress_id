@@ -152,7 +152,7 @@
                 zeroRecords: "Keranjang Anda Kosong",
             },
             ajax: {
-                url: '<?= base_url("keranjang/ajax_list_keranjang"); ?>',
+                url: '<?= base_url("jastip/ajax_list_keranjang"); ?>',
                 type: 'POST',
                 beforeSend: function() {
                     $('#table_keranjang > tbody').html(
@@ -280,6 +280,8 @@
             $('#txt_alert_ekspedisi').text("Pilih Ekspedisi Dahulu");
         } else {
             $('#modal_loading').modal("show");
+            $('#modal_loading').modal("hide");
+
             var formData = new FormData($("#form_checkout")[0]);
             $.ajax({
                 method: 'POST',
@@ -293,7 +295,7 @@
                     if (response.status == 'exp') {
                         location.href = "<?= base_url("akun/login") ?>";
                     } else if (response.jastip_id != 0) {
-                        location.href = "<?= base_url("jastip/detail_jastip/") ?>/" + response.jastip_id;
+                        // location.href = "<?= base_url("jastip/detail_jastip/") ?>/" + response.jastip_id;
                     } else {
                         $('#modal_loading').modal("hide");
                         $('#modal_info').modal("show");
@@ -329,7 +331,7 @@
             $('#modal_loading').modal("show");
 
             $.ajax({
-                url: '<?= base_url("keranjang/ajax_ekspedisi") ?>',
+                url: '<?= base_url("jastip/ajax_ekspedisi") ?>',
                 type: "POST",
                 data: {
                     alamat: $('[name="alamat"]:checked').val()
@@ -342,7 +344,7 @@
                     } else if (response.status == 1) {
                         $('#modal_loading').modal("hide");
                         $('#modal_ekspedisi').modal("show");
-                        $('#wrapper_ekspedisi').html(response.list_pengiriman);
+                        $('#wrapper_ekspedisi').html(response.list_ekspedisi);
                     } else {
                         $('#modal_loading').modal("hide");
                         $('#modal_info').modal("show");
