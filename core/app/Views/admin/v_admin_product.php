@@ -29,7 +29,7 @@
                     <select id="filter_kategori" class="select2 w-100">
                         <option value="">--Semua--</option>
                         <?php for ($i = 0; $i < count($kategori_all); $i++) {    ?>
-                            <option value="<?= $kategori_all[$i]["id"] ?>"><?= $kategori_all[$i]["kategori"] ?></option>
+                            <option value="<?= $kategori_all[$i]["kategori"] ?>"><?= $kategori_all[$i]["kategori"] ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -80,7 +80,7 @@
                     );
                 },
                 data: function(d) {
-                    d.kategori_id = $("#filter_kategori").val();
+                    d.kategori = $("#filter_kategori").val();
                 },
             },
             columns: [{
@@ -122,9 +122,8 @@
         form.method = 'POST';
         form.action = '<?= base_url("admin_product/export_excel") ?>';
         const data = {
-            start_date: $("#start_date").val(),
-            end_date: $("#end_date").val(),
-            id_akun: $("#filter_kategori").val()
+            kategori: $("#filter_kategori").val(),
+
         }
         for (const key in data) {
             if (data.hasOwnProperty(key)) {

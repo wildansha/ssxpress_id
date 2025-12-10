@@ -43,10 +43,25 @@ class Admin extends BaseController
         return view('admin/v_admin_product', $data);
     }
 
+
+    public function add_product()
+    {
+        $this->cek_login();
+        $kategoriModel = new KategoriModel();
+        session();
+        $data = [
+            'title' => 'Form Tambah product',
+            'validation' => \config\Services::validation(),
+            'kategori_all' => $kategoriModel->get(),
+        ];
+        return view('admin/v_admin_add_product', $data);
+    }
+
+
     public function ajax_list_product()
     {
         $adminModel = new AdminModel();
-        $data["data"] = $adminModel->all_product();
+        $data["data"] = $adminModel->list_product($_POST["kategori"]);
 
 
         echo json_encode($data);
@@ -56,7 +71,7 @@ class Admin extends BaseController
     public function detail_product()
     {
         $adminModel = new AdminModel();
-        $data["data"] = $adminModel->all_product();
+        $data["data"] = $adminModel->detail_product();
 
         return view('admin/v_admin_product', $data);
     }

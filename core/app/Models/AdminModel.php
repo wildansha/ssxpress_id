@@ -26,12 +26,17 @@ class AdminModel extends Model
     {
         return $this->where(['username' => $username])->first();
     }
-    public function all_product()
+    public function list_product($kategori)
     {
         $db = \Config\Database::connect();
 
+        $where_clause = "";
+        if ($kategori != "") {
+            $where_clause = " WHERE kategori =" . $db->escape($kategori);
+        }
         $query = "SELECT *
         from product 
+        $where_clause
         order by nama
         ";
         $result = $db->query($query)->getResultArray();

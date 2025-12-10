@@ -25,7 +25,6 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url() ?>/sb2admin/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="<?= base_url() ?>/css/style-admin.css" rel="stylesheet">
 
 
 
@@ -41,7 +40,7 @@
     <script src="<?= base_url() . '/sb2admin/vendor/datatables/dataTables.bootstrap4.min.js' ?>"></script>
 
     <!-- CKEDITOR 4 -->
-    <script src="<?= base_url("ckeditor4/ckeditor.js") ?>"></script>
+    <script src="<?= base_url("assets/ckeditor4/ckeditor.js") ?>"></script>
     <style>
         body {
             font-size: 14px;
@@ -162,7 +161,7 @@
             <hr class="sidebar-divider my-0">
 
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url("admin_product") ?>">
+                <a class="nav-link" href="<?= base_url("admin/product") ?>">
                     <i class="fas fa-fw fa-file"></i>
                     <span style="font-size: 13px;">Produk</span>
                 </a>
@@ -367,7 +366,10 @@
             this.style.oveflow = "none";
             this.style.resize = "none";
         });
+
+     
     </script>
+
 
 </body>
 
