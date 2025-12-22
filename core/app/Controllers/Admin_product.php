@@ -173,6 +173,7 @@ class admin_product extends BaseController
             return redirect()->to(base_url() . '/admin_product');
         }
     }
+    
     public function update($id)
     {
         if (session('username') == null) {

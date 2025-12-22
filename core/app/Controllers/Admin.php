@@ -60,6 +60,7 @@ class Admin extends BaseController
 
     public function ajax_list_product()
     {
+
         $adminModel = new AdminModel();
         $data["data"] = $adminModel->list_product($_POST["kategori"]);
 
@@ -68,12 +69,107 @@ class Admin extends BaseController
     }
 
 
-    public function detail_product()
-    {
-        $adminModel = new AdminModel();
-        $data["data"] = $adminModel->detail_product();
 
-        return view('admin/v_admin_product', $data);
+    public function ajax_insert_product()
+    {
+        echo json_encode($_POST);
+        exit;
+
+        // validasi input
+        $rule_foto = [];
+        for ($i = 1; $i <= 6; $i++) {
+            array_push(
+                $rule_foto,
+                [
+                    'rules' => 'max_size[foto' . $i . ',8000]|is_image[foto' . $i . ']|mime_in[foto' . $i . ',image/jpg,image/jpeg,image/png]',
+                    'errors' => [
+                        'max_size' => 'ukuran foto maks 8mb',
+                        'is_image' => 'File yang dipilih bukan foto',
+                        'mime_in' => 'File yang dipilih bukan foto'
+                    ]
+                ]
+            );
+        }
+
+
+        if (!$this->validate([
+            'nama' => [
+                'rules' => 'required|is_unique[product.nama]',
+                'errors' => [
+                    'required' => '{field} harus diisi',
+                    'is_unique' => '{field} sudah ada'
+                ]
+            ],
+            'harga' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi'
+                ]
+            ],
+            'foto1' => $rule_foto[0],
+            'foto2' => $rule_foto[1],
+            'foto3' => $rule_foto[2],
+            'foto4' => $rule_foto[3],
+            'foto5' => $rule_foto[4]
+        ])) {
+            echo json_encode(["status" => 0, "msg" => "Error"]);
+            exit;
+        }
+
+
+        //ambil foto
+        $fileFoto = [
+            $this->request->getFile('foto1'),
+            $this->request->getFile('foto2'),
+            $this->request->getFile('foto3'),
+            $this->request->getFile('foto4'),
+            $this->request->getFile('foto5'),
+        ];
+
+        $namaFoto = [];
+        for ($i = 0; $i < count($fileFoto); $i++) {
+            // apakah tidak ada foto yg diupload
+            if ($fileFoto[$i]->getError() == 4) {
+                $namaFoto[$i] = '';
+            } else {
+                //generate nama file random
+                $namaFoto[$i] = $fileFoto[$i]->getRandomName();
+
+                // resize+move foto
+                \Config\Services::image()
+                    ->withFile($fileFoto[$i])
+                    ->resize(700, 700, false, 'height')
+                    ->save('assets/img/product/' . $namaFoto[$i]);
+            }
+        }
+
+        $slug = url_title($this->request->getPost('nama'), '-', true);
+        $this->productModel->save([
+            'nama' => $this->request->getPost('nama'),
+            'slug' => $slug,
+            'kategori' => $this->request->getPost('kategori'),
+            'kategori' => $this->request->getPost('kategori'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'harga' => preg_replace('/[^0-9]/', '', $this->request->getPost('harga')),
+            'foto1' => $namaFoto[0],
+            'foto2' => $namaFoto[1],
+            'foto3' => $namaFoto[2],
+            'foto4' => $namaFoto[3],
+            'foto5' => $namaFoto[4],
+
+        ]);
+
+        echo json_encode(["status" => 1, "msg" => "Error"]);
+    }
+
+    public function detail_product($product_id)
+    {
+        $kategoriModel = new KategoriModel();
+        $adminModel = new AdminModel();
+        $data = $adminModel->detail_product($product_id);
+        $data['kategori_all'] = $kategoriModel->get();
+
+        return view('admin/v_admin_detail_product', $data);
     }
 
 

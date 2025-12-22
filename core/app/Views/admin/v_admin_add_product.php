@@ -14,7 +14,7 @@
                 <p class="mb-0" style="color: white;">Add Product</p>
             </div>
             <div class="card-body">
-                <form enctype="multipart/form-data">
+                <form id="form_input" enctype="multipart/form-data">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label" for="nama">Nama Product</label>
                         <div class="col-sm-10">
@@ -25,7 +25,7 @@
                     <div class="form-group row">
                         <label for="harga" class="col-sm-2 col-form-label">Harga</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="harga" name="harga">
+                            <input type="text" class="form-control" id="harga" name="harga" oninput="$(this).val('Rp '+format_angka($(this).val()))">
                         </div>
                     </div>
 
@@ -63,15 +63,14 @@
                     <?php for ($i = 1; $i <= 5; $i++) { ?>
                         <p class="mb-0 col-form-label">Foto <?= $i ?></p>
                         <div class="row">
-
                             <div class="col">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="foto<?= $i ?>" name="foto<?= $i ?>" onchange="previewImg(<?= $i ?>)">
+                                    <input type="file" class="custom-file-input" id="foto<?= $i ?>" name="foto<?= $i ?>" onchange="previewImg(<?= $i ?>)" accept="image/*">
                                     <label id="foto-label<?= $i ?>" class="custom-file-label" for="foto<?= $i ?>">Pilih Gambar</label>
                                 </div>
                             </div>
                             <div class="col-auto">
-                                <div class="btn btn-danger" onclick="hapusFotoProduct(<?= $i ?>)"><i class="fas fa-fw fa-trash"></i></div>
+                                <button type="button" class="btn btn-danger" onclick="hapusFotoProduct(<?= $i ?>)"><i class="fas fa-fw fa-trash"></i></button>
                             </div>
                         </div>
                         <div class="w-100 text-center my-3">
@@ -96,12 +95,12 @@
 
     <script>
         function hapusFotoProduct(index) {
-            $("#")
+            // $("#")   
         }
 
         function previewImg(idx) {
             const foto = document.querySelector("#foto" + idx);
-            const fotoLabel = document.querySelector("#foto-label");
+            const fotoLabel = document.querySelector("#foto-label" + idx);
             const imgPreview = document.querySelector("#foto-preview" + idx);
 
             const fileFoto = new FileReader();
@@ -113,6 +112,35 @@
 
             fotoLabel.textContent = foto.files[0].name;
         }
+
+
+        $("#form_input").on("submit", function(e) {
+            e.preventDefault();
+            $('#modal_loading').modal("show");
+            var formData = new FormData($("#form_input")[0]);
+            $.ajax({
+                method: 'POST',
+                url: '<?= base_url("admin/ajax_insert_product") ?>',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if (response.status) {
+
+                    } else {
+                        $('#modal_loading').modal("hide");
+                        $('#modal_info').modal("show");
+                        $('#txt_modal_info').text(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#modal_loading').modal("hide");
+                    console.error(error);
+                },
+            });
+            return false;
+        });
     </script>
 </main>
 </body>

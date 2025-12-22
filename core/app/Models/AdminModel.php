@@ -51,7 +51,7 @@ class AdminModel extends Model
         from product 
         where id=$product_id
         ";
-        $result = $db->query($query)->getResultArray();
+        $result = $db->query($query)->getRowArray();
         return $result;
     }
 

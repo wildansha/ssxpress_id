@@ -357,7 +357,6 @@
 
         function format_angka(angka) {
             return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
         }
     </script>
 

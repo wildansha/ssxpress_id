@@ -41,6 +41,10 @@
 
     <!-- CKEDITOR 4 -->
     <script src="<?= base_url("assets/ckeditor4/ckeditor.js") ?>"></script>
+
+    <!-- ckeditor 3 -->
+    <script src="<?= base_url("assets/ckeditor3/build/ckeditor.js"); ?>"></script>
+
     <style>
         body {
             font-size: 14px;
@@ -344,7 +348,24 @@
         }
 
 
+        function format_angka(angka) {
+            angka = angka.toString().replace('.', '');
 
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return rupiah;
+        }
         //============================================================================================================
         $('#modal_info').on('show.bs.modal', function(e) {
             window.location.hash = "hash_modal_info";
@@ -366,8 +387,6 @@
             this.style.oveflow = "none";
             this.style.resize = "none";
         });
-
-     
     </script>
 
 
