@@ -72,8 +72,6 @@ class Admin extends BaseController
 
     public function ajax_insert_product()
     {
-        echo json_encode($_POST);
-        exit;
 
         // validasi input
         $rule_foto = [];
@@ -96,8 +94,8 @@ class Admin extends BaseController
             'nama' => [
                 'rules' => 'required|is_unique[product.nama]',
                 'errors' => [
-                    'required' => '{field} harus diisi',
-                    'is_unique' => '{field} sudah ada'
+                    'required' => 'Nama Product harus diisi',
+                    'is_unique' => 'Pilih Nama lain, Nama Tersebut sudah ada'
                 ]
             ],
             'harga' => [
@@ -112,7 +110,8 @@ class Admin extends BaseController
             'foto4' => $rule_foto[3],
             'foto5' => $rule_foto[4]
         ])) {
-            echo json_encode(["status" => 0, "msg" => "Error"]);
+            $errors = $this->validator->getErrors();
+            echo json_encode(["status" => 0, "msg" => $errors]);
             exit;
         }
 
@@ -144,7 +143,8 @@ class Admin extends BaseController
         }
 
         $slug = url_title($this->request->getPost('nama'), '-', true);
-        $this->productModel->save([
+        $productModel = new ProductModel();
+        $productModel->save([
             'nama' => $this->request->getPost('nama'),
             'slug' => $slug,
             'kategori' => $this->request->getPost('kategori'),
@@ -159,17 +159,135 @@ class Admin extends BaseController
 
         ]);
 
-        echo json_encode(["status" => 1, "msg" => "Error"]);
+        echo json_encode(["status" => 1, "msg" => "Berhasil"]);
+    }
+
+    public function ajax_update_product()
+    {
+
+        // echo json_encode($_POST);
+        // exit;
+
+        // CEK NAMA
+        $productModel = new ProductModel();
+        $productLama = $productModel->find($this->request->getPost('id'));
+        if ($productLama['nama'] == $this->request->getPost('nama')) {
+            $rule_nama = 'required';
+        } else {
+            $rule_nama = 'required|is_unique[product.nama]';
+        }
+
+
+        $rule_foto = [];
+        for ($i = 1; $i <= 6; $i++) {
+            array_push(
+                $rule_foto,
+                [
+                    'rules' => 'max_size[foto' . $i . ',8000]|is_image[foto' . $i . ']|mime_in[foto' . $i . ',image/jpg,image/jpeg,image/png]',
+                    'errors' => [
+                        'max_size' => 'ukuran foto maks 8mb',
+                        'is_image' => 'File yang dipilih bukan foto',
+                        'mime_in' => 'File yang dipilih bukan foto'
+                    ]
+                ]
+            );
+        }
+        // validasi input
+        if (!$this->validate([
+            'nama' => $rule_nama,
+            'harga' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi'
+                ]
+            ],
+            'foto1' => $rule_foto[0],
+            'foto2' => $rule_foto[1],
+            'foto3' => $rule_foto[2],
+            'foto4' => $rule_foto[3],
+            'foto5' => $rule_foto[4]
+        ])) {
+            $errors = $this->validator->getErrors();
+            echo json_encode(["status" => 0, "msg" => $errors]);
+            exit;
+        }
+
+
+        //ambil foto
+        $fileFoto = [
+            $this->request->getFile('foto1'),
+            $this->request->getFile('foto2'),
+            $this->request->getFile('foto3'),
+            $this->request->getFile('foto4'),
+            $this->request->getFile('foto5'),
+        ];
+
+        //cek foto, apakah tetap foto lama
+        for ($i = 0; $i < count($fileFoto); $i++) {
+            $j = $i + 1;
+
+            // apakah tidak ada foto yg diupload
+            if ($fileFoto[$i]->getError() == 4) {
+                $namaFoto[$i] = $this->request->getVar("foto" . $j . "Lama");
+
+                //menghapus foto apabila terdeteksi menekan tombol hapus foto
+                if ($this->request->getVar('foto' . $j . 'Lama') != 'default.jpg' && $this->request->getVar('foto' . $j . 'Lama') != '') {
+                    if ($this->request->getVar('hapusFoto' . $j) == 'y') {
+                        $namaFoto[$i] = "";
+                        try {
+                            unlink('assets/img/product/' . $this->request->getVar('foto' . $j . 'Lama'));
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                        }
+                    }
+                }
+            } else {
+                //generate nama file random
+                $namaFoto[$i] = $fileFoto[$i]->getRandomName();
+
+                // resize+move foto
+                \Config\Services::image()
+                    ->withFile($fileFoto[$i])
+                    ->resize(700, 700, false, 'height')
+                    ->save('assets/img/product/' . $namaFoto[$i]);
+
+                if ($this->request->getVar('foto' . $j . 'Lama') != 'default.jpg' && $this->request->getVar('foto' . $j . 'Lama') != '') {
+                    try {
+                        unlink('assets/img/product/' . $this->request->getVar('foto' . $j . 'Lama'));
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                    }
+                }
+            }
+        }
+
+        $slug = url_title($this->request->getPost('nama'), '-', true);
+        $productModel->save([
+            'id' => $_POST["id"],
+            'nama' => $this->request->getVar('nama'),
+            'slug' => $slug,
+            'kategori' => $this->request->getVar('kategori'),
+            'deskripsi' => $this->request->getVar('deskripsi'),
+            'harga' => $this->request->getVar('harga'),
+            'foto1' => $namaFoto[0],
+            'foto2' => $namaFoto[1],
+            'foto3' => $namaFoto[2],
+            'foto4' => $namaFoto[3],
+            'foto5' => $namaFoto[4],
+        ]);
+
+        echo json_encode(["status" => 1, "msg" => "Berhasil"]);
     }
 
     public function detail_product($product_id)
     {
         $kategoriModel = new KategoriModel();
         $adminModel = new AdminModel();
-        $data = $adminModel->detail_product($product_id);
-        $data['kategori_all'] = $kategoriModel->get();
+        $detail["product"] = $adminModel->detail_product($product_id);
+        $detail['kategori_all'] = $kategoriModel->get();
 
-        return view('admin/v_admin_detail_product', $data);
+        // dd($detail);
+        return view('admin/v_admin_detail_product', $detail);
     }
 
 

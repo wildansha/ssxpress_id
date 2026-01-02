@@ -140,8 +140,8 @@
                     <span aria-hidden="true" style="font-size: 24px;">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="text-align: center;">
-                <p id="txt_modal_info" style="font-size: 20px;"></p>
+            <div class="modal-body">
+                <p id="txt_modal_info" style="margin-bottom: 0;font-size: 16px;text-transform: capitalize;"></p>
             </div>
 
             <div class="modal-footer" style="text-align: center;">
@@ -377,7 +377,6 @@
         });
     </script>
 
-    <?= $this->renderSection('js'); ?>
 
     <script>
         $("textarea").each(function() {
@@ -388,6 +387,9 @@
             this.style.resize = "none";
         });
     </script>
+
+
+    <?= $this->renderSection('js'); ?>
 
 
 </body>

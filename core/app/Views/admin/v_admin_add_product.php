@@ -68,14 +68,15 @@
                                     <input type="file" class="custom-file-input" id="foto<?= $i ?>" name="foto<?= $i ?>" onchange="previewImg(<?= $i ?>)" accept="image/*">
                                     <label id="foto-label<?= $i ?>" class="custom-file-label" for="foto<?= $i ?>">Pilih Gambar</label>
                                 </div>
+                                <div class="w-100 text-center my-3">
+                                    <img id="foto-preview<?= $i ?>" style="width: 100%;max-width: 350px;">
+                                </div>
                             </div>
                             <div class="col-auto">
-                                <button type="button" class="btn btn-danger" onclick="hapusFotoProduct(<?= $i ?>)"><i class="fas fa-fw fa-trash"></i></button>
+                                <button type="button" class="btn btn-danger" onclick="hapusFotoProduct(<?= $i ?>)" style="font-size: 14px;"><i class="fas fa-fw fa-trash"></i></button>
                             </div>
                         </div>
-                        <div class="w-100 text-center my-3">
-                            <img id="foto-preview<?= $i ?>" style="width: 100%;max-width: 350px;">
-                        </div>
+
                     <?php  } ?>
 
                     <div class="form-group row mt-5">
@@ -95,7 +96,14 @@
 
     <script>
         function hapusFotoProduct(index) {
-            // $("#")   
+            // kosongkan input file
+            $('#foto' + index).val('');
+            $('#foto-label' + index).text('Pilih Gambar');
+
+            // hapus preview
+            $('#foto-preview' + index)
+                .attr('src', '')
+                .hide();
         }
 
         function previewImg(idx) {
@@ -126,12 +134,20 @@
                 processData: false,
                 success: function(response) {
                     response = JSON.parse(response);
-                    if (response.status) {
-
+                    if (response.status == 1) {
+                        history.back();
                     } else {
                         $('#modal_loading').modal("hide");
                         $('#modal_info').modal("show");
-                        $('#txt_modal_info').text(response.message);
+                        var error_txt = "";
+                        var idx_i = 0;
+                        for (const field in response.msg) {
+                            error_txt += (idx_i + 1) + ". " + response.msg[field] + "<br>";
+                            idx_i++;
+                        }
+
+                        $('#txt_modal_info').html(error_txt);
+
                     }
                 },
                 error: function(xhr, status, error) {

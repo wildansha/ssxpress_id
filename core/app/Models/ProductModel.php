@@ -12,7 +12,7 @@ class productModel extends Model
     // protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['nama', 'slug', 'kategori', 'harga', 'deskripsi', 'review', 'foto1', 'foto2', 'foto3', 'foto4', 'foto5'];
+    protected $allowedFields = ['nama', 'slug', 'kategori', 'berat', 'harga', 'deskripsi', 'review', 'foto1', 'foto2', 'foto3', 'foto4', 'foto5'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

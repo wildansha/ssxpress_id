@@ -98,7 +98,6 @@
                                 </div>
                             </div>
                             <div class="col-sm-2">
-                                <input type="hidden" name="hapusFoto<?= $i ?> id=" hapusFoto<?= $i ?>" value="">
                                 <div class="btn btn-danger" onclick="hapusFotoProduct(<?= $i ?>); hapusFotoProductServer(<?= $i ?>);">Hapus</div>
                             </div>
                             <div class="col-sm-2">
