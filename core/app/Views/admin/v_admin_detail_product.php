@@ -96,7 +96,6 @@
             </div>
         </div>
 
-
     </div>
 
     <script>
@@ -109,6 +108,8 @@
             $('#foto-preview' + index)
                 .attr('src', '')
                 .hide();
+
+            $("#hapusFoto" + index).val("y");
         }
 
         function previewImg(idx) {

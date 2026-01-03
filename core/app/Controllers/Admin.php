@@ -228,14 +228,14 @@ class Admin extends BaseController
 
             // apakah tidak ada foto yg diupload
             if ($fileFoto[$i]->getError() == 4) {
-                $namaFoto[$i] = $this->request->getVar("foto" . $j . "Lama");
+                $namaFoto[$i] = $this->request->getPost("foto" . $j . "Lama");
 
                 //menghapus foto apabila terdeteksi menekan tombol hapus foto
-                if ($this->request->getVar('foto' . $j . 'Lama') != 'default.jpg' && $this->request->getVar('foto' . $j . 'Lama') != '') {
-                    if ($this->request->getVar('hapusFoto' . $j) == 'y') {
+                if ($this->request->getPost('foto' . $j . 'Lama') != 'default.jpg' && $this->request->getPost('foto' . $j . 'Lama') != '') {
+                    if ($this->request->getPost('hapusFoto' . $j) == 'y') {
                         $namaFoto[$i] = "";
                         try {
-                            unlink('assets/img/product/' . $this->request->getVar('foto' . $j . 'Lama'));
+                            unlink('assets/img/product/' . $this->request->getPost('foto' . $j . 'Lama'));
                         } catch (\Throwable $th) {
                             //throw $th;
                         }
@@ -264,11 +264,12 @@ class Admin extends BaseController
         $slug = url_title($this->request->getPost('nama'), '-', true);
         $productModel->save([
             'id' => $_POST["id"],
-            'nama' => $this->request->getVar('nama'),
+            'nama' => $this->request->getPost('nama'),
             'slug' => $slug,
-            'kategori' => $this->request->getVar('kategori'),
-            'deskripsi' => $this->request->getVar('deskripsi'),
-            'harga' => $this->request->getVar('harga'),
+            'kategori' => $this->request->getPost('kategori'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'harga' => preg_replace('/[^0-9]/', '', $this->request->getPost('harga')),
+            'berat' => $this->request->getPost('berat'),
             'foto1' => $namaFoto[0],
             'foto2' => $namaFoto[1],
             'foto3' => $namaFoto[2],
