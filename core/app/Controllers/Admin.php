@@ -46,6 +46,7 @@ class Admin extends BaseController
 
     public function add_product()
     {
+        
         $this->cek_login();
         $kategoriModel = new KategoriModel();
         session();
@@ -60,6 +61,7 @@ class Admin extends BaseController
 
     public function ajax_list_product()
     {
+        $this->cek_login_ajax();
 
         $adminModel = new AdminModel();
         $data["data"] = $adminModel->list_product($_POST["kategori"]);
@@ -72,6 +74,7 @@ class Admin extends BaseController
 
     public function ajax_insert_product()
     {
+        $this->cek_login_ajax();
 
         // validasi input
         $rule_foto = [];
@@ -164,9 +167,8 @@ class Admin extends BaseController
 
     public function ajax_update_product()
     {
+        $this->cek_login_ajax();
 
-        // echo json_encode($_POST);
-        // exit;
 
         // CEK NAMA
         $productModel = new ProductModel();
@@ -282,6 +284,7 @@ class Admin extends BaseController
 
     public function detail_product($product_id)
     {
+        $this->cek_login();
         $kategoriModel = new KategoriModel();
         $adminModel = new AdminModel();
         $detail["product"] = $adminModel->detail_product($product_id);

@@ -2,7 +2,6 @@
 <html>
 
 <head>
-    <meta name="google-site-verification" content="xKBdAEM9Hs8mEBvS6gYaFWGIHamKncPciZiQ0XF3ouQ" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -95,7 +94,7 @@
             margin-top: 2px;
         }
 
-   
+
 
         .select2-selection__choice {
             font-size: 14px !important;
@@ -105,7 +104,7 @@
             width: 100% !important;
         }
 
- 
+
 
         .select2-results__options {
             text-transform: capitalize;
@@ -199,6 +198,17 @@
     </div>
     <!-- untuk modal img -->
 
+    <div class="w-100 py-2" style="background-color: #0603ff;color: white;">
+        <div class="container">
+            <p id="p1" class="mb-0 px-2 text-center" style="font-size: 14px;">Jasa Pengiriman Internasional, Aman, Terpercaya, dan Terjangkau, Hubungi :
+                <span style="  white-space: nowrap;">
+                    <a href="" style="color: yellow"><i class="fas fa-fw fa-phone" style="color: yellow"></i>085315999960</a>
+                    -
+                    <a href="" style="color: yellow"><i class="fas fa-fw fa-phone" style="color: yellow"></i>087828774850</a>
+                </span>
+            </p>
+        </div>
+    </div>
 
     <header class="sticky-top shadow-sm">
         <!-- navbar -->
@@ -281,6 +291,24 @@
         <!-- /navbar -->
     </header>
 
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" style="color: #0603ff;">
+                Menu
+                <i class="fas fa-bars ms-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav  ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#profile">Profil Perusahaan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#team">Kontak Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Daftar Ongkir</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <?= $this->renderSection('main'); ?>
 
 
@@ -339,7 +367,7 @@
             });
         }
 
-          function auto_grow(element) {
+        function auto_grow(element) {
             element.style.height = "5px";
             element.style.height = (element.scrollHeight + 5) + "px";
             element.style.oveflow = "none";
