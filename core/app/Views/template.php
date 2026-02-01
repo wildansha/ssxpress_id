@@ -199,7 +199,7 @@
     <!-- untuk modal img -->
 
     <div class="w-100 py-2" style="background-color: #0603ff;color: white;">
-        <div class="container">
+        <div class="container-fluid">
             <p id="p1" class="mb-0 px-2 text-center" style="font-size: 14px;">Jasa Pengiriman Internasional, Aman, Terpercaya, dan Terjangkau, Hubungi :
                 <span style="  white-space: nowrap;">
                     <a href="" style="color: yellow"><i class="fas fa-fw fa-phone" style="color: yellow"></i>085315999960</a>
@@ -213,7 +213,7 @@
     <header class="sticky-top shadow-sm">
         <!-- navbar -->
         <nav class="navbar navbar-bg-putih navbar-light navbar-expand ">
-            <div class="container">
+            <div class="container-fluid">
 
                 <!-- Brand -->
                 <a class="navbar-brand" href="<?php echo base_url('home'); ?>">
@@ -293,7 +293,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
 
-        <div class="container">
+        <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" style="color: #0603ff;">
                 Menu
                 <i class="fas fa-bars ms-1"></i>

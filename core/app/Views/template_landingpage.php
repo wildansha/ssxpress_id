@@ -26,7 +26,7 @@
 
 <body id="page-top">
     <div class="w-100 py-2" style="background-color: #0603ff;color: white;">
-        <div class="container">
+        <div class="container-fluid">
             <p id="p1" class="mb-0 px-2 text-center" style="font-size: 14px;">Jasa Pengiriman Internasional, Aman, Terpercaya, dan Terjangkau, Hubungi :
                 <span style="  white-space: nowrap;">
 
@@ -40,8 +40,7 @@
 
 
     <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="mainNav">
-
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="#page-top"><img src="<?= base_url("landingpage") ?>/assets/img/navbar-logo.png" alt="..." /></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" style="color: #0603ff;">
                 Menu
@@ -62,7 +61,7 @@
 
     <!-- Footer-->
     <!-- <footer class="footer py-4">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col-lg-4 text-lg-start">Copyright &copy; Your Website 2023</div>
                 <div class="col-lg-4 my-3 my-lg-0">
