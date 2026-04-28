@@ -2,7 +2,51 @@
 
 <?= $this->section('main'); ?>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+    .form-control {
+        color: black;
+    }
 
+    .form-control:focus {
+        border-color: black;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .25);
+    }
+
+    .form-control,
+    select,
+    p {
+        font-size: 14px !important;
+    }
+
+    .bi {
+        color: #083739;
+        /* atau warna lain */
+    }
+
+
+    .nav-tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        /* penting: biar gak turun */
+        width: 100%;
+    }
+
+    .nav-tabs .nav-item {
+        flex: 1;
+        /* bagi rata 3 */
+    }
+
+    .nav-tabs .nav-link {
+        width: 100%;
+        text-align: center;
+        /* cegah teks turun */
+    }
+
+    .nav-tabs .nav-link {
+        font-size: clamp(12px, 1.2vw, 14px) !important;
+    }
+</style>
 <div class="modal" id="modal_ongkir" data-keyboard="false" tabindex="-1" aria-labelledby="modal_ongkirLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="max-width: 100%;">
         <div class="modal-content">
@@ -13,7 +57,7 @@
                 </button>
             </div>
             <div class="modal-body bg-white px-0">
-                <div id="wrapper_list_ongkir_dn" style="margin-bottom: 100px;"></div>
+                <div id="result_ongkir_dn" style="margin-bottom: 100px;"></div>
             </div>
             <div class="modal-footer bg-white w-100 shadow" style="position: fixed;bottom: 0;">
             </div>
@@ -42,24 +86,36 @@
         <div class="col-xl-4 mb-3">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
-                    <button class="nav-link active"
+                    <button class="nav-link w-100 active"
                         id="lacak-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#tab_lacak"
                         type="button"
                         role="tab">
+                        <i class="bi bi-box-seam"></i><br>
                         Lacak Paket
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link"
+                    <button class="nav-link w-100"
                         id="ongkir-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#tab_ongkir"
                         type="button"
                         role="tab">
+                        <i class="bi bi-currency-dollar"></i><br>
                         Cek Ongkir
                     </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link w-100"
+                        id="agen-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#tab_agen"
+                        type="button"
+                        role="tab">
+                        <i class="bi bi-person"></i><br>
+                        Info Agen</button>
                 </li>
             </ul>
             <div class="tab-content">
@@ -134,7 +190,6 @@
                                                 <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSIN' . $order_ln["id"]; ?></p>
                                                 <p class="text-center mb-0"><?= $order_ln["nama_penerima"]; ?></p>
                                                 <p class="text-center" style="font-size: 14px;"><?= $order_ln["alamat_penerima"]; ?>, <?= $order_ln["negara_penerima"]; ?></p>
-
                                             </div>
                                             <div class="card-body" style="font-size: 15px;">
                                                 <?php foreach ($trackings as $key => $r) { ?>
@@ -192,10 +247,10 @@
                 <div id="tab_ongkir" class="tab-pane py-2">
                     <div class="row mb-3">
                         <div class="col-6">
-                            <button id="btn_order_dn" class="btn btn-secondary w-100 btn_page" onclick="refresh_list('dn')">Dalam Negeri</button>
+                            <button id="btn_order_dn" class="btn btn-secondary w-100 btn_page" style="font-size: 14px;" onclick="refresh_list('dn')">Dalam Negeri</button>
                         </div>
                         <div class="col-6">
-                            <button id="btn_order_ln" class="btn btn-secondary w-100 btn_page" onclick="refresh_list('ln')">Luar Negeri</button>
+                            <button id="btn_order_ln" class="btn btn-secondary w-100 btn_page" style="font-size: 14px;" onclick="refresh_list('ln')">Luar Negeri</button>
                         </div>
                     </div>
                     <div id="wrapper_ongkir_dn">
@@ -238,8 +293,34 @@
                         </form>
                     </div>
                     <div id="wrapper_ongkir_ln">
-                        <p class="py-3 px-2 rounded bg-dark text-white mt-5">-- Cek Ongkir Luar Negeri Masih Dalam Proses Pengembangan --</p>
+                        <form id="form_ongkir_ln">
+                            <div class="shadow rounded p-2 mb-3" style="background-color: lightslategrey;color: white;">
+                                <p style="font-size: 16px;margin-bottom: 0;font-weight: bold;text-align: center;">Cek Ongkir Luar Negeri</p>
+                                <hr class="my-2" style="border-bottom: 1px solid white;">
+                                <div class="row">
+                                    <div class="col-12 mb-2">
+                                        <p>Pilih Negara</p>
+                                        <div id="wrapper_negara_ongkirln" class="w-100" style="color: black;">
+                                            <select required name="negara_ongkirln" id="negara_ongkirln" class="select2">
+                                                <?php for ($i = 0; $i < count($list_negara_cek_ongkir_ln); $i++) {   ?>
+                                                    <option value="<?= $list_negara_cek_ongkir_ln[$i]["id"]  ?>">
+                                                        <?= $list_negara_cek_ongkir_ln[$i]["negara"] ?>
+                                                    </option>
+                                                <?php  } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div id="result_ongkir_ln" class="px-1 py-2 rounded w-100" style="background-color: white;color: black;overflow: scroll;max-height: 80vh;"></div>
+                                        <img id="loading_cek_ongkir_ln" src="<?= base_url("assets/img/loading.gif") ?>" style="width: 50px;display: none;">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+                </div>
+                <div id="tab_agen" class="tab-pane py-2">
+                    
                 </div>
             </div>
         </div>
@@ -263,6 +344,9 @@
 </script>
 
 <script>
+    $('#negara_ongkirln').select2({
+        width: '100%',
+    });
     $('#origin,#destination').select2({
         width: '100%',
         placeholder: 'Cari Kecamatan...',
@@ -340,7 +424,7 @@
                 if (response.status) {
                     $('#modal_loading').modal("hide");
                     $('#modal_ongkir').modal("show");
-                    $('#wrapper_list_ongkir_dn').html(response.list_ongkir_dn);
+                    $('#result_ongkir_dn').html(response.list_ongkir_dn);
                 } else {
                     $('#modal_loading').modal("hide");
                     $('#modal_info').modal("show");
@@ -354,6 +438,39 @@
         });
         return false;
     });
+
+    $("#form_ongkir_ln").on("submit", function(e) {
+        e.preventDefault();
+        $('#loading_cek_ongkir_ln').show();
+        var formData = new FormData($("#form_ongkir_ln")[0]);
+        $.ajax({
+            method: 'POST',
+            url: '<?= base_url("home/ajax_list_ongkir_ln") ?>',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                response = JSON.parse(response);
+                $('#loading_cek_ongkir_ln').hide();
+                if (response) {
+                    $('#result_ongkir_ln').html(response);
+                } else {
+                    $('#result_ongkir_ln').html("Gagal Memuat Ongkir");
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#loading_cek_ongkir_ln').hide();
+                console.error(error);
+            },
+        });
+        return false;
+    });
+
+    $("#form_ongkir_ln").submit();
+    $("#negara_ongkirln").on("change", function() {
+        $("#form_ongkir_ln").submit();
+    });
+
 
     //============================================================================================================
 

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AkunModel;
+use App\Models\HomeModel;
 
 class Home extends BaseController
 {
@@ -36,7 +37,10 @@ class Home extends BaseController
             $data = $this->api($url, $params);
             // dd($data);
         }
-
+        $homeModel = new HomeModel();
+        $data["list_negara_cek_ongkir_ln"] = $homeModel->list_negara_cek_ongkir_ln();
+        // echo json_encode($data);
+        // exit;
         return view('home/v_home', $data);
     }
 
@@ -82,8 +86,7 @@ class Home extends BaseController
         $params["courier"] = "jne:jnt";
 
         $response = $this->api($url, $params, $key);
-        // echo json_encode($response);
-        // exit;
+
 
 
         if (isset($response["data"])) {
@@ -104,5 +107,15 @@ class Home extends BaseController
 
 
         echo json_encode($data);
+    }
+
+    public function ajax_list_ongkir_ln()
+    {
+
+        $homeModel = new HomeModel();
+        $result = $homeModel->detail_ongkir_ln($_POST["negara_ongkirln"])["text_ongkir"];
+
+
+        echo json_encode($result);
     }
 }
