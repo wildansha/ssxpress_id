@@ -46,7 +46,7 @@ class Admin extends BaseController
 
     public function add_product()
     {
-        
+
         $this->cek_login();
         $kategoriModel = new KategoriModel();
         session();
@@ -326,5 +326,78 @@ class Admin extends BaseController
 
 
         return redirect()->to(base_url("admin"));
+    }
+
+    public function agen()
+    {
+        $this->cek_login();
+
+        return view('admin/v_admin_agen');
+    }
+
+
+    public function add_agen()
+    {
+
+        $this->cek_login();
+        $adminModel = new AdminModel();
+        $data["list_kabupaten"] = $adminModel->list_kabupaten();
+        $data['title'] = 'Form Tambah agen';
+        return view('admin/v_admin_add_agen', $data);
+    }
+
+
+    public function ajax_list_agen()
+    {
+        $this->cek_login_ajax();
+
+        $adminModel = new AdminModel();
+        $data["data"] = $adminModel->list_agen();
+
+
+        echo json_encode($data);
+    }
+
+
+
+    public function ajax_insert_agen()
+    {
+        $this->cek_login_ajax();
+
+        $adminModel = new adminModel();
+        $result_insert = $adminModel->insert_agen($_POST);
+        echo json_encode($result_insert);
+    }
+
+    public function detail_agen($agen_id)
+    {
+        $this->cek_login();
+        $adminModel = new AdminModel();
+        $detail["agen"] = $adminModel->detail_agen($agen_id);
+        $detail["list_kabupaten"] = $adminModel->list_kabupaten();
+        return view('admin/v_admin_detail_agen', $detail);
+    }
+
+    public function ajax_update_agen()
+    {
+        $this->cek_login_ajax();
+
+        $slug = url_title($this->request->getPost('nama'), '-', true);
+        $adminModel->save([
+            'id' => $_POST["id"],
+            'nama' => $this->request->getPost('nama'),
+            'slug' => $slug,
+            'kategori' => $this->request->getPost('kategori'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'harga' => preg_replace('/[^0-9]/', '', $this->request->getPost('harga')),
+            'berat' => $this->request->getPost('berat'),
+            'foto1' => $namaFoto[0],
+            'foto2' => $namaFoto[1],
+            'foto3' => $namaFoto[2],
+            'foto4' => $namaFoto[3],
+            'foto5' => $namaFoto[4],
+        ]);
+
+        echo json_encode(["status" => 1, "msg" => "Berhasil"]);
     }
 }

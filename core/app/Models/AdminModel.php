@@ -152,4 +152,63 @@ class AdminModel extends Model
 
         return $result;
     }
+
+
+    public function list_agen()
+    {
+        $db = \Config\Database::connect();
+
+        $query = "SELECT a.*, mk.kabupaten,mk.jenis, mp.provinsi
+        from agen a
+        join master_kabupaten mk on mk.id = a.kabupaten_id
+        join master_provinsi mp on mp.id = mk.id_provinsi
+        order by mp.provinsi, mk.kabupaten, a.nama
+        ";
+        $arr_agen = $db->query($query)->getResultArray();
+        return $arr_agen;
+    }
+
+    public function detail_agen($id_agen)
+    {
+        $db = \Config\Database::connect();
+        $id_agen = $db->escape($id_agen);
+
+        $query = "  SELECT a.*, mk.kabupaten,mk.jenis, mp.provinsi
+        from agen a
+        join master_kabupaten mk on mk.id = a.kabupaten_id
+        join master_provinsi mp on mp.id = mk.id_provinsi
+        WHERE a.id = $id_agen
+        ";
+        $agen = $db->query($query)->getRowArray();
+        return $agen;
+    }
+
+    public function insert_agen($params)
+    {
+        $db = \Config\Database::connect();
+
+        $nama = isset($params["nama"]) ? $db->escape($params["nama"]) : "";
+        $kabupaten_id = isset($params["kabupaten_id"]) ? $db->escape($params["kabupaten_id"]) : "";
+        $alamat = isset($params["alamat"]) ? $db->escape($params["alamat"]) : "";
+
+
+        $query = "INSERT INTO agen (nama, kabupaten_id, alamat) VALUES ($nama, $kabupaten_id, $alamat) ";
+        $result = $db->query($query);
+        if ($result) {
+            return ["status" => 1, "msg" => "Berhasil"];
+        } else {
+            return ["status" => 0, " msg" => $db->error()];
+        }
+    }
+
+    public function list_kabupaten()
+    {
+        $db = \Config\Database::connect();
+
+        $query = "SELECT mk.* , mp.provinsi 
+        from master_kabupaten mk
+        join master_provinsi mp on mp.id=mk.id_provinsi
+        order by mp.provinsi , mk.kabupaten";
+        return $db->query($query)->getResultArray();
+    }
 }

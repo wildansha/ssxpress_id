@@ -45,6 +45,11 @@
     <!-- ckeditor 3 -->
     <script src="<?= base_url("assets/ckeditor3/build/ckeditor.js"); ?>"></script>
 
+    <!-- Custom scripts for all pages-->
+    <script src="<?= base_url() . '/sb2admin/js/sb-admin-2.min.js' ?>"></script>
+    <!-- select2 JavaScript -->
+    <script src="<?= base_url() . '/sb2admin/vendor/select2/js/select2.min.js' ?>"></script>
+
     <style>
         body {
             font-size: 14px;
@@ -93,7 +98,7 @@
 
         /* END datatable */
 
-        .select2-container {
+        .select2 {
             width: 100% !important;
         }
     </style>
@@ -177,7 +182,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url("admin_agen") ?>">
+                <a class="nav-link" href="<?= base_url("admin/agen") ?>">
                     <i class="fas fa-fw fa-user"></i>
                     <span style="font-size: 13px;">Agen</span>
                 </a>
@@ -341,10 +346,7 @@
     </div>
 
 
-    <!-- Custom scripts for all pages-->
-    <script src="<?= base_url() . '/sb2admin/js/sb-admin-2.min.js' ?>"></script>
-    <!-- select2 JavaScript -->
-    <script src="<?= base_url() . '/sb2admin/vendor/select2/js/select2.min.js' ?>"></script>
+
     <script>
         function auto_grow(element) {
             element.style.height = "5px";
