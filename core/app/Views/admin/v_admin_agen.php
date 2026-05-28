@@ -26,7 +26,7 @@
             <div class="row">
 
             </div>
-            <table class="table w-100" id="table_product" style="margin-bottom: 100px;">
+            <table class="table w-100" id="table_agen" style="margin-bottom: 100px;">
                 <thead>
                     <tr>
                         <th>Nama</th>
@@ -44,9 +44,9 @@
 
 <?= $this->section('js'); ?>
 <script>
-    var table_product;
+    var table_agen;
     $(document).ready(function() {
-        table_product = $('#table_product').DataTable({
+        table_agen = $('#table_agen').DataTable({
             ordering: false,
             serverSide: false,
             processing: false,
@@ -65,7 +65,7 @@
                 url: '<?= base_url("admin/ajax_list_agen"); ?>',
                 type: 'POST',
                 beforeSend: function() {
-                    $('#table_product > tbody').html(
+                    $('#table_agen > tbody').html(
                         '<tr class="odd">' +
                         '<td valign="top" colspan="1" class="dataTables_empty">Loading&hellip;</td>' +
                         '</tr>'
@@ -95,17 +95,17 @@
         });
     });
 
+    function reload_table() {
+        table_agen.clear();
+        table_agen.ajax.reload();
+    }
+
     function capitalizeWords(str) {
         return str
             .toLowerCase()
             .split(" ")
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(" ");
-    }
-
-    function reload_table() {
-        table_product.clear();
-        table_product.ajax.reload();
     }
 </script>
 <?= $this->endSection(); ?>

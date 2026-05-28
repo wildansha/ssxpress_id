@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Panel Mitraekspedisi</title>
+    <title>Admin</title>
     <link rel="icon">
 
     <!-- css select2 -->
@@ -45,8 +45,7 @@
     <!-- ckeditor 3 -->
     <script src="<?= base_url("assets/ckeditor3/build/ckeditor.js"); ?>"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="<?= base_url() . '/sb2admin/js/sb-admin-2.min.js' ?>"></script>
+
     <!-- select2 JavaScript -->
     <script src="<?= base_url() . '/sb2admin/vendor/select2/js/select2.min.js' ?>"></script>
 
@@ -347,6 +346,7 @@
 
 
 
+
     <script>
         function auto_grow(element) {
             element.style.height = "5px";
@@ -388,7 +388,6 @@
 
     <script>
         $("textarea").each(function() {
-            console.log(this.scrollHeight);
             var scrollHeight = this.scrollHeight == 0 ? 30 : this.scrollHeight;
             this.style.height = (scrollHeight + 5) + "px";
             this.style.oveflow = "none";
@@ -400,6 +399,9 @@
     <?= $this->renderSection('js'); ?>
 
 
+
+    <!-- Custom scripts for all pages-->
+    <script src="<?= base_url() . '/sb2admin/js/sb-admin-2.min.js' ?>"></script>
 </body>
 
 </html>

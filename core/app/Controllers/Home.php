@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\AkunModel;
+use App\Models\AdminModel;
 use App\Models\HomeModel;
 
 class Home extends BaseController
@@ -39,8 +39,8 @@ class Home extends BaseController
         }
         $homeModel = new HomeModel();
         $data["list_negara_cek_ongkir_ln"] = $homeModel->list_negara_cek_ongkir_ln();
-        // echo json_encode($data);
-        // exit;
+
+        $data["list_kabupaten_agen"] = $homeModel->list_kabupaten_agen();
         return view('home/v_home', $data);
     }
 
@@ -56,6 +56,20 @@ class Home extends BaseController
         echo json_encode($response);
     }
 
+    public function ajax_list_agen()
+    {
+
+        $homeModel = new HomeModel();
+        $list_agen = $homeModel->list_agen($_POST["kabupaten_agen"]);
+        $data["data"] = [];
+        for ($i = 0; $i < count($list_agen); $i++) {
+            $list_agen[$i]["index"] = $i;
+            $data["data"][$i]['item']  = view("home/v_item_agen", $list_agen[$i]);
+        }
+
+
+        echo json_encode($data);
+    }
 
     public function ajax_list_ongkir_dn()
     {
@@ -111,11 +125,29 @@ class Home extends BaseController
 
     public function ajax_list_ongkir_ln()
     {
-
         $homeModel = new HomeModel();
         $result = $homeModel->detail_ongkir_ln($_POST["negara_ongkirln"])["text_ongkir"];
 
 
         echo json_encode($result);
+    }
+
+
+    public function kontak_kami()
+    {
+        $data = [];
+        return view('home/v_kontak_kami', $data);
+    }
+
+    public function profil_perusahaan()
+    {
+        $data = [];
+        return view('home/v_profil_perusahaan', $data);
+    }
+
+    public function layanan()
+    {
+        $data = [];
+        return view('home/v_layanan', $data);
     }
 }

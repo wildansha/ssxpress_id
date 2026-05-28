@@ -15,6 +15,7 @@ class Admin extends BaseController
     {
         if (session('admin_id') === null) {
             header("Location: " . base_url("admin/login"));
+            // header("Location: " . "https://www.google.com/");
             exit;
         }
     }
@@ -381,23 +382,15 @@ class Admin extends BaseController
     public function ajax_update_agen()
     {
         $this->cek_login_ajax();
-
-        $slug = url_title($this->request->getPost('nama'), '-', true);
-        $adminModel->save([
-            'id' => $_POST["id"],
-            'nama' => $this->request->getPost('nama'),
-            'slug' => $slug,
-            'kategori' => $this->request->getPost('kategori'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'harga' => preg_replace('/[^0-9]/', '', $this->request->getPost('harga')),
-            'berat' => $this->request->getPost('berat'),
-            'foto1' => $namaFoto[0],
-            'foto2' => $namaFoto[1],
-            'foto3' => $namaFoto[2],
-            'foto4' => $namaFoto[3],
-            'foto5' => $namaFoto[4],
-        ]);
-
-        echo json_encode(["status" => 1, "msg" => "Berhasil"]);
+        $adminModel = new AdminModel();
+        $result_update = $adminModel->update_agen($_POST);
+        echo json_encode($result_update);
+    }
+    public function ajax_delete_agen()
+    {
+        $this->cek_login_ajax();
+        $adminModel = new AdminModel();
+        $result_delete = $adminModel->delete_agen($_POST["agen_id"]);
+        echo json_encode($result_delete);
     }
 }

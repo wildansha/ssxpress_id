@@ -36,10 +36,7 @@
         <div class="container-fluid">
             <p id="p1" class="mb-0 px-2 text-center" style="font-size: 14px;">Jasa Pengiriman Internasional, Aman, Terpercaya, dan Terjangkau, Hubungi :
                 <span style="  white-space: nowrap;">
-
-                    <a href=""><i class="fas fa-fw fa-phone"></i>085315999960</a>
-                    -
-                    <a href=""><i class="fas fa-fw fa-phone"></i>087828774850</a>
+                    <a href=""><i class="fas fa-fw fa-phone"></i>0878-6322-5599</a>
                 </span>
             </p>
         </div>
@@ -55,10 +52,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav  ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#profile">Profil Perusahaan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url("home") ?>">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url("home/profil_perusahaan") ?>">Profil Perusahaan</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#team">Kontak Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url("home/kontak_kami") ?>">Kontak Kami</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Daftar Ongkir</a></li>
                 </ul>
             </div>

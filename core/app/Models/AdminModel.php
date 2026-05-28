@@ -187,12 +187,45 @@ class AdminModel extends Model
     {
         $db = \Config\Database::connect();
 
-        $nama = isset($params["nama"]) ? $db->escape($params["nama"]) : "";
-        $kabupaten_id = isset($params["kabupaten_id"]) ? $db->escape($params["kabupaten_id"]) : "";
-        $alamat = isset($params["alamat"]) ? $db->escape($params["alamat"]) : "";
+        $nama = isset($params["nama"]) ? $db->escape($params["nama"]) : "''";
+        $kabupaten_id = isset($params["kabupaten_id"]) ? $db->escape($params["kabupaten_id"]) : "''";
+        $alamat = isset($params["alamat"]) ? $db->escape($params["alamat"]) : "''";
+        $link_gmaps = isset($params["link_gmaps"]) ? $db->escape($params["link_gmaps"]) : "''";
 
 
-        $query = "INSERT INTO agen (nama, kabupaten_id, alamat) VALUES ($nama, $kabupaten_id, $alamat) ";
+        $query = "INSERT into agen (nama, kabupaten_id, alamat, link_gmaps) VALUES ($nama, $kabupaten_id, $alamat, $link_gmaps) ";
+        $result = $db->query($query);
+        if ($result) {
+            return ["status" => 1, "msg" => "Berhasil"];
+        } else {
+            return ["status" => 0, " msg" => $db->error()];
+        }
+    }
+    public function update_agen($params)
+    {
+        $db = \Config\Database::connect();
+
+        $id = isset($params["id"]) ? $db->escape($params["id"]) : "''";
+        $nama = isset($params["nama"]) ? $db->escape($params["nama"]) : "''";
+        $kabupaten_id = isset($params["kabupaten_id"]) ? $db->escape($params["kabupaten_id"]) : "''";
+        $alamat = isset($params["alamat"]) ? $db->escape($params["alamat"]) : "''";
+        $link_gmaps = isset($params["link_gmaps"]) ? $db->escape($params["link_gmaps"]) : "''";
+
+
+        $query = "UPDATE agen set nama=$nama, kabupaten_id=$kabupaten_id, alamat=$alamat, link_gmaps=$link_gmaps where id=$id ";
+        $result = $db->query($query);
+        if ($result) {
+            return ["status" => 1, "msg" => "Berhasil"];
+        } else {
+            return ["status" => 0, " msg" => $db->error()];
+        }
+    }
+    public function delete_agen($agen_id)
+    {
+        $db = \Config\Database::connect();
+        $agen_id = $db->escape($agen_id);
+
+        $query = "DELETE FROM agen WHERE id=$agen_id ";
         $result = $db->query($query);
         if ($result) {
             return ["status" => 1, "msg" => "Berhasil"];

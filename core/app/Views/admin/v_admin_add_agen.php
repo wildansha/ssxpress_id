@@ -17,7 +17,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label" for="nama">Nama Agen</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="nama" name="nama">
+                            <input required type="text" class="form-control" id="nama" name="nama">
                         </div>
                     </div>
 
@@ -26,7 +26,7 @@
                         <div class="col-sm-10">
                             <select name="kabupaten_id" class="select2">
                                 <?php for ($i = 0; $i < count($list_kabupaten); $i++) { ?>
-                                    <option value="<?= $list_kabupaten[$i]["id"] ?>"><?= $list_kabupaten[$i]["jenis"] ." ".ucfirst($list_kabupaten[$i]["kabupaten"]) ?></option>
+                                    <option value="<?= $list_kabupaten[$i]["id"] ?>"><?= $list_kabupaten[$i]["jenis"] . " " . ucfirst($list_kabupaten[$i]["kabupaten"]) ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -35,11 +35,26 @@
                     <div class="form-group row">
                         <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                         <div class="col-sm-10">
-                            <textarea name="alamat" class="form-control" oninput="auto_grow(this)"></textarea>
+                            <textarea required name="alamat" class="form-control" oninput="auto_grow(this)"></textarea>
                         </div>
                     </div>
 
-                
+
+                    <!-- <div class="form-group row">
+                        <label for="telp" class="col-sm-2 col-form-label">Telp</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="081xxxxxxxx" name="telp">
+                        </div>
+                    </div> -->
+
+                    <div class="form-group row">
+                        <label for="link_gmaps" class="col-sm-2 col-form-label">Link Gmaps</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="link_gmaps">
+                        </div>
+                    </div>
+
+
                     <div class="form-group row mt-5">
                         <div class="col-6">
                             <button type="button" class="btn btn-secondary w-100">Batal</button>
@@ -55,7 +70,6 @@
 
     <script>
         $(".select2").select2();
-
 
         $("#form_input").on("submit", function(e) {
             e.preventDefault();

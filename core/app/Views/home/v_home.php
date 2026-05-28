@@ -3,6 +3,11 @@
 <?= $this->section('main'); ?>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- datatables CSS -->
+<link href="<?= base_url() ?>/sb2admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+
 <style>
     .form-control {
         color: black;
@@ -22,6 +27,11 @@
     .bi {
         color: #083739;
         /* atau warna lain */
+    }
+
+    td {
+        padding-left: 0;
+        padding-right: 0;
     }
 
 
@@ -67,8 +77,6 @@
 
 
 <div class="container-fluid">
-
-
     <div class="row mx-auto mt-3">
         <!-- <div class="col-6">
                 <button class="btn btn-secondary px-3 py-1 w-100 bg-primary" style="border-radius: 20px;">
@@ -137,7 +145,6 @@
                                         <div class="card shadow">
                                             <div class="card-header bg-primary" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
                                                 <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSN' . $order_dn["id"]; ?></p>
-                                                <p class="text-center mb-0" style="font-weight: bold;font-size: 18px;"><?= strtoupper($order_dn["ekspedisi"]); ?></p>
                                                 <p class="text-center" style="font-weight: bold;font-size: 18px;"><?= strtoupper($order_dn["resi"]); ?></p>
                                                 <p class="text-center mb-0"><?= $order_dn["nama_penerima"]; ?></p>
                                                 <p class="text-center" style="font-size: 14px;"><?= strtoupper($order_dn["alamat_penerima"] . ', ' . $order_dn["kecamatan_penerima"] . ', ' . $order_dn["kota_penerima"]) ?></p>
@@ -170,7 +177,6 @@
                                         <div class="card shadow">
                                             <div class="card-header bg-primary" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
                                                 <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSN' . $order_dn["id"]; ?></p>
-                                                <p class="text-center mb-0" style="font-weight: bold;font-size: 18px;text-transform: uppercase;"><?= $order_dn["ekspedisi"]; ?></p>
                                                 <p class="text-center" style="font-weight: bold;font-size: 18px;text-transform: uppercase;"><?= $order_dn["resi"]; ?></p>
                                                 <p class="text-center mb-0" style="text-transform: uppercase;font-weight: bold;"><?= $order_dn["nama_penerima"]; ?></p>
                                                 <p class="text-center" style="font-size: 12px;text-transform: uppercase;"><?= $order_dn["alamat_penerima"] . ', ' . $order_dn["kecamatan_penerima"] . ', ' . $order_dn["kota_penerima"] ?></p>
@@ -186,7 +192,6 @@
                                     <div class="col-12">
                                         <div class="card shadow">
                                             <div class="card-header bg-primary" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
-                                                <p class="text-center" style="font-weight: bold;font-size: 18px;"><?= $order_ln["ekspedisi"]; ?></p>
                                                 <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSIN' . $order_ln["id"]; ?></p>
                                                 <p class="text-center mb-0"><?= $order_ln["nama_penerima"]; ?></p>
                                                 <p class="text-center" style="font-size: 14px;"><?= $order_ln["alamat_penerima"]; ?>, <?= $order_ln["negara_penerima"]; ?></p>
@@ -218,7 +223,6 @@
                                     <div class="col-12">
                                         <div class="card shadow">
                                             <div class="card-header bg-primary" style="color: white;border-top-left-radius: 10px;border-top-right-radius: 10px;">
-                                                <p class="text-center" style="font-weight: bold;font-size: 18px;text-transform: uppercase;"><?= $order_ln["ekspedisi"]; ?></p>
                                                 <p class="text-center" style="font-size: 25px;text-transform: uppercase;font-weight: bold;"><?= 'SSIN' . $order_ln["id"]; ?></p>
                                                 <p class="text-center mb-0" style="text-transform: uppercase;font-weight: bold;"><?= $order_ln["nama_penerima"]; ?></p>
                                                 <p class="text-center" style="font-size: 12px;text-transform: uppercase;"><?= $order_ln["alamat_penerima"]; ?>, <?= $order_ln["negara_penerima"]; ?></p>
@@ -320,19 +324,34 @@
                     </div>
                 </div>
                 <div id="tab_agen" class="tab-pane py-2">
-                    
+                    <select required id="filter_kabupaten_agen" class="select2">
+                        <?php empty($list_kabupaten_agen) ? $list_kabupaten_agen = [] : "";  ?>
+                        <option value="">-- Filter Kabupaten / Kota Agen --</option>
+                        <?php for ($i = 0; $i < count($list_kabupaten_agen); $i++) {   ?>
+                            <option value="<?= $list_kabupaten_agen[$i]["kabupaten_id"]  ?>">
+                                <?= ucfirst($list_kabupaten_agen[$i]["kabupaten"]) ?>
+                            </option>
+                        <?php }  ?>
+                    </select>
+                    <table class="w-100 mt-2" id="table_agen" style="margin-bottom: 100px;">
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 
-</body>
 
 <?= $this->endSection(); ?>
 
 <?= $this->section('js'); ?>
+
+
+<!-- datatables JavaScript -->
+<script src="<?= base_url() . '/sb2admin/vendor/datatables/jquery.dataTables.min.js' ?>"></script>
+<script src="<?= base_url() . '/sb2admin/vendor/datatables/dataTables.bootstrap4.min.js' ?>"></script>
 
 <script>
     <?php if (isset($id_order)) { ?>
@@ -344,7 +363,9 @@
 </script>
 
 <script>
-    $('#negara_ongkirln').select2({
+    $().select2();
+
+    $('#negara_ongkirln,.select2').select2({
         width: '100%',
     });
     $('#origin,#destination').select2({
@@ -399,6 +420,7 @@
         }
     }
 
+    var table_agen;
     window.onload = function() {
         $(document).ready(function() {
             if (sessionStorage.getItem('btn_order_terpilih') != null && sessionStorage.getItem('btn_order_terpilih') != "null" && sessionStorage.getItem('btn_order_terpilih') != "") {
@@ -406,9 +428,56 @@
             } else {
                 $("#btn_order_dn").click();
             }
+
+
+
         })
+
+
     }
 
+    $(document).ready(function() {
+        table_agen = $('#table_agen').DataTable({
+            ordering: false,
+            serverSide: false,
+            processing: false,
+            searching: false,
+            lengthChange: false,
+            info: false,
+            paging: false,
+            responsive: false,
+            pagingType: "numbers",
+            stateSave: true,
+            language: {
+                searchPlaceholder: "Search / Filter",
+                search: "",
+            },
+            ajax: {
+                url: '<?= base_url("home/ajax_list_agen"); ?>',
+                type: 'POST',
+                beforeSend: function() {
+                    $('#table_agen > tbody').html(
+                        '<tr class="odd">' +
+                        '<td valign="top" colspan="1" class="dataTables_empty">Loading&hellip;</td>' +
+                        '</tr>'
+                    );
+                },
+                data: function(d) {
+                    d.kabupaten_agen = $("#filter_kabupaten_agen").val();
+                },
+            },
+            columns: [{
+                data: "item",
+            }],
+            lengthMenu: [5],
+        });
+
+    })
+
+    function reload_table_agen() {
+        table_agen.clear();
+        table_agen.ajax.reload();
+    }
     $("#form_ongkir_dn").on("submit", function(e) {
         e.preventDefault();
         $('#modal_loading').modal("show");
@@ -481,6 +550,11 @@
         if (window.location.hash != "#hash_modal_ongkir") {
             $('#modal_ongkir').modal('hide');
         }
+    });
+
+
+    $("#filter_kabupaten_agen").on("change", function() {
+        reload_table_agen();
     });
 </script>
 
