@@ -54,7 +54,7 @@
                 <ul class="navbar-nav  ms-auto py-4 py-lg-0">
                     <li class="nav-item"><a class="nav-link" href="<?= base_url("home") ?>">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url("home/profil_perusahaan") ?>">Profil Perusahaan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url("home/layanan") ?>">Layanan</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url("home/kontak_kami") ?>">Kontak Kami</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Daftar Ongkir</a></li>
                 </ul>

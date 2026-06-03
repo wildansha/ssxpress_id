@@ -3,7 +3,6 @@
 <?= $this->section('main'); ?>
 
 <style>
-
     .profile-hero::before {
         content: '';
         position: absolute;
@@ -53,7 +52,8 @@
         padding: 80px 0;
     }
 
-    .vision-card, .mission-card {
+    .vision-card,
+    .mission-card {
         background: white;
         border-radius: 15px;
         padding: 2.5rem;
@@ -62,11 +62,13 @@
         transition: transform 0.3s ease;
     }
 
-    .vision-card:hover, .mission-card:hover {
+    .vision-card:hover,
+    .mission-card:hover {
         transform: translateY(-5px);
     }
 
-    .vision-icon, .mission-icon {
+    .vision-icon,
+    .mission-icon {
         width: 70px;
         height: 70px;
         border-radius: 50%;
@@ -74,10 +76,11 @@
         align-items: center;
         justify-content: center;
         margin-bottom: 1.5rem;
-        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+        background: linear-gradient(135deg, #a2bee8 0%, #a2bee8 100%);
     }
 
-    .vision-icon i, .mission-icon i {
+    .vision-icon i,
+    .mission-icon i {
         font-size: 30px;
         color: white;
     }
@@ -120,7 +123,7 @@
 
     /* Stats Section */
     .stats-section {
-        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+        background: linear-gradient(135deg, #0d6efd 0%, #a2bee8 100%);
         padding: 60px 0;
         color: white;
     }
@@ -264,14 +267,12 @@
                     <span class="badge bg-primary mb-2 px-3 py-2 rounded-pill">TENTANG KAMI</span>
                     <h2 class="h3 fw-bold mt-3 mb-4">Solusi Logistik Terpadu untuk Kebutuhan Pengiriman Anda</h2>
                     <p class="text-muted mb-4" style="line-height: 1.8;">
-                        SSXpress adalah perusahaan ekspedisi yang berkomitmen untuk memberikan layanan pengiriman terbaik 
-                        bagi pelanggan di seluruh Indonesia. Dengan pengalaman bertahun-tahun di industri logistik, 
-                        kami memahami bahwa setiap kiriman adalah kepercayaan yang harus dijaga dengan penuh tanggung jawab.
+                        SS-Xpress adalah perusahaan Pengiriman Paket Nasional dan Internasional dan jasa kurir paket Dalam Negri. Selain pengiriman barang untuk bisnis, kami juga menawarkan layanan khusus dan solusi logistik berbagai keperluan Anda.
                     </p>
                     <p class="text-muted mb-4" style="line-height: 1.8;">
-                        Kami menyediakan berbagai pilihan layanan pengiriman, mulai dari pengiriman darat dan udara, 
-                        hingga jasa titip barang ke luar negeri. Dengan jaringan yang luas dan armada yang terawat, 
-                        kami memastikan setiap paket sampai dengan selamat dan tepat waktu.
+                        Melayani pengiriman ke Dalam Negeri dengan dukungan express courier terbaik Nasional seperti JNE, TIKI, SICEPAT, JNT, NINJA EXPRESS, ANTAR AJAH Dll
+                        Dan juga Melayani pengiriman ke luar negeri dengan dukungan express courier terbaik dunia seperti DHL, Aramex, TNT, CityLink Express, Q Express, FDEX, tentunya dengan harga terbaik.
+                        Kami juga melayani pengiriman Dokumen, Pakaian, Tas, Aksesoris, Hijab, Makanan, Kosmetik, Herbal, Rokok, Elektronik Ke Negara Malaysia, Taiwan, Singapura, Hongkong, Korea, Brunei, Jepang, China, UAE (Dubai), Saudi Arabia, dan negara di seluruh Dunia
                     </p>
                     <div class="row">
                         <div class="col-6">
@@ -315,15 +316,12 @@
         <div class="row g-4">
             <div class="col-lg-6">
                 <div class="vision-card">
-                    <div class="vision-icon">
+                    <div class="vision-icon bg-white">
                         <i class="fas fa-eye"></i>
                     </div>
                     <h4 class="fw-bold mb-3">Visi</h4>
                     <p class="text-muted mb-0" style="line-height: 1.8;">
-                        Menjadi perusahaan ekspedisi terdepan yang dipercaya oleh masyarakat Indonesia 
-                        untuk solusi logistik yang cepat, aman, dan terjangkau. Kami bercita-cita 
-                        untuk menghubungkan setiap sudut negeri dengan layanan pengiriman yang andal 
-                        dan profesional.
+                        Menjadi Mitra Expedisi bagi pelaku Bisnis UMKM
                     </p>
                 </div>
             </div>
@@ -334,17 +332,277 @@
                     </div>
                     <h4 class="fw-bold mb-3">Misi</h4>
                     <ul class="text-muted mb-0" style="line-height: 2;">
-                        <li>Memberikan layanan pengiriman yang cepat dan tepat waktu</li>
-                        <li>Menjaga keamanan dan keselamatan setiap kiriman</li>
-                        <li>Menyediakan harga yang kompetitif dan transparan</li>
-                        <li>Membangun hubungan jangka panjang dengan pelanggan</li>
-                        <li>Terus berinovasi untuk meningkatkan kualitas layanan</li>
+                        <li>Memberikan Pelayanan Jasa Logistik Yang Terintegrasi, Berkualitas, Memberikan Keuntungan Dan Manfaat Bagi Para Mitra & UMKM</li>
+                        <li>Memberikan Pelayanan Prima Melalui Jaringan Logistik yang Luas, Bekerjasama Dengan Mitra Logistik Yang Kompeten untuk Menjamin Kepuasan Pelanggan</li>
+                        <li>Memberikan Solusi Logistik yang efisien, cepat dan handal</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+
+
+<!-- Jenis Kerja Sama Section -->
+<section class="partnership-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary mb-2 px-3 py-2 rounded-pill">KERJA SAMA</span>
+            <h2 class="h3 fw-bold mt-2">Jenis Kerja Sama</h2>
+            <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
+                Pilih jenis kemitraan yang sesuai dengan kebutuhan bisnis Anda
+            </p>
+        </div>
+        <div class="row g-4">
+            <!-- KEMITRAAN Card -->
+            <div class="col-lg-6">
+                <div class="partnership-card">
+                    <div class="partnership-header">
+                        <div class="partnership-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3 class="partnership-title">KEMITRAAN</h3>
+                    </div>
+                    <div class="partnership-body">
+                        <ul class="partnership-list">
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <span>Order Lewat Aplikasi</span>
+                            </li>
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <span>Pakai Brand / Nama Expedisi Sendiri</span>
+                            </li>
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-search-location"></i>
+                                </div>
+                                <span>System Tracking</span>
+                            </li>
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-truck-loading"></i>
+                                </div>
+                                <span>Gratis Jemput Paket</span>
+                            </li>
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                <span>Harga Lebih Murah</span>
+                            </li>
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <span>Gratis Biaya Pendaftaran (Selama Masih Promo)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESELER Card -->
+            <div class="col-lg-6">
+                <div class="partnership-card">
+                    <div class="partnership-header">
+                        <div class="partnership-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3 class="partnership-title">RESELER</h3>
+                    </div>
+                    <div class="partnership-body">
+                        <ul class="partnership-list">
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-free-code-camp"></i>
+                                </div>
+                                <span>GRATIS Biaya Pendaftaran</span>
+                            </li>
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-shipping-fast"></i>
+                                </div>
+                                <span>Bisa Pilih Expedisi (JNE, TIKI, SSXPRESS)</span>
+                            </li>
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <span>Keuntungan s/d 30% setiap transaksi (syarat & ketentuan berlaku)</span>
+                            </li>
+                            <li>
+                                <div class="partnership-list-icon">
+                                    <i class="fas fa-box-open"></i>
+                                </div>
+                                <span>Paket di pick-up gratis</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .partnership-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .partnership-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .partnership-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .partnership-header {
+        background: linear-gradient(135deg, #5b6c8c 0%, #98c1ff 100%);
+        padding: 2.5rem;
+        text-align: center;
+        color: white;
+    }
+
+    .partnership-icon {
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 1.5rem;
+        background: rgb(50, 88, 102);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .partnership-icon i {
+        font-size: 40px;
+        color: white;
+    }
+
+    .partnership-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .partnership-body {
+        padding: 2rem;
+        flex: 1;
+    }
+
+    .partnership-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .partnership-list li {
+        display: flex;
+        align-items: flex-start;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+    }
+
+    .partnership-list li:last-child {
+        border-bottom: none;
+    }
+
+    .partnership-list li:hover {
+        transform: translateX(10px);
+    }
+
+    .partnership-list li.highlight {
+        background: linear-gradient(135deg, #F58400 0%, #ff9500 100%);
+        margin: 0.5rem -1rem;
+        padding: 1rem;
+        border-radius: 10px;
+        color: white;
+    }
+
+    .partnership-list-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        background: linear-gradient(135deg, #e7f1ff 0%, #d0e4ff 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+    }
+
+    .partnership-list li.highlight .partnership-list-icon {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .partnership-list-icon i {
+        font-size: 16px;
+        color: #0603ff;
+    }
+
+    .partnership-list li.highlight .partnership-list-icon i {
+        color: white;
+    }
+
+    .partnership-list span {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        padding-top: 0.3rem;
+    }
+
+    @media (max-width: 768px) {
+        .partnership-section {
+            padding: 50px 0;
+        }
+
+        .partnership-header {
+            padding: 2rem;
+        }
+
+        .partnership-icon {
+            width: 70px;
+            height: 70px;
+        }
+
+        .partnership-icon i {
+            font-size: 30px;
+        }
+
+        .partnership-title {
+            font-size: 1.5rem;
+        }
+
+        .partnership-body {
+            padding: 1.5rem;
+        }
+
+        .partnership-list li {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+
 
 <!-- Values Section -->
 <section class="values-section">
@@ -404,41 +662,8 @@
         </div>
     </div>
 </section>
-
-<!-- Stats Section -->
-<section class="stats-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number">10+</div>
-                    <div class="stat-label">Tahun Pengalaman</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number">500+</div>
-                    <div class="stat-label">Kota Terjangkau</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number">10K+</div>
-                    <div class="stat-label">Pengiriman/Bulan</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number">99%</div>
-                    <div class="stat-label">Tingkat Kepuasan</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Why Choose Us -->
-<section class="about-section">
+<section class="about-section my-5">
     <div class="container">
         <div class="text-center mb-5">
             <span class="badge bg-primary mb-2 px-3 py-2 rounded-pill">KEUNGGULAN</span>
@@ -485,7 +710,7 @@
                     <div>
                         <h6 class="fw-bold">Layanan Pelanggan</h6>
                         <p class="text-muted mb-0" style="font-size: 0.9rem;">
-                            Tim customer service yang siap membantu Anda setiap saat
+                            Tim yang siap membantu Anda setiap saat
                         </p>
                     </div>
                 </div>
@@ -539,18 +764,6 @@
     </div>
 </section>
 
-<!-- CTA Section -->
-<section class="cta-section">
-    <div class="container">
-        <h2>Siap Mengirim Bersama Kami?</h2>
-        <p class="lead mb-4" style="opacity: 0.9;">
-            Hubungi kami sekarang dan dapatkan solusi pengiriman terbaik untuk kebutuhan Anda
-        </p>
-        <a href="<?= base_url('home/kontak_kami') ?>" class="btn btn-light btn-lg">
-            <i class="fas fa-phone me-2"></i>Hubungi Kami
-        </a>
-    </div>
-</section>
 
 <?= $this->endSection(); ?>
 
