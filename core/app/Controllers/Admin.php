@@ -33,6 +33,77 @@ class Admin extends BaseController
         exit;
     }
 
+    public function tracking_log()
+    {
+        $this->cek_login();
+
+        $log_directory = rtrim(WRITEPATH, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'logs';
+        $available_dates = [];
+
+        foreach (glob($log_directory . DIRECTORY_SEPARATOR . 'log-*.log') ?: [] as $log_file) {
+            if (preg_match('/^log-(\d{4}-\d{2}-\d{2})\.log$/', basename($log_file), $matches)) {
+                $available_dates[] = $matches[1];
+            }
+        }
+        rsort($available_dates);
+
+        $selected_date = trim((string) $this->request->getGet('date'));
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $selected_date)) {
+            $selected_date = date('Y-m-d');
+        }
+
+        $search = substr(trim((string) $this->request->getGet('search')), 0, 100);
+        $records = [];
+        $selected_file = $log_directory . DIRECTORY_SEPARATOR . 'log-' . $selected_date . '.log';
+
+        if (is_file($selected_file) && is_readable($selected_file)) {
+            $file = new \SplFileObject($selected_file, 'r');
+            while (!$file->eof()) {
+                $line = trim((string) $file->fgets());
+                if ($line === '' || strpos($line, 'TRACKING_API_FAILED') === false && strpos($line, 'TRACKING_UI_FAILED') === false) {
+                    continue;
+                }
+                if ($search !== '' && stripos($line, $search) === false) {
+                    continue;
+                }
+
+                $type = strpos($line, 'TRACKING_API_FAILED') !== false ? 'API' : 'UI';
+                $context = [];
+                if (preg_match('/TRACKING_(?:API|UI)_FAILED\s+(\{.*\})$/', $line, $matches)) {
+                    $decoded = json_decode($matches[1], true);
+                    if (is_array($decoded)) {
+                        $context = $decoded;
+                    }
+                }
+
+                $timestamp = '';
+                if (preg_match('/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/', $line, $matches)) {
+                    $timestamp = $matches[0];
+                }
+
+                $records[] = [
+                    'timestamp' => $timestamp,
+                    'type' => $type,
+                    'context' => $context,
+                    'raw' => $line,
+                ];
+
+                if (count($records) > 500) {
+                    array_shift($records);
+                }
+            }
+            $records = array_reverse($records);
+        }
+
+        return view('admin/v_tracking_log', [
+            'available_dates' => $available_dates,
+            'selected_date' => $selected_date,
+            'search' => $search,
+            'records' => $records,
+            'log_exists' => is_file($selected_file),
+        ]);
+    }
+
     public function product()
     {
         $this->cek_login();

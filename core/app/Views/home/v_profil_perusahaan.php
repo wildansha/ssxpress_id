@@ -27,7 +27,8 @@
 
     /* About Section */
     .about-section {
-        background: #ffffff;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
     }
 
     .about-content {
@@ -257,19 +258,14 @@
 <section class="about-section">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <div class="about-image">
-                    <img src="<?= base_url('landingpage/assets/img/banner1.jpg') ?>" alt="Tentang SSXpress">
-                </div>
-            </div>
-            <div class="col-lg-6">
+            <div class="col">
                 <div class="about-content">
                     <span class="badge bg-primary mb-2 px-3 py-2 rounded-pill">TENTANG KAMI</span>
                     <h2 class="h3 fw-bold mt-3 mb-4">Solusi Logistik Terpadu untuk Kebutuhan Pengiriman Anda</h2>
-                    <p class="text-muted mb-4" style="line-height: 1.8;">
+                    <p class=" mb-4" style="line-height: 1.8;">
                         SS-Xpress adalah perusahaan Pengiriman Paket Nasional dan Internasional dan jasa kurir paket Dalam Negri. Selain pengiriman barang untuk bisnis, kami juga menawarkan layanan khusus dan solusi logistik berbagai keperluan Anda.
                     </p>
-                    <p class="text-muted mb-4" style="line-height: 1.8;">
+                    <p class=" mb-4" style="line-height: 1.8;">
                         Melayani pengiriman ke Dalam Negeri dengan dukungan express courier terbaik Nasional seperti JNE, TIKI, SICEPAT, JNT, NINJA EXPRESS, ANTAR AJAH Dll
                         Dan juga Melayani pengiriman ke luar negeri dengan dukungan express courier terbaik dunia seperti DHL, Aramex, TNT, CityLink Express, Q Express, FDEX, tentunya dengan harga terbaik.
                         Kami juga melayani pengiriman Dokumen, Pakaian, Tas, Aksesoris, Hijab, Makanan, Kosmetik, Herbal, Rokok, Elektronik Ke Negara Malaysia, Taiwan, Singapura, Hongkong, Korea, Brunei, Jepang, China, UAE (Dubai), Saudi Arabia, dan negara di seluruh Dunia
@@ -278,25 +274,25 @@
                         <div class="col-6">
                             <div class="d-flex align-items-center">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                <span class="text-muted">Terpercaya</span>
+                                <span class="">Terpercaya</span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="d-flex align-items-center">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                <span class="text-muted">Profesional</span>
+                                <span class="">Profesional</span>
                             </div>
                         </div>
                         <div class="col-6 mt-2">
                             <div class="d-flex align-items-center">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                <span class="text-muted">Cepat</span>
+                                <span class="">Cepat</span>
                             </div>
                         </div>
                         <div class="col-6 mt-2">
                             <div class="d-flex align-items-center">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                <span class="text-muted">Aman</span>
+                                <span class="">Aman</span>
                             </div>
                         </div>
                     </div>
@@ -320,7 +316,7 @@
                         <i class="fas fa-eye"></i>
                     </div>
                     <h4 class="fw-bold mb-3">Visi</h4>
-                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                    <p class=" mb-0" style="line-height: 1.8;">
                         Menjadi Mitra Expedisi bagi pelaku Bisnis UMKM
                     </p>
                 </div>
@@ -331,7 +327,7 @@
                         <i class="fas fa-rocket"></i>
                     </div>
                     <h4 class="fw-bold mb-3">Misi</h4>
-                    <ul class="text-muted mb-0" style="line-height: 2;">
+                    <ul class=" mb-0" style="line-height: 2;">
                         <li>Memberikan Pelayanan Jasa Logistik Yang Terintegrasi, Berkualitas, Memberikan Keuntungan Dan Manfaat Bagi Para Mitra & UMKM</li>
                         <li>Memberikan Pelayanan Prima Melalui Jaringan Logistik yang Luas, Bekerjasama Dengan Mitra Logistik Yang Kompeten untuk Menjamin Kepuasan Pelanggan</li>
                         <li>Memberikan Solusi Logistik yang efisien, cepat dan handal</li>
@@ -350,7 +346,7 @@
         <div class="text-center mb-5">
             <span class="badge bg-primary mb-2 px-3 py-2 rounded-pill">KERJA SAMA</span>
             <h2 class="h3 fw-bold mt-2">Jenis Kerja Sama</h2>
-            <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
+            <p class="" style="max-width: 600px; margin: 0 auto;">
                 Pilih jenis kemitraan yang sesuai dengan kebutuhan bisnis Anda
             </p>
         </div>
@@ -610,7 +606,7 @@
         <div class="text-center mb-5">
             <span class="badge bg-primary mb-2 px-3 py-2 rounded-pill">NILAI PERUSAHAAN</span>
             <h2 class="h3 fw-bold mt-2">Nilai-Nilai Kami</h2>
-            <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
+            <p class="" style="max-width: 600px; margin: 0 auto;">
                 Prinsip-prinsip yang menjadi landasan dalam setiap layanan kami
             </p>
         </div>
@@ -621,7 +617,7 @@
                         <i class="fas fa-handshake"></i>
                     </div>
                     <h5 class="fw-bold mb-2">Integritas</h5>
-                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                    <p class=" mb-0" style="font-size: 0.9rem;">
                         Jujur dan transparan dalam setiap transaksi dan layanan
                     </p>
                 </div>
@@ -632,7 +628,7 @@
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h5 class="fw-bold mb-2">Keamanan</h5>
-                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                    <p class=" mb-0" style="font-size: 0.9rem;">
                         Menjaga keselamatan setiap kiriman dengan penuh tanggung jawab
                     </p>
                 </div>
@@ -643,7 +639,7 @@
                         <i class="fas fa-tachometer-alt"></i>
                     </div>
                     <h5 class="fw-bold mb-2">Kecepatan</h5>
-                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                    <p class=" mb-0" style="font-size: 0.9rem;">
                         Mengirimkan tepat waktu dengan proses yang efisien
                     </p>
                 </div>
@@ -654,7 +650,7 @@
                         <i class="fas fa-heart"></i>
                     </div>
                     <h5 class="fw-bold mb-2">Pelayanan</h5>
-                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                    <p class=" mb-0" style="font-size: 0.9rem;">
                         Melayani dengan sepenuh hati untuk kepuasan pelanggan
                     </p>
                 </div>
@@ -663,7 +659,7 @@
     </div>
 </section>
 <!-- Why Choose Us -->
-<section class="about-section my-5">
+<section class="about-section py-5">
     <div class="container">
         <div class="text-center mb-5">
             <span class="badge bg-primary mb-2 px-3 py-2 rounded-pill">KEUNGGULAN</span>
@@ -679,7 +675,7 @@
                     </div>
                     <div>
                         <h6 class="fw-bold">Jangkauan Luas</h6>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        <p class=" mb-0" style="font-size: 0.9rem;">
                             Jaringan pengiriman mencakup seluruh Indonesia dan beberapa negara tujuan internasional
                         </p>
                     </div>
@@ -694,7 +690,7 @@
                     </div>
                     <div>
                         <h6 class="fw-bold">Armada Terawat</h6>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        <p class=" mb-0" style="font-size: 0.9rem;">
                             Kendaraan dan fasilitas yang selalu dijaga kualitasnya untuk keamanan kiriman
                         </p>
                     </div>
@@ -709,7 +705,7 @@
                     </div>
                     <div>
                         <h6 class="fw-bold">Layanan Pelanggan</h6>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        <p class=" mb-0" style="font-size: 0.9rem;">
                             Tim yang siap membantu Anda setiap saat
                         </p>
                     </div>
@@ -724,7 +720,7 @@
                     </div>
                     <div>
                         <h6 class="fw-bold">Tracking Real-time</h6>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        <p class=" mb-0" style="font-size: 0.9rem;">
                             Pantau kiriman Anda secara langsung melalui sistem tracking online
                         </p>
                     </div>
@@ -739,7 +735,7 @@
                     </div>
                     <div>
                         <h6 class="fw-bold">Harga Kompetitif</h6>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        <p class=" mb-0" style="font-size: 0.9rem;">
                             Penawaran harga yang bersaing dengan kualitas layanan terbaik
                         </p>
                     </div>
@@ -754,7 +750,7 @@
                     </div>
                     <div>
                         <h6 class="fw-bold">Berpengalaman</h6>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                        <p class=" mb-0" style="font-size: 0.9rem;">
                             Tim profesional dengan pengalaman bertahun-tahun di industri logistik
                         </p>
                     </div>

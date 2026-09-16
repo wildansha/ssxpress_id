@@ -186,6 +186,12 @@
                     <span style="font-size: 13px;">Agen</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url("admin/tracking_log") ?>">
+                    <i class="fas fa-fw fa-clipboard-list"></i>
+                    <span style="font-size: 13px;">Log Tracking</span>
+                </a>
+            </li>
             <?php if (session('tipe_akun') === '1') { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= base_url("admin_mitra") ?>">

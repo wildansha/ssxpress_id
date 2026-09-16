@@ -27,11 +27,44 @@
             margin-bottom: 0;
         }
 
-        /* ============================================================== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            width: 56px;
+            height: 56px;
+            background-color: #25D366;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            color: #fff;
+            transform: scale(1.08);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 576px) {
+            .whatsapp-float {
+                bottom: 16px;
+                right: 16px;
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 
-<body id="page-top">
+<body id="page-top" style="margin-bottom: 100px;">
     <div class="w-100 py-2" style="background-color: #0603ff;color: white;">
         <div class="container-fluid">
             <p id="p1" class="mb-0 px-2 text-center" style="font-size: 14px;">Jasa Pengiriman Internasional, Aman, Terpercaya, dan Terjangkau, Hubungi :
@@ -56,12 +89,16 @@
                     <li class="nav-item"><a class="nav-link" href="<?= base_url("home/profil_perusahaan") ?>">Profil Perusahaan</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url("home/layanan") ?>">Layanan</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url("home/kontak_kami") ?>">Kontak Kami</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Daftar Ongkir</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#contact">Daftar Ongkir</a></li> -->
                 </ul>
             </div>
         </div>
     </nav>
     <?= $this->renderSection('main'); ?>
+
+    <a href="https://wa.me/6287863225599" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Hubungi kami via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <!-- Footer-->
     <!-- <footer class="footer py-4">

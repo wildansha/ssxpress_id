@@ -2,6 +2,18 @@
 
 <?= $this->section('main'); ?>
 
+<div class="modal" id="modal_loading_tracking" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary mb-3" role="status"></div>
+                <h5>Loading...</h5>
+                <p>Mohon Tunggu, Sedang Memproses Data</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- datatables CSS -->
@@ -129,8 +141,9 @@
             <div class="tab-content">
                 <div id="tab_lacak" class="tab-pane active py-2">
                     <div id="wrapper_lacak" class="p-2 shadow" style="background-color: #e4e4e4;border-radius: 10px;">
-                        <form action="<?= base_url("home/index") ?>" method="GET">
-                            <input type="text" name="id_order" class="form-control text-center" placeholder="SSINXXXX" value="<?= isset($id_order) ? $id_order : "" ?>">
+                        <form id="form_tracking">
+                            <input type="text" name="id_order" class="form-control text-center" placeholder="SSINXXXX" value="">
+                            <input required type="text" name="last_phone_number" class="form-control text-center mt-2" minlength="5" maxlength="5" pattern="[0-9]{5}" placeholder="5 Digit Terakhir No. Telepon Penerima" value="">
 
                             <div class="text-end my-1">
                                 <button class="btn btn-info" style="background-color: #1a4e74;border-color: #1a4e74;">Lacak</button>
@@ -138,7 +151,9 @@
                         </form>
                     </div>
                     <div id="wrapper_hasil_lacak" class="mt-2">
-                        <?php if (isset($order_dn)) { ?>
+                        <?php if (isset($tracking_error)) { ?>
+                            <div class="alert alert-danger text-center my-3"><?= $tracking_error ?></div>
+                        <?php } elseif (isset($order_dn)) { ?>
                             <?php if (isset($trackings)) { ?>
                                 <div class="row my-3">
                                     <div class="col-12">
@@ -324,7 +339,7 @@
                     </div>
                 </div>
                 <div id="tab_agen" class="tab-pane py-2">
-                    <select required id="filter_kabupaten_agen" class="select2">
+                    <select required id="filter_kabupaten_agen" class="form-control">
                         <?php empty($list_kabupaten_agen) ? $list_kabupaten_agen = [] : "";  ?>
                         <option value="">-- Filter Kabupaten / Kota Agen --</option>
                         <?php for ($i = 0; $i < count($list_kabupaten_agen); $i++) {   ?>
@@ -351,6 +366,58 @@
 
 <!-- datatables JavaScript -->
 <script src="<?= base_url() . '/sb2admin/vendor/datatables/jquery.dataTables.min.js' ?>"></script>
+<script>
+    var modal_loading_tracking;
+
+    $("#form_tracking").on("submit", function(e) {
+        e.preventDefault();
+        var formData = new FormData($(this)[0]);
+        var traceId = Date.now().toString(36) + Math.random().toString(36).substring(2, 10);
+        formData.append('trace_id', traceId);
+        $.ajax({
+            method: 'POST',
+            url: <?= json_encode(parse_url(base_url("home/ajax_tracking"), PHP_URL_PATH)) ?>,
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                modal_loading_tracking = new bootstrap.Modal(document.getElementById('modal_loading_tracking'), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                modal_loading_tracking.show();
+            },
+            success: function(response) {
+                if (response.status == 1) {
+                    $('#wrapper_hasil_lacak').html(response.html);
+                } else {
+                    $('#wrapper_hasil_lacak').html('<div class="alert alert-danger text-center my-3">' + response.message + '</div>');
+                }
+            },
+            error: function(xhr, status, error) {
+                var serverTraceId = xhr.getResponseHeader('X-Tracking-Trace-Id');
+                if (serverTraceId) {
+                    traceId = serverTraceId;
+                }
+
+                var logData = new FormData();
+                logData.append('trace_id', traceId);
+                logData.append('id_order', String(formData.get('id_order') || ''));
+                logData.append('ajax_status', status || 'unknown');
+                logData.append('http_status', xhr.status || 0);
+                logData.append('error', error || 'unknown');
+                logData.append('response_preview', String(xhr.responseText || '').substring(0, 500));
+                navigator.sendBeacon(<?= json_encode(parse_url(base_url("home/ajax_tracking_client_log"), PHP_URL_PATH)) ?>, logData);
+
+                $('#wrapper_hasil_lacak').html('<div class="alert alert-danger text-center my-3">Tracking tidak dapat dimuat (ID: ' + traceId + ')</div>');
+            },
+            complete: function() {
+                modal_loading_tracking.hide();
+            }
+        });
+        return false;
+    });
+</script>
 <script src="<?= base_url() . '/sb2admin/vendor/datatables/dataTables.bootstrap4.min.js' ?>"></script>
 
 <script>

@@ -32,6 +32,9 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->post('home/ajax_tracking', 'Home::ajax_tracking');
+$routes->post('home/ajax_tracking_client_log', 'Home::ajax_tracking_client_log');
+$routes->get('admin/tracking_log', 'Admin::tracking_log');
 $routes->get('home/layanan', 'Home::layanan');
 $routes->get('layanan', 'Home::layanan');
 
