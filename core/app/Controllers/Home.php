@@ -67,8 +67,7 @@ class Home extends BaseController
         session()->set('waktu_tracking_terakhir', time());
 
         $url = "https://mitraekspedisi.com/order/api_cek_resi";
-        $params["p1"] = "wildanshalahuddin@gmail.com";
-        $params["p2"] = "w";
+        $params["p5"] = (string) env('tracking.apiKey', '');
         $params["p3"] = $id_order;
         $params["p4"] = $last_phone_number;
         $data = $this->tracking_api($url, $params, $trace_id, $id_order);

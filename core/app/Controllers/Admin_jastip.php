@@ -65,8 +65,7 @@ class Admin_jastip extends BaseController
         // dd($data);exit;
 
         $url = "https://mitraekspedisi.com/order/api_cek_resi";
-        $params["p1"] = "wildanshalahuddin@gmail.com";
-        $params["p2"] = "w";
+        $params["p5"] = (string) env('tracking.apiKey', '');
         $params["p3"] = isset($data["jastip"]["resi_ssxpress"]) ? $data["jastip"]["resi_ssxpress"] : "";
         // $params["p3"] = "SSIN10653";
         $data_track = $this->api($url, $params);
